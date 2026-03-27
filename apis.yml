@@ -1,0 +1,42 @@
+aid: aws-api-gateway
+name: Amazon API Gateway
+description: >-
+  Amazon API Gateway is a fully managed service that makes it easy
+  to create, publish, maintain, monitor, and secure APIs at any scale.
+type: Index
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+tags:
+  - API Gateway
+  - AWS
+  - Cloud
+url: >-
+  https://raw.githubusercontent.com/api-evangelist/aws-api-gateway/refs/heads/main/apis.yml
+created: '2026-03-27'
+modified: '2026-03-27'
+specificationVersion: '0.19'
+apis:
+  - aid: aws-api-gateway:aws-api-gateway
+    name: Amazon API Gateway
+    description: >-
+      Amazon API Gateway is an AWS service for creating, publishing,
+      maintaining, monitoring, and securing REST, HTTP, and WebSocket
+      APIs at any scale.
+    humanURL: https://aws.amazon.com/api-gateway/
+    tags:
+      - API Gateway
+      - AWS
+    properties:
+      - type: Documentation
+        url: https://docs.aws.amazon.com/apigateway/
+      - type: Getting Started
+        url: https://docs.aws.amazon.com/apigateway/latest/developerguide/getting-started.html
+common:
+  - type: Website
+    url: https://aws.amazon.com/api-gateway/
+  - type: Documentation
+    url: https://docs.aws.amazon.com/apigateway/
+  - type: GitHub Organization
+    url: https://github.com/aws
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
