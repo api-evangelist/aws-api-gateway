@@ -1,0 +1,577 @@
+openapi: 3.1.0
+info:
+  title: Amazon API Gateway V1 (REST)
+  description: >-
+    The API Gateway V1 control plane API is used to create, deploy,
+    and manage REST APIs in Amazon API Gateway.
+  version: '2015-07-09'
+  contact:
+    name: AWS Support
+    url: https://aws.amazon.com/premiumsupport/
+  termsOfService: https://aws.amazon.com/service-terms/
+externalDocs:
+  description: Amazon API Gateway V1 API Reference
+  url: https://docs.aws.amazon.com/apigateway/latest/api/Welcome.html
+servers:
+  - url: https://apigateway.{region}.amazonaws.com
+    description: Amazon API Gateway regional endpoint
+    variables:
+      region:
+        default: us-east-1
+        description: AWS region
+tags:
+  - name: RestApis
+    description: Manage REST API definitions
+  - name: Resources
+    description: Manage resources within a REST API
+  - name: Methods
+    description: Manage HTTP methods on resources
+  - name: Stages
+    description: Manage deployment stages
+  - name: Deployments
+    description: Manage API deployments
+  - name: ApiKeys
+    description: Manage API keys
+  - name: UsagePlans
+    description: Manage usage plans
+security:
+  - sigv4: []
+paths:
+  /restapis:
+    get:
+      operationId: getRestApis
+      summary: List REST APIs
+      description: >-
+        Lists the RestApi resources for the caller's account.
+      tags:
+        - RestApis
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestApis'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createRestApi
+      summary: Create a REST API
+      description: >-
+        Creates a new RestApi resource.
+      tags:
+        - RestApis
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateRestApiRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestApi'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+  /restapis/{restapi_id}:
+    parameters:
+      - $ref: '#/components/parameters/RestApiId'
+    get:
+      operationId: getRestApi
+      summary: Get a REST API
+      description: Retrieves a single RestApi resource.
+      tags:
+        - RestApis
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestApi'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteRestApi
+      summary: Delete a REST API
+      description: Deletes the specified RestApi resource.
+      tags:
+        - RestApis
+      responses:
+        '202':
+          description: Accepted
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /restapis/{restapi_id}/resources:
+    parameters:
+      - $ref: '#/components/parameters/RestApiId'
+    get:
+      operationId: getResources
+      summary: List resources
+      description: Lists the Resource resources for a RestApi.
+      tags:
+        - Resources
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Resources'
+  /restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}:
+    parameters:
+      - $ref: '#/components/parameters/RestApiId'
+      - $ref: '#/components/parameters/ResourceId'
+      - $ref: '#/components/parameters/HttpMethod'
+    get:
+      operationId: getMethod
+      summary: Get a method
+      description: Retrieves the Method resource for a given HTTP verb on a Resource.
+      tags:
+        - Methods
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Method'
+    put:
+      operationId: putMethod
+      summary: Put a method
+      description: Adds an HTTP method to a Resource.
+      tags:
+        - Methods
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PutMethodRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Method'
+    delete:
+      operationId: deleteMethod
+      summary: Delete a method
+      description: Deletes a Method resource.
+      tags:
+        - Methods
+      responses:
+        '202':
+          description: Accepted
+  /restapis/{restapi_id}/deployments:
+    parameters:
+      - $ref: '#/components/parameters/RestApiId'
+    get:
+      operationId: getDeployments
+      summary: List deployments
+      description: Lists deployments for a RestApi.
+      tags:
+        - Deployments
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Deployments'
+    post:
+      operationId: createDeployment
+      summary: Create a deployment
+      description: Creates a deployment for a RestApi.
+      tags:
+        - Deployments
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateDeploymentRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Deployment'
+  /restapis/{restapi_id}/stages:
+    parameters:
+      - $ref: '#/components/parameters/RestApiId'
+    get:
+      operationId: getStages
+      summary: List stages
+      description: Lists deployment stages for a RestApi.
+      tags:
+        - Stages
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Stages'
+  /apikeys:
+    get:
+      operationId: getApiKeys
+      summary: List API keys
+      description: Lists the ApiKeys for the caller's account.
+      tags:
+        - ApiKeys
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKeys'
+    post:
+      operationId: createApiKey
+      summary: Create an API key
+      description: Creates a new ApiKey resource.
+      tags:
+        - ApiKeys
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateApiKeyRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKey'
+  /usageplans:
+    get:
+      operationId: getUsagePlans
+      summary: List usage plans
+      description: Lists the usage plans for the caller's account.
+      tags:
+        - UsagePlans
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsagePlans'
+    post:
+      operationId: createUsagePlan
+      summary: Create a usage plan
+      description: Creates a usage plan with throttle and quota configuration.
+      tags:
+        - UsagePlans
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUsagePlanRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsagePlan'
+components:
+  securitySchemes:
+    sigv4:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: AWS Signature Version 4 signed request.
+  parameters:
+    RestApiId:
+      name: restapi_id
+      in: path
+      required: true
+      description: Identifier of the RestApi resource.
+      schema:
+        type: string
+    ResourceId:
+      name: resource_id
+      in: path
+      required: true
+      description: Identifier of the Resource.
+      schema:
+        type: string
+    HttpMethod:
+      name: http_method
+      in: path
+      required: true
+      description: HTTP verb of the Method.
+      schema:
+        type: string
+        enum: [GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS, ANY]
+  responses:
+    BadRequest:
+      description: The request was malformed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: The request was not authenticated.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    RestApi:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Identifier of the RestApi.
+        name:
+          type: string
+          description: Name of the RestApi.
+        description:
+          type: string
+          description: Description of the RestApi.
+        createdDate:
+          type: string
+          format: date-time
+          description: Timestamp when the RestApi was created.
+        version:
+          type: string
+          description: Version identifier of the API.
+        endpointConfiguration:
+          $ref: '#/components/schemas/EndpointConfiguration'
+    RestApis:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/RestApi'
+    CreateRestApiRequest:
+      type: object
+      required: [name]
+      properties:
+        name:
+          type: string
+          description: Name of the new RestApi.
+        description:
+          type: string
+          description: Optional description.
+        version:
+          type: string
+          description: Version identifier.
+        endpointConfiguration:
+          $ref: '#/components/schemas/EndpointConfiguration'
+    EndpointConfiguration:
+      type: object
+      properties:
+        types:
+          type: array
+          description: List of endpoint types (EDGE, REGIONAL, PRIVATE).
+          items:
+            type: string
+            enum: [EDGE, REGIONAL, PRIVATE]
+    Resource:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Resource identifier.
+        parentId:
+          type: string
+          description: Parent resource identifier.
+        pathPart:
+          type: string
+          description: Last path segment for this resource.
+        path:
+          type: string
+          description: Full path of the resource.
+    Resources:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Resource'
+    Method:
+      type: object
+      properties:
+        httpMethod:
+          type: string
+          description: HTTP method verb.
+        authorizationType:
+          type: string
+          description: Authorization type for invoking the method.
+        apiKeyRequired:
+          type: boolean
+          description: Whether the method requires an API key.
+    PutMethodRequest:
+      type: object
+      required: [authorizationType]
+      properties:
+        authorizationType:
+          type: string
+          description: Authorization type (NONE, AWS_IAM, CUSTOM, COGNITO_USER_POOLS).
+        apiKeyRequired:
+          type: boolean
+          description: Whether to require an API key.
+    Deployment:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Deployment identifier.
+        description:
+          type: string
+          description: Description of the deployment.
+        createdDate:
+          type: string
+          format: date-time
+          description: Timestamp when the deployment was created.
+    Deployments:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Deployment'
+    CreateDeploymentRequest:
+      type: object
+      required: [stageName]
+      properties:
+        stageName:
+          type: string
+          description: Name of the stage to deploy to.
+        description:
+          type: string
+          description: Description of the deployment.
+    Stage:
+      type: object
+      properties:
+        deploymentId:
+          type: string
+          description: Identifier of the deployment.
+        stageName:
+          type: string
+          description: Name of the stage.
+        description:
+          type: string
+          description: Description of the stage.
+    Stages:
+      type: object
+      properties:
+        item:
+          type: array
+          items:
+            $ref: '#/components/schemas/Stage'
+    ApiKey:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ApiKey identifier.
+        value:
+          type: string
+          description: Value of the ApiKey.
+        name:
+          type: string
+          description: Name of the ApiKey.
+        enabled:
+          type: boolean
+          description: Whether the ApiKey is enabled.
+    ApiKeys:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiKey'
+    CreateApiKeyRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the ApiKey.
+        description:
+          type: string
+          description: Description of the ApiKey.
+        enabled:
+          type: boolean
+          description: Whether the ApiKey should be enabled.
+    UsagePlan:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Usage plan identifier.
+        name:
+          type: string
+          description: Usage plan name.
+        throttle:
+          $ref: '#/components/schemas/ThrottleSettings'
+        quota:
+          $ref: '#/components/schemas/QuotaSettings'
+    UsagePlans:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/UsagePlan'
+    CreateUsagePlanRequest:
+      type: object
+      required: [name]
+      properties:
+        name:
+          type: string
+          description: Name of the usage plan.
+        description:
+          type: string
+          description: Description of the usage plan.
+        throttle:
+          $ref: '#/components/schemas/ThrottleSettings'
+        quota:
+          $ref: '#/components/schemas/QuotaSettings'
+    ThrottleSettings:
+      type: object
+      properties:
+        burstLimit:
+          type: integer
+          description: Burst limit for requests.
+        rateLimit:
+          type: number
+          description: Steady-state rate limit (requests per second).
+    QuotaSettings:
+      type: object
+      properties:
+        limit:
+          type: integer
+          description: Maximum number of requests in the period.
+        period:
+          type: string
+          description: Time period (DAY, WEEK, MONTH).
+          enum: [DAY, WEEK, MONTH]
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Human-readable error message.
+        code:
+          type: string
+          description: Error code.

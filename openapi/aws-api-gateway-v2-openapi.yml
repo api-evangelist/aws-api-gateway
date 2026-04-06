@@ -1,0 +1,548 @@
+openapi: 3.1.0
+info:
+  title: Amazon API Gateway V2 (HTTP and WebSocket)
+  description: >-
+    The API Gateway V2 control plane API is used to create, deploy,
+    and manage HTTP APIs and WebSocket APIs in Amazon API Gateway.
+  version: '2018-11-29'
+  contact:
+    name: AWS Support
+    url: https://aws.amazon.com/premiumsupport/
+  termsOfService: https://aws.amazon.com/service-terms/
+externalDocs:
+  description: Amazon API Gateway V2 API Reference
+  url: https://docs.aws.amazon.com/apigatewayv2/latest/api-reference/Welcome.html
+servers:
+  - url: https://apigateway.{region}.amazonaws.com
+    description: Amazon API Gateway regional endpoint
+    variables:
+      region:
+        default: us-east-1
+        description: AWS region
+tags:
+  - name: Apis
+    description: Manage HTTP and WebSocket APIs
+  - name: Routes
+    description: Manage routes within an API
+  - name: Integrations
+    description: Manage backend integrations
+  - name: Stages
+    description: Manage deployment stages
+  - name: Deployments
+    description: Manage deployments
+  - name: Authorizers
+    description: Manage authorizers
+security:
+  - sigv4: []
+paths:
+  /v2/apis:
+    get:
+      operationId: getApis
+      summary: List APIs
+      description: Gets a collection of HTTP and WebSocket APIs.
+      tags:
+        - Apis
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Apis'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createApi
+      summary: Create an API
+      description: Creates an HTTP or WebSocket API.
+      tags:
+        - Apis
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateApiRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Api'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+  /v2/apis/{api_id}:
+    parameters:
+      - $ref: '#/components/parameters/ApiId'
+    get:
+      operationId: getApi
+      summary: Get an API
+      description: Retrieves a single HTTP or WebSocket API.
+      tags:
+        - Apis
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Api'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteApi
+      summary: Delete an API
+      description: Deletes the specified API.
+      tags:
+        - Apis
+      responses:
+        '204':
+          description: No Content
+  /v2/apis/{api_id}/routes:
+    parameters:
+      - $ref: '#/components/parameters/ApiId'
+    get:
+      operationId: getRoutes
+      summary: List routes
+      description: Gets a collection of routes for an API.
+      tags:
+        - Routes
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Routes'
+    post:
+      operationId: createRoute
+      summary: Create a route
+      description: Creates a route for an API.
+      tags:
+        - Routes
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateRouteRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Route'
+  /v2/apis/{api_id}/integrations:
+    parameters:
+      - $ref: '#/components/parameters/ApiId'
+    get:
+      operationId: getIntegrations
+      summary: List integrations
+      description: Gets a collection of integrations for an API.
+      tags:
+        - Integrations
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Integrations'
+    post:
+      operationId: createIntegration
+      summary: Create an integration
+      description: Creates an integration for an API.
+      tags:
+        - Integrations
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateIntegrationRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Integration'
+  /v2/apis/{api_id}/stages:
+    parameters:
+      - $ref: '#/components/parameters/ApiId'
+    get:
+      operationId: getStages
+      summary: List stages
+      description: Gets a collection of stages for an API.
+      tags:
+        - Stages
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Stages'
+    post:
+      operationId: createStage
+      summary: Create a stage
+      description: Creates a deployment stage for an API.
+      tags:
+        - Stages
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateStageRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Stage'
+  /v2/apis/{api_id}/deployments:
+    parameters:
+      - $ref: '#/components/parameters/ApiId'
+    get:
+      operationId: getDeployments
+      summary: List deployments
+      description: Gets a collection of deployments for an API.
+      tags:
+        - Deployments
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Deployments'
+    post:
+      operationId: createDeployment
+      summary: Create a deployment
+      description: Creates a deployment for an API.
+      tags:
+        - Deployments
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateDeploymentRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Deployment'
+  /v2/apis/{api_id}/authorizers:
+    parameters:
+      - $ref: '#/components/parameters/ApiId'
+    get:
+      operationId: getAuthorizers
+      summary: List authorizers
+      description: Gets a collection of authorizers for an API.
+      tags:
+        - Authorizers
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Authorizers'
+    post:
+      operationId: createAuthorizer
+      summary: Create an authorizer
+      description: Creates an authorizer for an API.
+      tags:
+        - Authorizers
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAuthorizerRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Authorizer'
+components:
+  securitySchemes:
+    sigv4:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: AWS Signature Version 4 signed request.
+  parameters:
+    ApiId:
+      name: api_id
+      in: path
+      required: true
+      description: API identifier.
+      schema:
+        type: string
+  responses:
+    BadRequest:
+      description: The request was malformed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: The request was not authenticated.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Api:
+      type: object
+      properties:
+        ApiId:
+          type: string
+          description: Identifier of the API.
+        Name:
+          type: string
+          description: Name of the API.
+        ProtocolType:
+          type: string
+          description: API protocol (HTTP or WEBSOCKET).
+          enum: [HTTP, WEBSOCKET]
+        ApiEndpoint:
+          type: string
+          description: Default endpoint for the API.
+        RouteSelectionExpression:
+          type: string
+          description: Route selection expression for the API.
+        CreatedDate:
+          type: string
+          format: date-time
+          description: Timestamp when the API was created.
+    Apis:
+      type: object
+      properties:
+        Items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Api'
+    CreateApiRequest:
+      type: object
+      required: [Name, ProtocolType]
+      properties:
+        Name:
+          type: string
+          description: Name of the API.
+        ProtocolType:
+          type: string
+          description: Protocol type for the API.
+          enum: [HTTP, WEBSOCKET]
+        RouteSelectionExpression:
+          type: string
+          description: Route selection expression (required for WebSocket APIs).
+        Description:
+          type: string
+          description: Description of the API.
+        Target:
+          type: string
+          description: Quick-create target Lambda or HTTP endpoint URI.
+    Route:
+      type: object
+      properties:
+        RouteId:
+          type: string
+          description: Route identifier.
+        RouteKey:
+          type: string
+          description: Route key (e.g. "GET /items" or "$connect").
+        Target:
+          type: string
+          description: Integration target reference.
+        AuthorizationType:
+          type: string
+          description: Authorization type for the route.
+    Routes:
+      type: object
+      properties:
+        Items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Route'
+    CreateRouteRequest:
+      type: object
+      required: [RouteKey]
+      properties:
+        RouteKey:
+          type: string
+          description: Route key for the new route.
+        Target:
+          type: string
+          description: Integration target reference.
+        AuthorizationType:
+          type: string
+          description: Authorization type for the route.
+    Integration:
+      type: object
+      properties:
+        IntegrationId:
+          type: string
+          description: Integration identifier.
+        IntegrationType:
+          type: string
+          description: Type of integration (AWS_PROXY, HTTP_PROXY, etc.).
+        IntegrationUri:
+          type: string
+          description: Integration target URI.
+        PayloadFormatVersion:
+          type: string
+          description: Payload format version.
+    Integrations:
+      type: object
+      properties:
+        Items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Integration'
+    CreateIntegrationRequest:
+      type: object
+      required: [IntegrationType]
+      properties:
+        IntegrationType:
+          type: string
+          description: Type of integration.
+          enum: [AWS, AWS_PROXY, HTTP, HTTP_PROXY, MOCK]
+        IntegrationUri:
+          type: string
+          description: Integration target URI.
+        PayloadFormatVersion:
+          type: string
+          description: Payload format version.
+    Stage:
+      type: object
+      properties:
+        StageName:
+          type: string
+          description: Name of the stage.
+        DeploymentId:
+          type: string
+          description: Deployment identifier.
+        Description:
+          type: string
+          description: Description of the stage.
+        AutoDeploy:
+          type: boolean
+          description: Whether updates auto-deploy to this stage.
+    Stages:
+      type: object
+      properties:
+        Items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Stage'
+    CreateStageRequest:
+      type: object
+      required: [StageName]
+      properties:
+        StageName:
+          type: string
+          description: Name of the stage.
+        DeploymentId:
+          type: string
+          description: Deployment identifier.
+        AutoDeploy:
+          type: boolean
+          description: Whether to enable auto-deploy.
+    Deployment:
+      type: object
+      properties:
+        DeploymentId:
+          type: string
+          description: Deployment identifier.
+        Description:
+          type: string
+          description: Description of the deployment.
+        DeploymentStatus:
+          type: string
+          description: Status of the deployment (PENDING, FAILED, DEPLOYED).
+        CreatedDate:
+          type: string
+          format: date-time
+          description: Timestamp when the deployment was created.
+    Deployments:
+      type: object
+      properties:
+        Items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Deployment'
+    CreateDeploymentRequest:
+      type: object
+      properties:
+        StageName:
+          type: string
+          description: Stage to deploy to.
+        Description:
+          type: string
+          description: Description of the deployment.
+    Authorizer:
+      type: object
+      properties:
+        AuthorizerId:
+          type: string
+          description: Authorizer identifier.
+        Name:
+          type: string
+          description: Authorizer name.
+        AuthorizerType:
+          type: string
+          description: Type of authorizer (REQUEST or JWT).
+        IdentitySource:
+          type: array
+          description: Identity sources for the authorizer.
+          items:
+            type: string
+    Authorizers:
+      type: object
+      properties:
+        Items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Authorizer'
+    CreateAuthorizerRequest:
+      type: object
+      required: [Name, AuthorizerType, IdentitySource]
+      properties:
+        Name:
+          type: string
+          description: Name of the authorizer.
+        AuthorizerType:
+          type: string
+          description: Type of authorizer.
+          enum: [REQUEST, JWT]
+        IdentitySource:
+          type: array
+          description: Identity sources to use.
+          items:
+            type: string
+        AuthorizerUri:
+          type: string
+          description: URI of the Lambda authorizer (REQUEST type).
+    Error:
+      type: object
+      properties:
+        Message:
+          type: string
+          description: Human-readable error message.

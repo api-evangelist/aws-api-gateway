@@ -1,0 +1,152 @@
+openapi: 3.1.0
+info:
+  title: Amazon API Gateway Management API
+  description: >-
+    The API Gateway Management API allows backend services to send
+    messages to connected clients of a deployed WebSocket API and to
+    disconnect clients. Requests are made against the deployed stage's
+    callback URL.
+  version: '2018-11-29'
+  contact:
+    name: AWS Support
+    url: https://aws.amazon.com/premiumsupport/
+  termsOfService: https://aws.amazon.com/service-terms/
+externalDocs:
+  description: Amazon API Gateway Management API Reference
+  url: https://docs.aws.amazon.com/apigatewaymanagementapi/latest/reference/Welcome.html
+servers:
+  - url: https://{api_id}.execute-api.{region}.amazonaws.com/{stage}
+    description: WebSocket API callback endpoint
+    variables:
+      api_id:
+        default: example
+        description: WebSocket API identifier
+      region:
+        default: us-east-1
+        description: AWS region
+      stage:
+        default: prod
+        description: Deployment stage name
+tags:
+  - name: Connections
+    description: Manage and message active WebSocket connections
+security:
+  - sigv4: []
+paths:
+  /@connections/{connectionId}:
+    parameters:
+      - $ref: '#/components/parameters/ConnectionId'
+    get:
+      operationId: getConnection
+      summary: Get connection info
+      description: >-
+        Retrieves information about the connection with the provided id.
+      tags:
+        - Connections
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Connection'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '410':
+          $ref: '#/components/responses/Gone'
+    post:
+      operationId: postToConnection
+      summary: Send message to connection
+      description: >-
+        Sends a message to the connected WebSocket client identified
+        by connectionId.
+      tags:
+        - Connections
+      requestBody:
+        required: true
+        description: Raw message payload to send to the client.
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+              description: Message bytes delivered to the WebSocket client.
+      responses:
+        '200':
+          description: Message accepted for delivery.
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '410':
+          $ref: '#/components/responses/Gone'
+    delete:
+      operationId: deleteConnection
+      summary: Disconnect a client
+      description: >-
+        Forcibly disconnects the WebSocket client identified by
+        connectionId.
+      tags:
+        - Connections
+      responses:
+        '204':
+          description: Disconnected.
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '410':
+          $ref: '#/components/responses/Gone'
+components:
+  securitySchemes:
+    sigv4:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: AWS Signature Version 4 signed request.
+  parameters:
+    ConnectionId:
+      name: connectionId
+      in: path
+      required: true
+      description: Identifier of the WebSocket connection.
+      schema:
+        type: string
+  responses:
+    NotFound:
+      description: The specified connection does not exist.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Gone:
+      description: The connection is no longer available.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Connection:
+      type: object
+      properties:
+        ConnectedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the client connected.
+        LastActiveAt:
+          type: string
+          format: date-time
+          description: Timestamp of the most recent activity on the connection.
+        Identity:
+          $ref: '#/components/schemas/Identity'
+    Identity:
+      type: object
+      properties:
+        SourceIp:
+          type: string
+          description: Source IP address of the client.
+        UserAgent:
+          type: string
+          description: User agent string from the client.
+    Error:
+      type: object
+      properties:
+        Message:
+          type: string
+          description: Human-readable error message.
