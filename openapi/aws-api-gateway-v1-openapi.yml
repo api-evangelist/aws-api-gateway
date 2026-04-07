@@ -20,18 +20,18 @@ servers:
         default: us-east-1
         description: AWS region
 tags:
-  - name: RestApis
-    description: Manage REST API definitions
-  - name: Resources
-    description: Manage resources within a REST API
-  - name: Methods
-    description: Manage HTTP methods on resources
-  - name: Stages
-    description: Manage deployment stages
-  - name: Deployments
-    description: Manage API deployments
   - name: ApiKeys
     description: Manage API keys
+  - name: Deployments
+    description: Manage API deployments
+  - name: Methods
+    description: Manage HTTP methods on resources
+  - name: Resources
+    description: Manage resources within a REST API
+  - name: RestApis
+    description: Manage REST API definitions
+  - name: Stages
+    description: Manage deployment stages
   - name: UsagePlans
     description: Manage usage plans
 security:

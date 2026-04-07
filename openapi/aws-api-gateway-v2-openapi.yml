@@ -20,18 +20,16 @@ servers:
         default: us-east-1
         description: AWS region
 tags:
-  - name: Apis
-    description: Manage HTTP and WebSocket APIs
-  - name: Routes
-    description: Manage routes within an API
-  - name: Integrations
-    description: Manage backend integrations
-  - name: Stages
-    description: Manage deployment stages
-  - name: Deployments
-    description: Manage deployments
   - name: Authorizers
     description: Manage authorizers
+  - name: Deployments
+    description: Manage deployments
+  - name: Integrations
+    description: Manage backend integrations
+  - name: Routes
+    description: Manage routes within an API
+  - name: Stages
+    description: Manage deployment stages
 security:
   - sigv4: []
 paths:
@@ -40,8 +38,7 @@ paths:
       operationId: getApis
       summary: Amazon API Gateway List APIs
       description: Gets a collection of HTTP and WebSocket APIs.
-      tags:
-        - Apis
+      tags: []
       responses:
         '200':
           description: Successful response
@@ -55,8 +52,7 @@ paths:
       operationId: createApi
       summary: Amazon API Gateway Create an API
       description: Creates an HTTP or WebSocket API.
-      tags:
-        - Apis
+      tags: []
       requestBody:
         required: true
         content:
@@ -79,8 +75,7 @@ paths:
       operationId: getApi
       summary: Amazon API Gateway Get an API
       description: Retrieves a single HTTP or WebSocket API.
-      tags:
-        - Apis
+      tags: []
       responses:
         '200':
           description: Successful response
@@ -94,8 +89,7 @@ paths:
       operationId: deleteApi
       summary: Amazon API Gateway Delete an API
       description: Deletes the specified API.
-      tags:
-        - Apis
+      tags: []
       responses:
         '204':
           description: No Content

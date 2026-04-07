@@ -27,8 +27,8 @@ apis:
     baseURL: https://apigateway.{region}.amazonaws.com
     tags:
       - API Gateway
-      - REST
       - AWS
+      - REST
     properties:
       - type: Documentation
         url: https://docs.aws.amazon.com/apigateway/latest/developerguide/
@@ -53,9 +53,9 @@ apis:
     baseURL: https://apigateway.{region}.amazonaws.com
     tags:
       - API Gateway
+      - AWS
       - HTTP
       - WebSocket
-      - AWS
     properties:
       - type: Documentation
         url: https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api.html
@@ -79,9 +79,9 @@ apis:
     baseURL: https://{api-id}.execute-api.{region}.amazonaws.com/{stage}
     tags:
       - API Gateway
-      - WebSocket
-      - Callback
       - AWS
+      - Callback
+      - WebSocket
     properties:
       - type: Documentation
         url: https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-how-to-call-websocket-api-connections.html
