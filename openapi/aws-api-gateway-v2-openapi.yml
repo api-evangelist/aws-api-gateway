@@ -38,7 +38,7 @@ paths:
   /v2/apis:
     get:
       operationId: getApis
-      summary: List APIs
+      summary: Amazon API Gateway List APIs
       description: Gets a collection of HTTP and WebSocket APIs.
       tags:
         - Apis
@@ -53,7 +53,7 @@ paths:
           $ref: '#/components/responses/Unauthorized'
     post:
       operationId: createApi
-      summary: Create an API
+      summary: Amazon API Gateway Create an API
       description: Creates an HTTP or WebSocket API.
       tags:
         - Apis
@@ -77,7 +77,7 @@ paths:
       - $ref: '#/components/parameters/ApiId'
     get:
       operationId: getApi
-      summary: Get an API
+      summary: Amazon API Gateway Get an API
       description: Retrieves a single HTTP or WebSocket API.
       tags:
         - Apis
@@ -92,7 +92,7 @@ paths:
           $ref: '#/components/responses/NotFound'
     delete:
       operationId: deleteApi
-      summary: Delete an API
+      summary: Amazon API Gateway Delete an API
       description: Deletes the specified API.
       tags:
         - Apis
@@ -104,7 +104,7 @@ paths:
       - $ref: '#/components/parameters/ApiId'
     get:
       operationId: getRoutes
-      summary: List routes
+      summary: Amazon API Gateway List routes
       description: Gets a collection of routes for an API.
       tags:
         - Routes
@@ -117,7 +117,7 @@ paths:
                 $ref: '#/components/schemas/Routes'
     post:
       operationId: createRoute
-      summary: Create a route
+      summary: Amazon API Gateway Create a route
       description: Creates a route for an API.
       tags:
         - Routes
@@ -139,7 +139,7 @@ paths:
       - $ref: '#/components/parameters/ApiId'
     get:
       operationId: getIntegrations
-      summary: List integrations
+      summary: Amazon API Gateway List integrations
       description: Gets a collection of integrations for an API.
       tags:
         - Integrations
@@ -152,7 +152,7 @@ paths:
                 $ref: '#/components/schemas/Integrations'
     post:
       operationId: createIntegration
-      summary: Create an integration
+      summary: Amazon API Gateway Create an integration
       description: Creates an integration for an API.
       tags:
         - Integrations
@@ -174,7 +174,7 @@ paths:
       - $ref: '#/components/parameters/ApiId'
     get:
       operationId: getStages
-      summary: List stages
+      summary: Amazon API Gateway List stages
       description: Gets a collection of stages for an API.
       tags:
         - Stages
@@ -187,7 +187,7 @@ paths:
                 $ref: '#/components/schemas/Stages'
     post:
       operationId: createStage
-      summary: Create a stage
+      summary: Amazon API Gateway Create a stage
       description: Creates a deployment stage for an API.
       tags:
         - Stages
@@ -209,7 +209,7 @@ paths:
       - $ref: '#/components/parameters/ApiId'
     get:
       operationId: getDeployments
-      summary: List deployments
+      summary: Amazon API Gateway List deployments
       description: Gets a collection of deployments for an API.
       tags:
         - Deployments
@@ -222,7 +222,7 @@ paths:
                 $ref: '#/components/schemas/Deployments'
     post:
       operationId: createDeployment
-      summary: Create a deployment
+      summary: Amazon API Gateway Create a deployment
       description: Creates a deployment for an API.
       tags:
         - Deployments
@@ -244,7 +244,7 @@ paths:
       - $ref: '#/components/parameters/ApiId'
     get:
       operationId: getAuthorizers
-      summary: List authorizers
+      summary: Amazon API Gateway List authorizers
       description: Gets a collection of authorizers for an API.
       tags:
         - Authorizers
@@ -257,7 +257,7 @@ paths:
                 $ref: '#/components/schemas/Authorizers'
     post:
       operationId: createAuthorizer
-      summary: Create an authorizer
+      summary: Amazon API Gateway Create an authorizer
       description: Creates an authorizer for an API.
       tags:
         - Authorizers

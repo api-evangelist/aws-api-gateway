@@ -40,7 +40,7 @@ paths:
   /restapis:
     get:
       operationId: getRestApis
-      summary: List REST APIs
+      summary: Amazon API Gateway List REST APIs
       description: >-
         Lists the RestApi resources for the caller's account.
       tags:
@@ -56,7 +56,7 @@ paths:
           $ref: '#/components/responses/Unauthorized'
     post:
       operationId: createRestApi
-      summary: Create a REST API
+      summary: Amazon API Gateway Create a REST API
       description: >-
         Creates a new RestApi resource.
       tags:
@@ -81,7 +81,7 @@ paths:
       - $ref: '#/components/parameters/RestApiId'
     get:
       operationId: getRestApi
-      summary: Get a REST API
+      summary: Amazon API Gateway Get a REST API
       description: Retrieves a single RestApi resource.
       tags:
         - RestApis
@@ -96,7 +96,7 @@ paths:
           $ref: '#/components/responses/NotFound'
     delete:
       operationId: deleteRestApi
-      summary: Delete a REST API
+      summary: Amazon API Gateway Delete a REST API
       description: Deletes the specified RestApi resource.
       tags:
         - RestApis
@@ -110,7 +110,7 @@ paths:
       - $ref: '#/components/parameters/RestApiId'
     get:
       operationId: getResources
-      summary: List resources
+      summary: Amazon API Gateway List resources
       description: Lists the Resource resources for a RestApi.
       tags:
         - Resources
@@ -128,7 +128,7 @@ paths:
       - $ref: '#/components/parameters/HttpMethod'
     get:
       operationId: getMethod
-      summary: Get a method
+      summary: Amazon API Gateway Get a method
       description: Retrieves the Method resource for a given HTTP verb on a Resource.
       tags:
         - Methods
@@ -141,7 +141,7 @@ paths:
                 $ref: '#/components/schemas/Method'
     put:
       operationId: putMethod
-      summary: Put a method
+      summary: Amazon API Gateway Put a method
       description: Adds an HTTP method to a Resource.
       tags:
         - Methods
@@ -160,7 +160,7 @@ paths:
                 $ref: '#/components/schemas/Method'
     delete:
       operationId: deleteMethod
-      summary: Delete a method
+      summary: Amazon API Gateway Delete a method
       description: Deletes a Method resource.
       tags:
         - Methods
@@ -172,7 +172,7 @@ paths:
       - $ref: '#/components/parameters/RestApiId'
     get:
       operationId: getDeployments
-      summary: List deployments
+      summary: Amazon API Gateway List deployments
       description: Lists deployments for a RestApi.
       tags:
         - Deployments
@@ -185,7 +185,7 @@ paths:
                 $ref: '#/components/schemas/Deployments'
     post:
       operationId: createDeployment
-      summary: Create a deployment
+      summary: Amazon API Gateway Create a deployment
       description: Creates a deployment for a RestApi.
       tags:
         - Deployments
@@ -207,7 +207,7 @@ paths:
       - $ref: '#/components/parameters/RestApiId'
     get:
       operationId: getStages
-      summary: List stages
+      summary: Amazon API Gateway List stages
       description: Lists deployment stages for a RestApi.
       tags:
         - Stages
@@ -221,7 +221,7 @@ paths:
   /apikeys:
     get:
       operationId: getApiKeys
-      summary: List API keys
+      summary: Amazon API Gateway List API keys
       description: Lists the ApiKeys for the caller's account.
       tags:
         - ApiKeys
@@ -234,7 +234,7 @@ paths:
                 $ref: '#/components/schemas/ApiKeys'
     post:
       operationId: createApiKey
-      summary: Create an API key
+      summary: Amazon API Gateway Create an API key
       description: Creates a new ApiKey resource.
       tags:
         - ApiKeys
@@ -254,7 +254,7 @@ paths:
   /usageplans:
     get:
       operationId: getUsagePlans
-      summary: List usage plans
+      summary: Amazon API Gateway List usage plans
       description: Lists the usage plans for the caller's account.
       tags:
         - UsagePlans
@@ -267,7 +267,7 @@ paths:
                 $ref: '#/components/schemas/UsagePlans'
     post:
       operationId: createUsagePlan
-      summary: Create a usage plan
+      summary: Amazon API Gateway Create a usage plan
       description: Creates a usage plan with throttle and quota configuration.
       tags:
         - UsagePlans
