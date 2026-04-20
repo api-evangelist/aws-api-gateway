@@ -1,0 +1,18 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "aws": "https://aws.amazon.com/schema/",
+    "schema": "https://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "QuotaSettings": "aws:QuotaSettings",
+    "limit": {
+      "@id": "aws:limit",
+      "@type": "xsd:integer"
+    },
+    "period": {
+      "@id": "aws:period",
+      "@type": "xsd:string"
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "type": "object",
+  "properties": {
+    "deploymentId": {
+      "type": "string",
+      "description": "Identifier of the deployment.",
+      "example": "abc123"
+    },
+    "stageName": {
+      "type": "string",
+      "description": "Name of the stage.",
+      "example": "my-resource"
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of the stage.",
+      "example": "A description of this resource."
+    }
+  },
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/aws-api-gateway/refs/heads/main/json-structure/v1-stage-structure.json",
+  "name": "Stage",
+  "description": "Stage schema from Amazon API Gateway v1 API"
+}

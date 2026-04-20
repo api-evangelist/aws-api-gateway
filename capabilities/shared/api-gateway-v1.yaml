@@ -1,0 +1,308 @@
+naftiko: "1.0.0-alpha1"
+
+info:
+  label: "Amazon API Gateway V1 (REST)"
+  description: "Control plane API for creating and managing REST APIs in Amazon API Gateway, including resources, methods, stages, deployments, authorizers, API keys, and usage plans."
+  tags:
+    - Amazon API Gateway
+    - AWS
+    - REST
+    - API Management
+  created: "2026-04-19"
+  modified: "2026-04-19"
+
+binds:
+  - namespace: env
+    keys:
+      AWS_ACCESS_KEY_ID: AWS_ACCESS_KEY_ID
+      AWS_SECRET_ACCESS_KEY: AWS_SECRET_ACCESS_KEY
+      AWS_REGION: AWS_REGION
+
+capability:
+  consumes:
+    - type: http
+      namespace: api-gateway-v1
+      baseUri: https://apigateway.{region}.amazonaws.com
+      description: "Amazon API Gateway V1 REST control plane API"
+      authentication:
+        type: apikey
+        key: Authorization
+        value: "{{AWS_SIGV4_TOKEN}}"
+        placement: header
+      resources:
+        - name: rest-apis
+          path: /restapis
+          description: "Manage REST API definitions"
+          operations:
+            - name: get-rest-apis
+              method: GET
+              description: "List all REST APIs in the account"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+            - name: create-rest-api
+              method: POST
+              description: "Create a new REST API"
+              body:
+                type: json
+                data:
+                  name: "{{tools.name}}"
+                  description: "{{tools.description}}"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+        - name: rest-api
+          path: /restapis/{restapi_id}
+          description: "Manage a specific REST API"
+          operations:
+            - name: get-rest-api
+              method: GET
+              description: "Get a specific REST API by ID"
+              inputParameters:
+                - name: restapi_id
+                  in: path
+                  type: string
+                  required: true
+                  description: "The REST API identifier"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+            - name: delete-rest-api
+              method: DELETE
+              description: "Delete a REST API"
+              inputParameters:
+                - name: restapi_id
+                  in: path
+                  type: string
+                  required: true
+                  description: "The REST API identifier"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+        - name: deployments
+          path: /restapis/{restapi_id}/deployments
+          description: "Manage API deployments"
+          operations:
+            - name: get-deployments
+              method: GET
+              description: "List all deployments for a REST API"
+              inputParameters:
+                - name: restapi_id
+                  in: path
+                  type: string
+                  required: true
+                  description: "The REST API identifier"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+            - name: create-deployment
+              method: POST
+              description: "Create a new deployment for a REST API"
+              inputParameters:
+                - name: restapi_id
+                  in: path
+                  type: string
+                  required: true
+                  description: "The REST API identifier"
+              body:
+                type: json
+                data:
+                  stageName: "{{tools.stage_name}}"
+                  description: "{{tools.description}}"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+        - name: stages
+          path: /restapis/{restapi_id}/stages
+          description: "Manage API stages"
+          operations:
+            - name: get-stages
+              method: GET
+              description: "List all stages for a REST API"
+              inputParameters:
+                - name: restapi_id
+                  in: path
+                  type: string
+                  required: true
+                  description: "The REST API identifier"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+        - name: api-keys
+          path: /apikeys
+          description: "Manage API keys"
+          operations:
+            - name: get-api-keys
+              method: GET
+              description: "List all API keys in the account"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+            - name: create-api-key
+              method: POST
+              description: "Create a new API key"
+              body:
+                type: json
+                data:
+                  name: "{{tools.name}}"
+                  enabled: true
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+        - name: usage-plans
+          path: /usageplans
+          description: "Manage usage plans"
+          operations:
+            - name: get-usage-plans
+              method: GET
+              description: "List all usage plans"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+  exposes:
+    - type: rest
+      port: 8100
+      namespace: api-gateway-v1-rest
+      resources:
+        - path: /v1/rest-apis
+          name: rest-apis
+          description: "REST API management"
+          operations:
+            - method: GET
+              name: list-rest-apis
+              description: "List all REST APIs"
+              call: "api-gateway-v1.get-rest-apis"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: POST
+              name: create-rest-api
+              description: "Create a REST API"
+              call: "api-gateway-v1.create-rest-api"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/rest-apis/{restapi_id}/deployments
+          name: deployments
+          description: "Deployment management"
+          operations:
+            - method: GET
+              name: list-deployments
+              description: "List deployments for a REST API"
+              call: "api-gateway-v1.get-deployments"
+              with:
+                restapi_id: "rest.restapi_id"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/api-keys
+          name: api-keys
+          description: "API key management"
+          operations:
+            - method: GET
+              name: list-api-keys
+              description: "List all API keys"
+              call: "api-gateway-v1.get-api-keys"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+    - type: mcp
+      port: 9100
+      namespace: api-gateway-v1-mcp
+      transport: http
+      tools:
+        - name: list-rest-apis
+          description: "List all REST APIs in the AWS account"
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "api-gateway-v1.get-rest-apis"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: create-rest-api
+          description: "Create a new REST API in API Gateway"
+          hints:
+            readOnly: false
+          call: "api-gateway-v1.create-rest-api"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-rest-api
+          description: "Get details of a specific REST API"
+          hints:
+            readOnly: true
+          call: "api-gateway-v1.get-rest-api"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-deployments
+          description: "List deployments for a REST API"
+          hints:
+            readOnly: true
+          call: "api-gateway-v1.get-deployments"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: create-deployment
+          description: "Deploy a REST API to a stage"
+          hints:
+            readOnly: false
+          call: "api-gateway-v1.create-deployment"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-stages
+          description: "List all stages for a REST API"
+          hints:
+            readOnly: true
+          call: "api-gateway-v1.get-stages"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-api-keys
+          description: "List all API keys in the account"
+          hints:
+            readOnly: true
+          call: "api-gateway-v1.get-api-keys"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: create-api-key
+          description: "Create a new API key"
+          hints:
+            readOnly: false
+          call: "api-gateway-v1.create-api-key"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-usage-plans
+          description: "List all usage plans"
+          hints:
+            readOnly: true
+          call: "api-gateway-v1.get-usage-plans"
+          outputParameters:
+            - type: object
+              mapping: "$."

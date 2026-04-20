@@ -1,0 +1,5 @@
+{
+  "IntegrationType": "AWS",
+  "IntegrationUri": "example-value",
+  "PayloadFormatVersion": "1.0"
+}

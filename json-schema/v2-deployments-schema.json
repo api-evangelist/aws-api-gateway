@@ -1,0 +1,41 @@
+{
+  "type": "object",
+  "properties": {
+    "Items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "DeploymentId": {
+            "type": "string",
+            "description": "Deployment identifier.",
+            "example": "abc123"
+          },
+          "Description": {
+            "type": "string",
+            "description": "Description of the deployment.",
+            "example": "A description of this resource."
+          },
+          "DeploymentStatus": {
+            "type": "string",
+            "description": "Status of the deployment (PENDING, FAILED, DEPLOYED).",
+            "example": "ACTIVE"
+          },
+          "CreatedDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the deployment was created.",
+            "example": "2025-03-15T14:30:00Z"
+          }
+        }
+      },
+      "example": [
+        "example-value"
+      ]
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/aws-api-gateway/refs/heads/main/json-schema/v2-deployments-schema.json",
+  "title": "Deployments",
+  "description": "Deployments schema from Amazon API Gateway v2 API"
+}

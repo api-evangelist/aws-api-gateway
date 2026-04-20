@@ -1,0 +1,24 @@
+{
+  "type": "object",
+  "properties": {
+    "limit": {
+      "type": "int32",
+      "description": "Maximum number of requests in the period.",
+      "example": 24
+    },
+    "period": {
+      "type": "string",
+      "enum": [
+        "DAY",
+        "WEEK",
+        "MONTH"
+      ],
+      "description": "Time period (DAY, WEEK, MONTH).",
+      "example": "DAY"
+    }
+  },
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/aws-api-gateway/refs/heads/main/json-structure/v1-quota-settings-structure.json",
+  "name": "QuotaSettings",
+  "description": "QuotaSettings schema from Amazon API Gateway v1 API"
+}

@@ -1,0 +1,8 @@
+{
+  "Name": "my-api-resource",
+  "AuthorizerType": "REQUEST",
+  "IdentitySource": [
+    "abc123def456"
+  ],
+  "AuthorizerUri": "example-value"
+}

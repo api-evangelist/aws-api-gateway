@@ -1,0 +1,26 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "aws": "https://aws.amazon.com/schema/",
+    "schema": "https://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "Stage": "aws:Stage",
+    "StageName": {
+      "@id": "aws:StageName",
+      "@type": "xsd:string"
+    },
+    "DeploymentId": {
+      "@id": "aws:DeploymentId",
+      "@type": "xsd:string"
+    },
+    "Description": {
+      "@id": "aws:Description",
+      "@type": "xsd:string"
+    },
+    "AutoDeploy": {
+      "@id": "aws:AutoDeploy",
+      "@type": "xsd:boolean"
+    }
+  }
+}

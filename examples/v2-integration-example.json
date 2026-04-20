@@ -1,0 +1,6 @@
+{
+  "IntegrationId": "abc123def456",
+  "IntegrationType": "example-value",
+  "IntegrationUri": "example-value",
+  "PayloadFormatVersion": "1.0"
+}

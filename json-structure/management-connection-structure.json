@@ -1,0 +1,34 @@
+{
+  "type": "object",
+  "properties": {
+    "ConnectedAt": {
+      "type": "datetime",
+      "description": "Timestamp when the client connected.",
+      "example": "2025-03-15T14:30:00Z"
+    },
+    "LastActiveAt": {
+      "type": "datetime",
+      "description": "Timestamp of the most recent activity on the connection.",
+      "example": "2025-03-15T14:30:00Z"
+    },
+    "Identity": {
+      "type": "object",
+      "properties": {
+        "SourceIp": {
+          "type": "string",
+          "description": "Source IP address of the client.",
+          "example": "example-value"
+        },
+        "UserAgent": {
+          "type": "string",
+          "description": "User agent string from the client.",
+          "example": "example-value"
+        }
+      }
+    }
+  },
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/aws-api-gateway/refs/heads/main/json-structure/management-connection-structure.json",
+  "name": "Connection",
+  "description": "Connection schema from Amazon API Gateway management API"
+}

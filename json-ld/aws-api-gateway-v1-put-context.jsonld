@@ -1,0 +1,18 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "aws": "https://aws.amazon.com/schema/",
+    "schema": "https://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "PutMethodRequest": "aws:PutMethodRequest",
+    "authorizationType": {
+      "@id": "aws:authorizationType",
+      "@type": "xsd:string"
+    },
+    "apiKeyRequired": {
+      "@id": "aws:apiKeyRequired",
+      "@type": "xsd:boolean"
+    }
+  }
+}

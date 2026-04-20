@@ -1,0 +1,45 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "aws": "https://aws.amazon.com/schema/",
+    "schema": "https://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "UsagePlan": "aws:UsagePlan",
+    "UsagePlans": "aws:UsagePlans",
+    "items": {
+      "@id": "aws:items",
+      "@container": "@set",
+      "@type": "@id"
+    },
+    "id": {
+      "@id": "aws:id",
+      "@type": "xsd:string"
+    },
+    "name": "schema:name",
+    "throttle": {
+      "@id": "aws:throttle",
+      "@type": "@id"
+    },
+    "burstLimit": {
+      "@id": "aws:burstLimit",
+      "@type": "xsd:integer"
+    },
+    "rateLimit": {
+      "@id": "aws:rateLimit",
+      "@type": "xsd:decimal"
+    },
+    "quota": {
+      "@id": "aws:quota",
+      "@type": "@id"
+    },
+    "limit": {
+      "@id": "aws:limit",
+      "@type": "xsd:integer"
+    },
+    "period": {
+      "@id": "aws:period",
+      "@type": "xsd:string"
+    }
+  }
+}

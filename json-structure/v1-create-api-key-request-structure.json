@@ -1,0 +1,24 @@
+{
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name of the ApiKey.",
+      "example": "my-resource"
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of the ApiKey.",
+      "example": "A description of this resource."
+    },
+    "enabled": {
+      "type": "boolean",
+      "description": "Whether the ApiKey should be enabled.",
+      "example": true
+    }
+  },
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/aws-api-gateway/refs/heads/main/json-structure/v1-create-api-key-request-structure.json",
+  "name": "CreateApiKeyRequest",
+  "description": "CreateApiKeyRequest schema from Amazon API Gateway v1 API"
+}

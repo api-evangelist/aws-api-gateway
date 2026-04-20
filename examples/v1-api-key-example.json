@@ -1,0 +1,6 @@
+{
+  "id": "abc123def456",
+  "value": "example-value",
+  "name": "my-api-resource",
+  "enabled": true
+}

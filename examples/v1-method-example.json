@@ -1,0 +1,5 @@
+{
+  "httpMethod": "example-value",
+  "authorizationType": "example-value",
+  "apiKeyRequired": true
+}

@@ -1,0 +1,12 @@
+{
+  "name": "my-api-resource",
+  "description": "A description of this resource.",
+  "throttle": {
+    "burstLimit": 42,
+    "rateLimit": 3.14
+  },
+  "quota": {
+    "limit": 42,
+    "period": "DAY"
+  }
+}

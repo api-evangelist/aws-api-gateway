@@ -1,0 +1,331 @@
+naftiko: "1.0.0-alpha1"
+
+info:
+  label: "Amazon API Gateway API Management Workflow"
+  description: "Unified workflow capability for API platform engineers and developers to create, configure, deploy, and monitor REST and HTTP APIs in Amazon API Gateway. Combines V1 REST APIs, V2 HTTP/WebSocket APIs, and the Management API for complete API lifecycle management including deployment orchestration and real-time WebSocket connection management."
+  tags:
+    - Amazon API Gateway
+    - AWS
+    - API Management
+    - REST
+    - WebSocket
+    - Deployment
+  created: "2026-04-19"
+  modified: "2026-04-19"
+
+binds:
+  - namespace: env
+    keys:
+      AWS_ACCESS_KEY_ID: AWS_ACCESS_KEY_ID
+      AWS_SECRET_ACCESS_KEY: AWS_SECRET_ACCESS_KEY
+      AWS_REGION: AWS_REGION
+      API_GATEWAY_ENDPOINT: API_GATEWAY_ENDPOINT
+
+capability:
+  consumes:
+    - import: api-gateway-v1
+      location: ./shared/api-gateway-v1.yaml
+    - import: api-gateway-v2
+      location: ./shared/api-gateway-v2.yaml
+    - import: api-gateway-mgmt
+      location: ./shared/api-gateway-management.yaml
+
+  exposes:
+    - type: rest
+      port: 8080
+      namespace: api-gateway-workflow-api
+      description: "Unified REST API for Amazon API Gateway lifecycle management."
+      resources:
+        - path: /v1/rest-apis
+          name: rest-apis
+          description: "REST API management"
+          operations:
+            - method: GET
+              name: list-rest-apis
+              description: "List all REST APIs"
+              call: "api-gateway-v1.get-rest-apis"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: POST
+              name: create-rest-api
+              description: "Create a new REST API"
+              call: "api-gateway-v1.create-rest-api"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/rest-apis/{restapi_id}/deployments
+          name: rest-api-deployments
+          description: "REST API deployments"
+          operations:
+            - method: GET
+              name: list-rest-api-deployments
+              description: "List deployments for a REST API"
+              call: "api-gateway-v1.get-deployments"
+              with:
+                restapi_id: "rest.restapi_id"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: POST
+              name: deploy-rest-api
+              description: "Deploy a REST API to a stage"
+              call: "api-gateway-v1.create-deployment"
+              with:
+                restapi_id: "rest.restapi_id"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/rest-apis/{restapi_id}/stages
+          name: rest-api-stages
+          description: "REST API stages"
+          operations:
+            - method: GET
+              name: list-rest-api-stages
+              description: "List stages for a REST API"
+              call: "api-gateway-v1.get-stages"
+              with:
+                restapi_id: "rest.restapi_id"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/api-keys
+          name: api-keys
+          description: "API key management"
+          operations:
+            - method: GET
+              name: list-api-keys
+              description: "List all API keys"
+              call: "api-gateway-v1.get-api-keys"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: POST
+              name: create-api-key
+              description: "Create a new API key"
+              call: "api-gateway-v1.create-api-key"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/usage-plans
+          name: usage-plans
+          description: "Usage plan management"
+          operations:
+            - method: GET
+              name: list-usage-plans
+              description: "List all usage plans"
+              call: "api-gateway-v1.get-usage-plans"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/http-apis
+          name: http-apis
+          description: "HTTP and WebSocket API management"
+          operations:
+            - method: GET
+              name: list-http-apis
+              description: "List all HTTP and WebSocket APIs"
+              call: "api-gateway-v2.get-apis"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: POST
+              name: create-http-api
+              description: "Create a new HTTP or WebSocket API"
+              call: "api-gateway-v2.create-api"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/http-apis/{api_id}/routes
+          name: http-api-routes
+          description: "HTTP API route management"
+          operations:
+            - method: GET
+              name: list-routes
+              description: "List routes for an HTTP API"
+              call: "api-gateway-v2.get-routes"
+              with:
+                api_id: "rest.api_id"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/connections/{connectionId}
+          name: websocket-connections
+          description: "WebSocket connection management"
+          operations:
+            - method: GET
+              name: get-connection
+              description: "Get WebSocket connection info"
+              call: "api-gateway-mgmt.get-connection"
+              with:
+                connectionId: "rest.connectionId"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: DELETE
+              name: disconnect-client
+              description: "Disconnect a WebSocket client"
+              call: "api-gateway-mgmt.delete-connection"
+              with:
+                connectionId: "rest.connectionId"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+    - type: mcp
+      port: 9090
+      namespace: api-gateway-workflow-mcp
+      transport: http
+      description: "MCP server for AI-assisted Amazon API Gateway lifecycle management."
+      tools:
+        - name: list-rest-apis
+          description: "List all REST APIs in the AWS account"
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "api-gateway-v1.get-rest-apis"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: create-rest-api
+          description: "Create a new REST API in API Gateway"
+          hints:
+            readOnly: false
+          call: "api-gateway-v1.create-rest-api"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-rest-api
+          description: "Get details of a specific REST API"
+          hints:
+            readOnly: true
+          call: "api-gateway-v1.get-rest-api"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: delete-rest-api
+          description: "Delete a REST API"
+          hints:
+            readOnly: false
+            destructive: true
+            idempotent: true
+          call: "api-gateway-v1.delete-rest-api"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-deployments
+          description: "List deployments for a REST API"
+          hints:
+            readOnly: true
+          call: "api-gateway-v1.get-deployments"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: deploy-rest-api
+          description: "Deploy a REST API to a stage"
+          hints:
+            readOnly: false
+          call: "api-gateway-v1.create-deployment"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-stages
+          description: "List deployment stages for a REST API"
+          hints:
+            readOnly: true
+          call: "api-gateway-v1.get-stages"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-api-keys
+          description: "List all API keys in the account"
+          hints:
+            readOnly: true
+          call: "api-gateway-v1.get-api-keys"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: create-api-key
+          description: "Create a new API key for access control"
+          hints:
+            readOnly: false
+          call: "api-gateway-v1.create-api-key"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-usage-plans
+          description: "List all usage plans and their API key associations"
+          hints:
+            readOnly: true
+          call: "api-gateway-v1.get-usage-plans"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-http-apis
+          description: "List all HTTP and WebSocket APIs"
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "api-gateway-v2.get-apis"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: create-http-api
+          description: "Create a new HTTP or WebSocket API"
+          hints:
+            readOnly: false
+          call: "api-gateway-v2.create-api"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-http-api-routes
+          description: "List all routes for an HTTP API"
+          hints:
+            readOnly: true
+          call: "api-gateway-v2.get-routes"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: create-route
+          description: "Create a new route for an HTTP API"
+          hints:
+            readOnly: false
+          call: "api-gateway-v2.create-route"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-integrations
+          description: "List all backend integrations for an HTTP API"
+          hints:
+            readOnly: true
+          call: "api-gateway-v2.get-integrations"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-websocket-connection
+          description: "Get information about a connected WebSocket client"
+          hints:
+            readOnly: true
+          call: "api-gateway-mgmt.get-connection"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: send-websocket-message
+          description: "Send a message to a connected WebSocket client"
+          hints:
+            readOnly: false
+            destructive: false
+          call: "api-gateway-mgmt.post-to-connection"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: disconnect-websocket-client
+          description: "Disconnect a WebSocket client from the API"
+          hints:
+            readOnly: false
+            destructive: true
+            idempotent: true
+          call: "api-gateway-mgmt.delete-connection"
+          outputParameters:
+            - type: object
+              mapping: "$."

@@ -1,0 +1,43 @@
+{
+  "type": "object",
+  "properties": {
+    "ApiId": {
+      "type": "string",
+      "description": "Identifier of the API.",
+      "example": "abc123"
+    },
+    "Name": {
+      "type": "string",
+      "description": "Name of the API.",
+      "example": "my-resource"
+    },
+    "ProtocolType": {
+      "type": "string",
+      "enum": [
+        "HTTP",
+        "WEBSOCKET"
+      ],
+      "description": "API protocol (HTTP or WEBSOCKET).",
+      "example": "HTTP"
+    },
+    "ApiEndpoint": {
+      "type": "string",
+      "description": "Default endpoint for the API.",
+      "example": "example-value"
+    },
+    "RouteSelectionExpression": {
+      "type": "string",
+      "description": "Route selection expression for the API.",
+      "example": "example-value"
+    },
+    "CreatedDate": {
+      "type": "datetime",
+      "description": "Timestamp when the API was created.",
+      "example": "2025-03-15T14:30:00Z"
+    }
+  },
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/aws-api-gateway/refs/heads/main/json-structure/v2-api-structure.json",
+  "name": "Api",
+  "description": "Api schema from Amazon API Gateway v2 API"
+}

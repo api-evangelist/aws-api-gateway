@@ -1,0 +1,10 @@
+{
+  "name": "my-api-resource",
+  "description": "A description of this resource.",
+  "version": "1.0",
+  "endpointConfiguration": {
+    "types": [
+      "EDGE"
+    ]
+  }
+}

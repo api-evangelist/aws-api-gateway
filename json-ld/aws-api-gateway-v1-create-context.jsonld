@@ -1,0 +1,57 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "aws": "https://aws.amazon.com/schema/",
+    "schema": "https://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "CreateUsagePlanRequest": "aws:CreateUsagePlanRequest",
+    "CreateDeploymentRequest": "aws:CreateDeploymentRequest",
+    "CreateApiKeyRequest": "aws:CreateApiKeyRequest",
+    "CreateRestApiRequest": "aws:CreateRestApiRequest",
+    "name": "schema:name",
+    "description": "schema:description",
+    "version": "schema:version",
+    "endpointConfiguration": {
+      "@id": "aws:endpointConfiguration",
+      "@type": "@id"
+    },
+    "types": {
+      "@id": "aws:types",
+      "@container": "@set",
+      "@type": "xsd:string"
+    },
+    "enabled": {
+      "@id": "aws:enabled",
+      "@type": "xsd:boolean"
+    },
+    "throttle": {
+      "@id": "aws:throttle",
+      "@type": "@id"
+    },
+    "burstLimit": {
+      "@id": "aws:burstLimit",
+      "@type": "xsd:integer"
+    },
+    "rateLimit": {
+      "@id": "aws:rateLimit",
+      "@type": "xsd:decimal"
+    },
+    "quota": {
+      "@id": "aws:quota",
+      "@type": "@id"
+    },
+    "limit": {
+      "@id": "aws:limit",
+      "@type": "xsd:integer"
+    },
+    "period": {
+      "@id": "aws:period",
+      "@type": "xsd:string"
+    },
+    "stageName": {
+      "@id": "aws:stageName",
+      "@type": "xsd:string"
+    }
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name of the new RestApi.",
+      "example": "my-resource"
+    },
+    "description": {
+      "type": "string",
+      "description": "Optional description.",
+      "example": "A description of this resource."
+    },
+    "version": {
+      "type": "string",
+      "description": "Version identifier.",
+      "example": "1.0"
+    },
+    "endpointConfiguration": {
+      "type": "object",
+      "properties": {
+        "types": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "EDGE",
+              "REGIONAL",
+              "PRIVATE"
+            ]
+          },
+          "description": "List of endpoint types (EDGE, REGIONAL, PRIVATE).",
+          "example": [
+            "EDGE"
+          ]
+        }
+      }
+    }
+  },
+  "required": [
+    "name"
+  ],
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/aws-api-gateway/refs/heads/main/json-schema/v1-create-rest-api-request-schema.json",
+  "title": "CreateRestApiRequest",
+  "description": "CreateRestApiRequest schema from Amazon API Gateway v1 API"
+}

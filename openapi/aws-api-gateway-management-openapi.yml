@@ -15,34 +15,34 @@ externalDocs:
   description: Amazon API Gateway Management API Reference
   url: https://docs.aws.amazon.com/apigatewaymanagementapi/latest/reference/Welcome.html
 servers:
-  - url: https://{api_id}.execute-api.{region}.amazonaws.com/{stage}
-    description: WebSocket API callback endpoint
-    variables:
-      api_id:
-        default: example
-        description: WebSocket API identifier
-      region:
-        default: us-east-1
-        description: AWS region
-      stage:
-        default: prod
-        description: Deployment stage name
+- url: https://{api_id}.execute-api.{region}.amazonaws.com/{stage}
+  description: WebSocket API callback endpoint
+  variables:
+    api_id:
+      default: example
+      description: WebSocket API identifier
+    region:
+      default: us-east-1
+      description: AWS region
+    stage:
+      default: prod
+      description: Deployment stage name
 tags:
-  - name: Connections
-    description: Manage and message active WebSocket connections
+- name: Connections
+  description: Manage and message active WebSocket connections
 security:
-  - sigv4: []
+- sigv4: []
 paths:
   /@connections/{connectionId}:
     parameters:
-      - $ref: '#/components/parameters/ConnectionId'
+    - $ref: '#/components/parameters/ConnectionId'
     get:
       operationId: getConnection
-      summary: Amazon API Gateway Get connection info
+      summary: Amazon API Gateway Get Connection Info
       description: >-
         Retrieves information about the connection with the provided id.
       tags:
-        - Connections
+      - Connections
       responses:
         '200':
           description: Successful response
@@ -50,18 +50,31 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Connection'
+              examples:
+                getConnection200Example:
+                  summary: Default getConnection 200 response
+                  x-microcks-default: true
+                  value:
+                    ConnectedAt: '2025-03-15T14:30:00Z'
+                    LastActiveAt: '2025-03-15T14:30:00Z'
+                    Identity:
+                      SourceIp: example-value
+                      UserAgent: example-value
         '404':
           $ref: '#/components/responses/NotFound'
         '410':
           $ref: '#/components/responses/Gone'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
     post:
       operationId: postToConnection
-      summary: Amazon API Gateway Send message to connection
+      summary: Amazon API Gateway Send Message to Connection
       description: >-
         Sends a message to the connected WebSocket client identified
         by connectionId.
       tags:
-        - Connections
+      - Connections
       requestBody:
         required: true
         description: Raw message payload to send to the client.
@@ -78,14 +91,17 @@ paths:
           $ref: '#/components/responses/NotFound'
         '410':
           $ref: '#/components/responses/Gone'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
     delete:
       operationId: deleteConnection
-      summary: Amazon API Gateway Disconnect a client
+      summary: Amazon API Gateway Disconnect a Client
       description: >-
         Forcibly disconnects the WebSocket client identified by
         connectionId.
       tags:
-        - Connections
+      - Connections
       responses:
         '204':
           description: Disconnected.
@@ -93,6 +109,9 @@ paths:
           $ref: '#/components/responses/NotFound'
         '410':
           $ref: '#/components/responses/Gone'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
 components:
   securitySchemes:
     sigv4:
@@ -129,10 +148,12 @@ components:
           type: string
           format: date-time
           description: Timestamp when the client connected.
+          example: '2025-03-15T14:30:00Z'
         LastActiveAt:
           type: string
           format: date-time
           description: Timestamp of the most recent activity on the connection.
+          example: '2025-03-15T14:30:00Z'
         Identity:
           $ref: '#/components/schemas/Identity'
     Identity:
@@ -141,12 +162,15 @@ components:
         SourceIp:
           type: string
           description: Source IP address of the client.
+          example: example-value
         UserAgent:
           type: string
           description: User agent string from the client.
+          example: example-value
     Error:
       type: object
       properties:
         Message:
           type: string
           description: Human-readable error message.
+          example: example-value

@@ -1,0 +1,40 @@
+{
+  "type": "object",
+  "properties": {
+    "Items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "IntegrationId": {
+            "type": "string",
+            "description": "Integration identifier.",
+            "example": "abc123"
+          },
+          "IntegrationType": {
+            "type": "string",
+            "description": "Type of integration (AWS_PROXY, HTTP_PROXY, etc.).",
+            "example": "example-value"
+          },
+          "IntegrationUri": {
+            "type": "string",
+            "description": "Integration target URI.",
+            "example": "https://example.com/resource/123"
+          },
+          "PayloadFormatVersion": {
+            "type": "string",
+            "description": "Payload format version.",
+            "example": "1.0"
+          }
+        }
+      },
+      "example": [
+        "example-value"
+      ]
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/aws-api-gateway/refs/heads/main/json-schema/v2-integrations-schema.json",
+  "title": "Integrations",
+  "description": "Integrations schema from Amazon API Gateway v2 API"
+}

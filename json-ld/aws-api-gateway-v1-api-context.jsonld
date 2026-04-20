@@ -1,0 +1,29 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "aws": "https://aws.amazon.com/schema/",
+    "schema": "https://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "ApiKey": "aws:ApiKey",
+    "ApiKeys": "aws:ApiKeys",
+    "items": {
+      "@id": "aws:items",
+      "@container": "@set",
+      "@type": "@id"
+    },
+    "id": {
+      "@id": "aws:id",
+      "@type": "xsd:string"
+    },
+    "value": {
+      "@id": "aws:value",
+      "@type": "xsd:string"
+    },
+    "name": "schema:name",
+    "enabled": {
+      "@id": "aws:enabled",
+      "@type": "xsd:boolean"
+    }
+  }
+}

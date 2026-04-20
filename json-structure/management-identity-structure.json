@@ -1,0 +1,19 @@
+{
+  "type": "object",
+  "properties": {
+    "SourceIp": {
+      "type": "string",
+      "description": "Source IP address of the client.",
+      "example": "example-value"
+    },
+    "UserAgent": {
+      "type": "string",
+      "description": "User agent string from the client.",
+      "example": "example-value"
+    }
+  },
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/aws-api-gateway/refs/heads/main/json-structure/management-identity-structure.json",
+  "name": "Identity",
+  "description": "Identity schema from Amazon API Gateway management API"
+}

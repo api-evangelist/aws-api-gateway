@@ -1,0 +1,5 @@
+{
+  "deploymentId": "abc123def456",
+  "stageName": "my-api-resource",
+  "description": "A description of this resource."
+}

@@ -1,0 +1,294 @@
+vocabulary: "1.0.0"
+
+info:
+  provider: "Amazon API Gateway"
+  description: "Unified taxonomy for Amazon API Gateway covering REST APIs, HTTP APIs, WebSocket APIs, and connection management across operational and capability dimensions."
+  created: "2026-04-19"
+  modified: "2026-04-19"
+
+operational:
+  apis:
+    - namespace: api-gateway-v1
+      version: "2015-07-09"
+      baseUrl: https://apigateway.{region}.amazonaws.com
+      status: active
+    - namespace: api-gateway-v2
+      version: "2018-11-29"
+      baseUrl: https://apigateway.{region}.amazonaws.com
+      status: active
+    - namespace: api-gateway-mgmt
+      version: "2018-11-29"
+      baseUrl: https://{api-id}.execute-api.{region}.amazonaws.com/{stage}
+      status: active
+
+  resources:
+    - name: rest-apis
+      apis:
+        - api-gateway-v1
+      actions:
+        - list
+        - create
+        - get
+        - delete
+    - name: resources
+      apis:
+        - api-gateway-v1
+      actions:
+        - list
+        - get
+    - name: methods
+      apis:
+        - api-gateway-v1
+      actions:
+        - get
+        - put
+        - delete
+    - name: deployments
+      apis:
+        - api-gateway-v1
+        - api-gateway-v2
+      actions:
+        - list
+        - create
+    - name: stages
+      apis:
+        - api-gateway-v1
+        - api-gateway-v2
+      actions:
+        - list
+    - name: api-keys
+      apis:
+        - api-gateway-v1
+      actions:
+        - list
+        - create
+    - name: usage-plans
+      apis:
+        - api-gateway-v1
+      actions:
+        - list
+    - name: http-apis
+      apis:
+        - api-gateway-v2
+      actions:
+        - list
+        - create
+        - get
+        - delete
+    - name: routes
+      apis:
+        - api-gateway-v2
+      actions:
+        - list
+        - create
+    - name: integrations
+      apis:
+        - api-gateway-v2
+      actions:
+        - list
+        - create
+    - name: authorizers
+      apis:
+        - api-gateway-v1
+        - api-gateway-v2
+      actions:
+        - list
+        - create
+    - name: connections
+      apis:
+        - api-gateway-mgmt
+      actions:
+        - get
+        - send
+        - delete
+
+  actions:
+    - name: list
+      methods:
+        - GET
+      pattern: read
+    - name: get
+      methods:
+        - GET
+      pattern: read
+    - name: create
+      methods:
+        - POST
+      pattern: write
+    - name: delete
+      methods:
+        - DELETE
+      pattern: destructive
+    - name: put
+      methods:
+        - PUT
+      pattern: write
+    - name: send
+      methods:
+        - POST
+      pattern: write
+
+  schemas:
+    core:
+      - name: RestApi
+        description: REST API definition with name, endpoint configuration, and policy
+      - name: Resource
+        description: A logical REST resource within a REST API
+      - name: Method
+        description: An HTTP method associated with a REST resource
+      - name: Stage
+        description: A deployment stage with logging and throttling configuration
+      - name: Deployment
+        description: A snapshot of the REST API deployed to a stage
+    api-management:
+      - name: ApiKey
+        description: API key for access control and usage plan association
+      - name: UsagePlan
+        description: Usage plan defining throttle and quota limits for API keys
+      - name: Authorizer
+        description: Lambda or Cognito-based custom authorizer for API access
+    http-websocket:
+      - name: Api
+        description: HTTP or WebSocket API definition
+      - name: Route
+        description: Route mapping request patterns to integrations
+      - name: Integration
+        description: Backend integration configuration (Lambda, HTTP, VPC, etc.)
+    websocket-mgmt:
+      - name: Connection
+        description: Active WebSocket client connection with metadata
+
+  parameters:
+    identifiers:
+      - name: restapi_id
+        description: REST API identifier
+      - name: resource_id
+        description: Resource identifier within a REST API
+      - name: stage_name
+        description: Stage name for a deployment
+      - name: api_id
+        description: HTTP or WebSocket API identifier
+      - name: connectionId
+        description: WebSocket connection identifier
+    pagination:
+      - name: limit
+        description: Maximum number of items to return
+      - name: position
+        description: Pagination position token for next page
+
+  authentication:
+    schemes:
+      - name: AWS SigV4
+        type: apikey
+        description: AWS Signature Version 4 request signing
+        apis:
+          - api-gateway-v1
+          - api-gateway-v2
+          - api-gateway-mgmt
+
+capability:
+  workflows:
+    - name: API Management Workflow
+      file: capabilities/api-management-workflow.yaml
+      description: Unified workflow for creating, deploying, and managing REST and HTTP APIs
+      apis:
+        - api-gateway-v1
+        - api-gateway-v2
+        - api-gateway-mgmt
+      tools: 18
+      personas:
+        - API Platform Engineer
+        - Backend Developer
+
+  personas:
+    - id: api-platform-engineer
+      name: API Platform Engineer
+      description: Manages API lifecycle, deployments, and governance across the organization
+      workflows:
+        - API Management Workflow
+    - id: backend-developer
+      name: Backend Developer
+      description: Creates and configures APIs for application services
+      workflows:
+        - API Management Workflow
+
+  domains:
+    - name: API Lifecycle Management
+      description: Creating, versioning, deploying, and retiring APIs
+      resources:
+        - rest-apis
+        - http-apis
+        - deployments
+        - stages
+    - name: Access Control
+      description: Managing API keys, usage plans, and authorization
+      resources:
+        - api-keys
+        - usage-plans
+        - authorizers
+    - name: Real-Time Communication
+      description: WebSocket API management and connection handling
+      resources:
+        - connections
+        - routes
+
+  namespaces:
+    - name: api-gateway-v1
+      type: consumed
+      baseUri: https://apigateway.{region}.amazonaws.com
+    - name: api-gateway-v2
+      type: consumed
+      baseUri: https://apigateway.{region}.amazonaws.com
+    - name: api-gateway-mgmt
+      type: consumed
+      baseUri: https://{api-id}.execute-api.{region}.amazonaws.com/{stage}
+    - name: api-gateway-workflow-api
+      type: rest-exposed
+      port: 8080
+    - name: api-gateway-workflow-mcp
+      type: mcp-exposed
+      port: 9090
+
+  binds:
+    - name: AWS_ACCESS_KEY_ID
+      workflows:
+        - API Management Workflow
+    - name: AWS_SECRET_ACCESS_KEY
+      workflows:
+        - API Management Workflow
+    - name: AWS_REGION
+      workflows:
+        - API Management Workflow
+    - name: API_GATEWAY_ENDPOINT
+      workflows:
+        - API Management Workflow
+
+crossReference:
+  - resource: rest-apis
+    operations:
+      - get-rest-apis
+      - create-rest-api
+      - get-rest-api
+      - delete-rest-api
+    workflows:
+      - API Management Workflow
+    personas:
+      - API Platform Engineer
+      - Backend Developer
+  - resource: deployments
+    operations:
+      - get-deployments
+      - create-deployment
+    workflows:
+      - API Management Workflow
+    personas:
+      - API Platform Engineer
+  - resource: connections
+    operations:
+      - get-connection
+      - post-to-connection
+      - delete-connection
+    workflows:
+      - API Management Workflow
+    personas:
+      - Backend Developer

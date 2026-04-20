@@ -1,0 +1,10 @@
+{
+  "Items": [
+    {
+      "StageName": "my-api-resource",
+      "DeploymentId": "abc123def456",
+      "Description": "A description of this resource.",
+      "AutoDeploy": true
+    }
+  ]
+}

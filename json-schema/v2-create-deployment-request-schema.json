@@ -1,0 +1,19 @@
+{
+  "type": "object",
+  "properties": {
+    "StageName": {
+      "type": "string",
+      "description": "Stage to deploy to.",
+      "example": "my-resource"
+    },
+    "Description": {
+      "type": "string",
+      "description": "Description of the deployment.",
+      "example": "A description of this resource."
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/aws-api-gateway/refs/heads/main/json-schema/v2-create-deployment-request-schema.json",
+  "title": "CreateDeploymentRequest",
+  "description": "CreateDeploymentRequest schema from Amazon API Gateway v2 API"
+}

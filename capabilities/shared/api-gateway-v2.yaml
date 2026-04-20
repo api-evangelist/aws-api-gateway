@@ -1,0 +1,194 @@
+naftiko: "1.0.0-alpha1"
+
+info:
+  label: "Amazon API Gateway V2 (HTTP and WebSocket)"
+  description: "Control plane API for creating and managing HTTP APIs and WebSocket APIs in Amazon API Gateway, including routes, integrations, stages, deployments, and authorizers."
+  tags:
+    - Amazon API Gateway
+    - AWS
+    - HTTP
+    - WebSocket
+    - API Management
+  created: "2026-04-19"
+  modified: "2026-04-19"
+
+binds:
+  - namespace: env
+    keys:
+      AWS_ACCESS_KEY_ID: AWS_ACCESS_KEY_ID
+      AWS_SECRET_ACCESS_KEY: AWS_SECRET_ACCESS_KEY
+      AWS_REGION: AWS_REGION
+
+capability:
+  consumes:
+    - type: http
+      namespace: api-gateway-v2
+      baseUri: https://apigateway.{region}.amazonaws.com
+      description: "Amazon API Gateway V2 HTTP and WebSocket control plane API"
+      authentication:
+        type: apikey
+        key: Authorization
+        value: "{{AWS_SIGV4_TOKEN}}"
+        placement: header
+      resources:
+        - name: apis
+          path: /v2/apis
+          description: "Manage HTTP and WebSocket APIs"
+          operations:
+            - name: get-apis
+              method: GET
+              description: "List all HTTP and WebSocket APIs"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+            - name: create-api
+              method: POST
+              description: "Create a new HTTP or WebSocket API"
+              body:
+                type: json
+                data:
+                  name: "{{tools.name}}"
+                  protocolType: "{{tools.protocol_type}}"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+        - name: routes
+          path: /v2/apis/{api_id}/routes
+          description: "Manage API routes"
+          operations:
+            - name: get-routes
+              method: GET
+              description: "List all routes for an API"
+              inputParameters:
+                - name: api_id
+                  in: path
+                  type: string
+                  required: true
+                  description: "The API identifier"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+            - name: create-route
+              method: POST
+              description: "Create a new route for an API"
+              inputParameters:
+                - name: api_id
+                  in: path
+                  type: string
+                  required: true
+                  description: "The API identifier"
+              body:
+                type: json
+                data:
+                  routeKey: "{{tools.route_key}}"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+        - name: integrations
+          path: /v2/apis/{api_id}/integrations
+          description: "Manage API integrations"
+          operations:
+            - name: get-integrations
+              method: GET
+              description: "List all integrations for an API"
+              inputParameters:
+                - name: api_id
+                  in: path
+                  type: string
+                  required: true
+                  description: "The API identifier"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+        - name: stages-v2
+          path: /v2/apis/{api_id}/stages
+          description: "Manage API stages"
+          operations:
+            - name: get-stages
+              method: GET
+              description: "List all stages for an API"
+              inputParameters:
+                - name: api_id
+                  in: path
+                  type: string
+                  required: true
+                  description: "The API identifier"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+  exposes:
+    - type: rest
+      port: 8101
+      namespace: api-gateway-v2-rest
+      resources:
+        - path: /v1/http-apis
+          name: http-apis
+          description: "HTTP and WebSocket API management"
+          operations:
+            - method: GET
+              name: list-apis
+              description: "List all HTTP and WebSocket APIs"
+              call: "api-gateway-v2.get-apis"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+    - type: mcp
+      port: 9101
+      namespace: api-gateway-v2-mcp
+      transport: http
+      tools:
+        - name: list-http-apis
+          description: "List all HTTP and WebSocket APIs"
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "api-gateway-v2.get-apis"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: create-http-api
+          description: "Create a new HTTP or WebSocket API"
+          hints:
+            readOnly: false
+          call: "api-gateway-v2.create-api"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-routes
+          description: "List all routes for an HTTP API"
+          hints:
+            readOnly: true
+          call: "api-gateway-v2.get-routes"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-integrations
+          description: "List all integrations for an HTTP API"
+          hints:
+            readOnly: true
+          call: "api-gateway-v2.get-integrations"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-stages
+          description: "List all stages for an HTTP API"
+          hints:
+            readOnly: true
+          call: "api-gateway-v2.get-stages"
+          outputParameters:
+            - type: object
+              mapping: "$."

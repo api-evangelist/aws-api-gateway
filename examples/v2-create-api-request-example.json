@@ -1,0 +1,7 @@
+{
+  "Name": "my-api-resource",
+  "ProtocolType": "HTTP",
+  "RouteSelectionExpression": "example-value",
+  "Description": "A description of this resource.",
+  "Target": "example-value"
+}

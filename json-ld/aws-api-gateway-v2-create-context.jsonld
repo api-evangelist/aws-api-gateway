@@ -1,0 +1,80 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "aws": "https://aws.amazon.com/schema/",
+    "schema": "https://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "CreateRouteRequest": "aws:CreateRouteRequest",
+    "CreateApiRequest": "aws:CreateApiRequest",
+    "CreateDeploymentRequest": "aws:CreateDeploymentRequest",
+    "CreateAuthorizerRequest": "aws:CreateAuthorizerRequest",
+    "CreateStageRequest": "aws:CreateStageRequest",
+    "CreateIntegrationRequest": "aws:CreateIntegrationRequest",
+    "RouteKey": {
+      "@id": "aws:RouteKey",
+      "@type": "xsd:string"
+    },
+    "Target": {
+      "@id": "aws:Target",
+      "@type": "xsd:string"
+    },
+    "AuthorizationType": {
+      "@id": "aws:AuthorizationType",
+      "@type": "xsd:string"
+    },
+    "StageName": {
+      "@id": "aws:StageName",
+      "@type": "xsd:string"
+    },
+    "DeploymentId": {
+      "@id": "aws:DeploymentId",
+      "@type": "xsd:string"
+    },
+    "AutoDeploy": {
+      "@id": "aws:AutoDeploy",
+      "@type": "xsd:boolean"
+    },
+    "Name": {
+      "@id": "aws:Name",
+      "@type": "xsd:string"
+    },
+    "AuthorizerType": {
+      "@id": "aws:AuthorizerType",
+      "@type": "xsd:string"
+    },
+    "IdentitySource": {
+      "@id": "aws:IdentitySource",
+      "@container": "@set",
+      "@type": "xsd:string"
+    },
+    "AuthorizerUri": {
+      "@id": "aws:AuthorizerUri",
+      "@type": "xsd:string"
+    },
+    "IntegrationType": {
+      "@id": "aws:IntegrationType",
+      "@type": "xsd:string"
+    },
+    "IntegrationUri": {
+      "@id": "aws:IntegrationUri",
+      "@type": "xsd:string"
+    },
+    "PayloadFormatVersion": {
+      "@id": "aws:PayloadFormatVersion",
+      "@type": "xsd:string"
+    },
+    "Description": {
+      "@id": "aws:Description",
+      "@type": "xsd:string"
+    },
+    "ProtocolType": {
+      "@id": "aws:ProtocolType",
+      "@type": "xsd:string"
+    },
+    "RouteSelectionExpression": {
+      "@id": "aws:RouteSelectionExpression",
+      "@type": "xsd:string"
+    }
+  }
+}

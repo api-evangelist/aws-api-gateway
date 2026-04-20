@@ -1,0 +1,8 @@
+{
+  "ApiId": "abc123def456",
+  "Name": "my-api-resource",
+  "ProtocolType": "HTTP",
+  "ApiEndpoint": "example-value",
+  "RouteSelectionExpression": "example-value",
+  "CreatedDate": "2025-03-15T14:30:00Z"
+}

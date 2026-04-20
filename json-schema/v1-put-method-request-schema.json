@@ -1,0 +1,22 @@
+{
+  "type": "object",
+  "properties": {
+    "authorizationType": {
+      "type": "string",
+      "description": "Authorization type (NONE, AWS_IAM, CUSTOM, COGNITO_USER_POOLS).",
+      "example": "example-value"
+    },
+    "apiKeyRequired": {
+      "type": "boolean",
+      "description": "Whether to require an API key.",
+      "example": true
+    }
+  },
+  "required": [
+    "authorizationType"
+  ],
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/aws-api-gateway/refs/heads/main/json-schema/v1-put-method-request-schema.json",
+  "title": "PutMethodRequest",
+  "description": "PutMethodRequest schema from Amazon API Gateway v1 API"
+}

@@ -1,0 +1,29 @@
+{
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Resource identifier.",
+      "example": "abc123"
+    },
+    "parentId": {
+      "type": "string",
+      "description": "Parent resource identifier.",
+      "example": "abc123"
+    },
+    "pathPart": {
+      "type": "string",
+      "description": "Last path segment for this resource.",
+      "example": "example-value"
+    },
+    "path": {
+      "type": "string",
+      "description": "Full path of the resource.",
+      "example": "example-value"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/aws-api-gateway/refs/heads/main/json-schema/v1-resource-schema.json",
+  "title": "Resource",
+  "description": "Resource schema from Amazon API Gateway v1 API"
+}

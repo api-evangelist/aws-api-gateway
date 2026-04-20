@@ -1,0 +1,27 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "aws": "https://aws.amazon.com/schema/",
+    "schema": "https://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "Authorizer": "aws:Authorizer",
+    "AuthorizerId": {
+      "@id": "aws:AuthorizerId",
+      "@type": "xsd:string"
+    },
+    "Name": {
+      "@id": "aws:Name",
+      "@type": "xsd:string"
+    },
+    "AuthorizerType": {
+      "@id": "aws:AuthorizerType",
+      "@type": "xsd:string"
+    },
+    "IdentitySource": {
+      "@id": "aws:IdentitySource",
+      "@container": "@set",
+      "@type": "xsd:string"
+    }
+  }
+}

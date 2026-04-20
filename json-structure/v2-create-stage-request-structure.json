@@ -1,0 +1,27 @@
+{
+  "type": "object",
+  "properties": {
+    "StageName": {
+      "type": "string",
+      "description": "Name of the stage.",
+      "example": "my-resource"
+    },
+    "DeploymentId": {
+      "type": "string",
+      "description": "Deployment identifier.",
+      "example": "abc123"
+    },
+    "AutoDeploy": {
+      "type": "boolean",
+      "description": "Whether to enable auto-deploy.",
+      "example": true
+    }
+  },
+  "required": [
+    "StageName"
+  ],
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/aws-api-gateway/refs/heads/main/json-structure/v2-create-stage-request-structure.json",
+  "name": "CreateStageRequest",
+  "description": "CreateStageRequest schema from Amazon API Gateway v2 API"
+}

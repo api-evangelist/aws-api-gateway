@@ -1,0 +1,9 @@
+{
+  "items": [
+    {
+      "id": "abc123def456",
+      "description": "A description of this resource.",
+      "createdDate": "2025-03-15T14:30:00Z"
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "type": "object",
+  "properties": {
+    "Name": {
+      "type": "string",
+      "description": "Name of the API.",
+      "example": "my-resource"
+    },
+    "ProtocolType": {
+      "type": "string",
+      "enum": [
+        "HTTP",
+        "WEBSOCKET"
+      ],
+      "description": "Protocol type for the API.",
+      "example": "HTTP"
+    },
+    "RouteSelectionExpression": {
+      "type": "string",
+      "description": "Route selection expression (required for WebSocket APIs).",
+      "example": "example-value"
+    },
+    "Description": {
+      "type": "string",
+      "description": "Description of the API.",
+      "example": "A description of this resource."
+    },
+    "Target": {
+      "type": "string",
+      "description": "Quick-create target Lambda or HTTP endpoint URI.",
+      "example": "example-value"
+    }
+  },
+  "required": [
+    "Name",
+    "ProtocolType"
+  ],
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/aws-api-gateway/refs/heads/main/json-schema/v2-create-api-request-schema.json",
+  "title": "CreateApiRequest",
+  "description": "CreateApiRequest schema from Amazon API Gateway v2 API"
+}

@@ -1,0 +1,45 @@
+{
+  "type": "object",
+  "properties": {
+    "Items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "AuthorizerId": {
+            "type": "string",
+            "description": "Authorizer identifier.",
+            "example": "abc123"
+          },
+          "Name": {
+            "type": "string",
+            "description": "Authorizer name.",
+            "example": "my-resource"
+          },
+          "AuthorizerType": {
+            "type": "string",
+            "description": "Type of authorizer (REQUEST or JWT).",
+            "example": "example-value"
+          },
+          "IdentitySource": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Identity sources for the authorizer.",
+            "example": [
+              "example-value"
+            ]
+          }
+        }
+      },
+      "example": [
+        "example-value"
+      ]
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/aws-api-gateway/refs/heads/main/json-schema/v2-authorizers-schema.json",
+  "title": "Authorizers",
+  "description": "Authorizers schema from Amazon API Gateway v2 API"
+}

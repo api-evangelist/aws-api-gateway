@@ -1,0 +1,5 @@
+{
+  "StageName": "my-api-resource",
+  "DeploymentId": "abc123def456",
+  "AutoDeploy": true
+}

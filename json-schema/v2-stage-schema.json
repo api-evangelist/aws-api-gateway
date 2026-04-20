@@ -1,0 +1,29 @@
+{
+  "type": "object",
+  "properties": {
+    "StageName": {
+      "type": "string",
+      "description": "Name of the stage.",
+      "example": "my-resource"
+    },
+    "DeploymentId": {
+      "type": "string",
+      "description": "Deployment identifier.",
+      "example": "abc123"
+    },
+    "Description": {
+      "type": "string",
+      "description": "Description of the stage.",
+      "example": "A description of this resource."
+    },
+    "AutoDeploy": {
+      "type": "boolean",
+      "description": "Whether updates auto-deploy to this stage.",
+      "example": true
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/aws-api-gateway/refs/heads/main/json-schema/v2-stage-schema.json",
+  "title": "Stage",
+  "description": "Stage schema from Amazon API Gateway v2 API"
+}

@@ -1,0 +1,10 @@
+{
+  "Items": [
+    {
+      "DeploymentId": "abc123def456",
+      "Description": "A description of this resource.",
+      "DeploymentStatus": "ACTIVE",
+      "CreatedDate": "2025-03-15T14:30:00Z"
+    }
+  ]
+}

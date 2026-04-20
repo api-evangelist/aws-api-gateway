@@ -1,0 +1,66 @@
+{
+  "type": "object",
+  "properties": {
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Identifier of the RestApi.",
+            "example": "abc123"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the RestApi.",
+            "example": "my-resource"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the RestApi.",
+            "example": "A description of this resource."
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the RestApi was created.",
+            "example": "2025-03-15T14:30:00Z"
+          },
+          "version": {
+            "type": "string",
+            "description": "Version identifier of the API.",
+            "example": "1.0"
+          },
+          "endpointConfiguration": {
+            "type": "object",
+            "properties": {
+              "types": {
+                "type": "array",
+                "description": "List of endpoint types (EDGE, REGIONAL, PRIVATE).",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "EDGE",
+                    "REGIONAL",
+                    "PRIVATE"
+                  ]
+                },
+                "example": [
+                  "EDGE"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "example": [
+        "example-value"
+      ]
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/aws-api-gateway/refs/heads/main/json-schema/v1-rest-apis-schema.json",
+  "title": "RestApis",
+  "description": "RestApis schema from Amazon API Gateway v1 API"
+}

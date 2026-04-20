@@ -1,0 +1,6 @@
+{
+  "RouteId": "abc123def456",
+  "RouteKey": "example-value",
+  "Target": "example-value",
+  "AuthorizationType": "example-value"
+}

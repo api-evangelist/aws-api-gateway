@@ -1,0 +1,27 @@
+{
+  "type": "object",
+  "properties": {
+    "RouteKey": {
+      "type": "string",
+      "description": "Route key for the new route.",
+      "example": "example-value"
+    },
+    "Target": {
+      "type": "string",
+      "description": "Integration target reference.",
+      "example": "example-value"
+    },
+    "AuthorizationType": {
+      "type": "string",
+      "description": "Authorization type for the route.",
+      "example": "example-value"
+    }
+  },
+  "required": [
+    "RouteKey"
+  ],
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/aws-api-gateway/refs/heads/main/json-structure/v2-create-route-request-structure.json",
+  "name": "CreateRouteRequest",
+  "description": "CreateRouteRequest schema from Amazon API Gateway v2 API"
+}

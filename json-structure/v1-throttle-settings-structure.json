@@ -1,0 +1,19 @@
+{
+  "type": "object",
+  "properties": {
+    "burstLimit": {
+      "type": "int32",
+      "description": "Burst limit for requests.",
+      "example": 49
+    },
+    "rateLimit": {
+      "type": "double",
+      "description": "Steady-state rate limit (requests per second).",
+      "example": 69.99
+    }
+  },
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/aws-api-gateway/refs/heads/main/json-structure/v1-throttle-settings-structure.json",
+  "name": "ThrottleSettings",
+  "description": "ThrottleSettings schema from Amazon API Gateway v1 API"
+}

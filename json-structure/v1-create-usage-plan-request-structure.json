@@ -1,0 +1,57 @@
+{
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name of the usage plan.",
+      "example": "my-resource"
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of the usage plan.",
+      "example": "A description of this resource."
+    },
+    "throttle": {
+      "type": "object",
+      "properties": {
+        "burstLimit": {
+          "type": "int32",
+          "description": "Burst limit for requests.",
+          "example": 49
+        },
+        "rateLimit": {
+          "type": "double",
+          "description": "Steady-state rate limit (requests per second).",
+          "example": 69.99
+        }
+      }
+    },
+    "quota": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "int32",
+          "description": "Maximum number of requests in the period.",
+          "example": 24
+        },
+        "period": {
+          "type": "string",
+          "enum": [
+            "DAY",
+            "WEEK",
+            "MONTH"
+          ],
+          "description": "Time period (DAY, WEEK, MONTH).",
+          "example": "DAY"
+        }
+      }
+    }
+  },
+  "required": [
+    "name"
+  ],
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/aws-api-gateway/refs/heads/main/json-structure/v1-create-usage-plan-request-structure.json",
+  "name": "CreateUsagePlanRequest",
+  "description": "CreateUsagePlanRequest schema from Amazon API Gateway v1 API"
+}

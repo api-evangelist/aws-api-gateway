@@ -1,0 +1,24 @@
+{
+  "type": "object",
+  "properties": {
+    "types": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "EDGE",
+          "REGIONAL",
+          "PRIVATE"
+        ]
+      },
+      "description": "List of endpoint types (EDGE, REGIONAL, PRIVATE).",
+      "example": [
+        "EDGE"
+      ]
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/aws-api-gateway/refs/heads/main/json-schema/v1-endpoint-configuration-schema.json",
+  "title": "EndpointConfiguration",
+  "description": "EndpointConfiguration schema from Amazon API Gateway v1 API"
+}

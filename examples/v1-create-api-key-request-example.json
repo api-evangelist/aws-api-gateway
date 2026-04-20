@@ -1,0 +1,5 @@
+{
+  "name": "my-api-resource",
+  "description": "A description of this resource.",
+  "enabled": true
+}

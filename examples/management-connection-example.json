@@ -1,0 +1,8 @@
+{
+  "ConnectedAt": "2025-03-15T14:30:00Z",
+  "LastActiveAt": "2025-03-15T14:30:00Z",
+  "Identity": {
+    "SourceIp": "example-value",
+    "UserAgent": "example-value"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "type": "object",
+  "properties": {
+    "httpMethod": {
+      "type": "string",
+      "description": "HTTP method verb.",
+      "example": "example-value"
+    },
+    "authorizationType": {
+      "type": "string",
+      "description": "Authorization type for invoking the method.",
+      "example": "example-value"
+    },
+    "apiKeyRequired": {
+      "type": "boolean",
+      "description": "Whether the method requires an API key.",
+      "example": true
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/aws-api-gateway/refs/heads/main/json-schema/v1-method-schema.json",
+  "title": "Method",
+  "description": "Method schema from Amazon API Gateway v1 API"
+}

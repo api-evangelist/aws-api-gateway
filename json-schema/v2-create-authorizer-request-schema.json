@@ -1,0 +1,43 @@
+{
+  "type": "object",
+  "properties": {
+    "Name": {
+      "type": "string",
+      "description": "Name of the authorizer.",
+      "example": "my-resource"
+    },
+    "AuthorizerType": {
+      "type": "string",
+      "enum": [
+        "REQUEST",
+        "JWT"
+      ],
+      "description": "Type of authorizer.",
+      "example": "REQUEST"
+    },
+    "IdentitySource": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Identity sources to use.",
+      "example": [
+        "example-value"
+      ]
+    },
+    "AuthorizerUri": {
+      "type": "string",
+      "description": "URI of the Lambda authorizer (REQUEST type).",
+      "example": "https://example.com/resource/123"
+    }
+  },
+  "required": [
+    "Name",
+    "AuthorizerType",
+    "IdentitySource"
+  ],
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/aws-api-gateway/refs/heads/main/json-schema/v2-create-authorizer-request-schema.json",
+  "title": "CreateAuthorizerRequest",
+  "description": "CreateAuthorizerRequest schema from Amazon API Gateway v2 API"
+}

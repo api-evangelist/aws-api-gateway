@@ -1,0 +1,40 @@
+{
+  "type": "object",
+  "properties": {
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "ApiKey identifier.",
+            "example": "abc123"
+          },
+          "value": {
+            "type": "string",
+            "description": "Value of the ApiKey.",
+            "example": "example-value"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the ApiKey.",
+            "example": "my-resource"
+          },
+          "enabled": {
+            "type": "boolean",
+            "description": "Whether the ApiKey is enabled.",
+            "example": true
+          }
+        }
+      },
+      "example": [
+        "example-value"
+      ]
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/aws-api-gateway/refs/heads/main/json-schema/v1-api-keys-schema.json",
+  "title": "ApiKeys",
+  "description": "ApiKeys schema from Amazon API Gateway v1 API"
+}

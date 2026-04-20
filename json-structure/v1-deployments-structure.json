@@ -1,0 +1,35 @@
+{
+  "type": "object",
+  "properties": {
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Deployment identifier.",
+            "example": "abc123"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the deployment.",
+            "example": "A description of this resource."
+          },
+          "createdDate": {
+            "type": "datetime",
+            "description": "Timestamp when the deployment was created.",
+            "example": "2025-03-15T14:30:00Z"
+          }
+        }
+      },
+      "example": [
+        "example-value"
+      ]
+    }
+  },
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/aws-api-gateway/refs/heads/main/json-structure/v1-deployments-structure.json",
+  "name": "Deployments",
+  "description": "Deployments schema from Amazon API Gateway v1 API"
+}

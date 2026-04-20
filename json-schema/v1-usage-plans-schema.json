@@ -1,0 +1,65 @@
+{
+  "type": "object",
+  "properties": {
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Usage plan identifier.",
+            "example": "abc123"
+          },
+          "name": {
+            "type": "string",
+            "description": "Usage plan name.",
+            "example": "my-resource"
+          },
+          "throttle": {
+            "type": "object",
+            "properties": {
+              "burstLimit": {
+                "type": "integer",
+                "description": "Burst limit for requests.",
+                "example": 49
+              },
+              "rateLimit": {
+                "type": "number",
+                "description": "Steady-state rate limit (requests per second).",
+                "example": 69.99
+              }
+            }
+          },
+          "quota": {
+            "type": "object",
+            "properties": {
+              "limit": {
+                "type": "integer",
+                "description": "Maximum number of requests in the period.",
+                "example": 24
+              },
+              "period": {
+                "type": "string",
+                "description": "Time period (DAY, WEEK, MONTH).",
+                "enum": [
+                  "DAY",
+                  "WEEK",
+                  "MONTH"
+                ],
+                "example": "DAY"
+              }
+            }
+          }
+        }
+      },
+      "example": [
+        "example-value"
+      ]
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/aws-api-gateway/refs/heads/main/json-schema/v1-usage-plans-schema.json",
+  "title": "UsagePlans",
+  "description": "UsagePlans schema from Amazon API Gateway v1 API"
+}

@@ -1,0 +1,40 @@
+{
+  "type": "object",
+  "properties": {
+    "Items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "RouteId": {
+            "type": "string",
+            "description": "Route identifier.",
+            "example": "abc123"
+          },
+          "RouteKey": {
+            "type": "string",
+            "description": "Route key (e.g. \"GET /items\" or \"$connect\").",
+            "example": "example-value"
+          },
+          "Target": {
+            "type": "string",
+            "description": "Integration target reference.",
+            "example": "example-value"
+          },
+          "AuthorizationType": {
+            "type": "string",
+            "description": "Authorization type for the route.",
+            "example": "example-value"
+          }
+        }
+      },
+      "example": [
+        "example-value"
+      ]
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/aws-api-gateway/refs/heads/main/json-schema/v2-routes-schema.json",
+  "title": "Routes",
+  "description": "Routes schema from Amazon API Gateway v2 API"
+}

@@ -1,0 +1,16 @@
+{
+  "items": [
+    {
+      "id": "abc123def456",
+      "name": "my-api-resource",
+      "description": "A description of this resource.",
+      "createdDate": "2025-03-15T14:30:00Z",
+      "version": "1.0",
+      "endpointConfiguration": {
+        "types": [
+          {}
+        ]
+      }
+    }
+  ]
+}

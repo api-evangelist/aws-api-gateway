@@ -1,0 +1,12 @@
+{
+  "Items": [
+    {
+      "AuthorizerId": "abc123def456",
+      "Name": "my-api-resource",
+      "AuthorizerType": "example-value",
+      "IdentitySource": [
+        "abc123def456"
+      ]
+    }
+  ]
+}
