@@ -1,100 +1,118 @@
 specification: API Commons Rate Limits
 specificationVersion: '0.1'
 schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
-provider: Amazon API Gateway
+provider: AWS API Gateway
 providerId: aws-api-gateway
 created: '2026-05-04'
-modified: '2026-05-04'
+modified: '2026-05-05'
+reconciled: true
 tags:
-  - API Gateway
-  - AWS
-  - Cloud
-  - REST
-  - WebSocket
+  - API Management
   - Serverless
   - Rate Limiting
-  - Quotas
   - Throttling
-description: Machine-readable rate limit definitions for the Amazon API Gateway API surface. Captures
-  per-tier quotas, burst behavior, response signaling, and recovery semantics. Defaults are scaffold values
-  to be replaced with published provider limits.
-headers:
-  limit: X-RateLimit-Limit
-  remaining: X-RateLimit-Remaining
-  reset: X-RateLimit-Reset
-  retryAfter: Retry-After
-  policy: RateLimit-Policy
+  - AWS
+description: AWS API Gateway enforces a regional account-level throttle plus per-API stage / method /
+  usage-plan throttles. Defaults are 10,000 RPS per account per Region with a 5,000-request burst
+  bucket; some regions default to 2,500 RPS / 1,250 burst. Control-plane operations (CreateRestApi,
+  CreateDeployment, etc.) have separate fixed quotas. Account-level throttles are increasable via
+  Service Quotas; control-plane throttles are not.
+sources:
+  - https://docs.aws.amazon.com/apigateway/latest/developerguide/limits.html
 responseCodes:
   throttled: 429
-  quotaExceeded: 429
   serviceUnavailable: 503
 limits:
-  - tier: free
-    name: Free Tier Default
+  - name: Account-level throttle (default Regions)
+    scope: account/region
+    metric: requests_per_second
+    limit: 10000
+    timeFrame: second
+    notes: Across HTTP APIs, REST APIs, WebSocket APIs, and WebSocket callback APIs. Burst 5,000
+      via token-bucket. Increasable via Service Quotas (L-8A5B8E43).
+  - name: Account-level throttle (low-default Regions)
+    scope: account/region
+    metric: requests_per_second
+    limit: 2500
+    timeFrame: second
+    notes: 'Lower default in: Africa (Cape Town), Europe (Milan / Spain / Zurich), Asia Pacific
+      (Jakarta / Hyderabad / Melbourne / Malaysia / Thailand), Middle East (UAE), Israel (Tel Aviv),
+      Canada West (Calgary), Mexico (Central). Burst 1,250.'
+  - name: Per-method throttle (REST API stage/method)
+    scope: stage-method
+    metric: requests_per_second
+    limit: -1
+    notes: Configured per method via stage settings or usage plan; defaults to inheriting the
+      account-level throttle. Burst configurable.
+  - name: Usage plan throttle
     scope: api-key
-    metric: requests_per_minute
+    metric: requests_per_second
+    limit: -1
+    notes: Enforced per API key bound to a usage plan; rate, burst, and monthly quota all configurable.
+  - name: Portal throttle without access control
+    scope: account/region/portal
+    metric: requests_per_second
+    limit: 250000
+    timeFrame: second
+    notes: Hard cap; not increasable.
+  - name: Portal throttle with access control
+    scope: account/region/portal
+    metric: requests_per_second
+    limit: 10000
+    timeFrame: second
+    notes: Hard cap; not increasable.
+  - name: CreateApiKey
+    scope: account
+    metric: requests_per_second
+    limit: 5
+    timeFrame: second
+    notes: Control-plane fixed quota.
+  - name: CreateDeployment
+    scope: account
+    metric: requests_per_second
+    limit: 0.2
+    timeFrame: second
+    notes: 1 request every 5 seconds. Fixed.
+  - name: CreateRestApi (Regional / private)
+    scope: account
+    metric: requests_per_second
+    limit: 0.333
+    timeFrame: second
+    notes: 1 request every 3 seconds. Fixed.
+  - name: CreateRestApi (edge-optimized)
+    scope: account
+    metric: requests_per_second
+    limit: 0.0333
+    timeFrame: second
+    notes: 1 request every 30 seconds. Fixed.
+  - name: PutRestApi
+    scope: account
+    metric: requests_per_second
+    limit: 1
+    timeFrame: second
+  - name: Other control-plane operations (aggregate)
+    scope: account
+    metric: requests_per_second
     limit: 10
-    burst: 20
-    timeFrame: minute
-    applies:
-      - Amazon API Gateway V1 (REST)
-      - Amazon API Gateway V2 (HTTP and WebSocket)
-      - Amazon API Gateway Management API
-  - tier: free
-    name: Free Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 1000
-    timeFrame: month
-    applies:
-      - Amazon API Gateway V1 (REST)
-      - Amazon API Gateway V2 (HTTP and WebSocket)
-      - Amazon API Gateway Management API
-  - tier: professional
-    name: Professional Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 100
-    burst: 200
-    timeFrame: minute
-    applies:
-      - Amazon API Gateway V1 (REST)
-      - Amazon API Gateway V2 (HTTP and WebSocket)
-      - Amazon API Gateway Management API
-  - tier: professional
-    name: Professional Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 100000
-    timeFrame: month
-    applies:
-      - Amazon API Gateway V1 (REST)
-      - Amazon API Gateway V2 (HTTP and WebSocket)
-      - Amazon API Gateway Management API
-  - tier: enterprise
-    name: Enterprise Negotiated Limit
-    scope: contract
-    metric: requests_per_minute
-    limit: 1000
-    burst: 5000
-    timeFrame: minute
-    applies:
-      - Amazon API Gateway V1 (REST)
-      - Amazon API Gateway V2 (HTTP and WebSocket)
-      - Amazon API Gateway Management API
+    timeFrame: second
+    notes: 10 RPS aggregate with 40 RPS burst across "other" operations. Not increasable.
 policies:
+  - name: Token Bucket Burst
+    description: Account-level throttle uses a token-bucket algorithm; bursts above the steady-state
+      RPS are tolerated up to the bucket capacity, then throttled. The burst quota is set by AWS,
+      not customer-configurable.
   - name: Backoff Strategy
-    description: Clients should implement exponential backoff with jitter, honoring the Retry-After header
-      when present.
-  - name: Burst Handling
-    description: Short bursts above the steady-state limit are tolerated up to the documented burst ceiling
-      before throttling engages.
-  - name: Quota Reset
-    description: Monthly quotas reset at the start of each calendar month in UTC. Per-minute and per-second
-      windows reset on a sliding-window basis.
-  - name: Fair Use
-    description: Even on uncapped enterprise tiers, sustained usage that materially impacts shared infrastructure
-      may be subject to fair-use throttling.
+    description: AWS SDKs implement exponential backoff with jitter automatically on 429 / 5xx; clients
+      using raw HTTP should mirror this and honor Retry-After when present.
+  - name: Service Quotas Increases
+    description: Account-level RPS quotas can be raised via the Service Quotas console (quota code
+      L-8A5B8E43); control-plane and portal quotas are fixed and not increasable.
+  - name: Per-Method / Per-Stage / Usage-Plan Layering
+    description: Throttling is layered. The most restrictive of (account regional throttle / stage
+      throttle / method throttle / usage plan throttle) wins for a given request.
+  - name: WAF Layering
+    description: AWS WAF rules apply before throttling; rate-based WAF rules can shape per-IP traffic
+      independently of API Gateway throttles.
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
