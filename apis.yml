@@ -198,6 +198,18 @@ common:
         description: Provision and manage TLS certificates for custom domain names on API Gateway.
       - name: Amazon VPC
         description: Create private APIs accessible only within a VPC using VPC endpoint integration.
+  - type: Integrations
+    url: https://aws.amazon.com/marketplace
+integrations:
+  - name: Sign in
+  - name: Agent Mode
+  - name: 'Why AWS Marketplace?'
+  - name: Get started in AWS Marketplace
+  - name: Industry
+  - name: Resources
+  - name: Become a Channel Partner
+  - name: Sell in AWS Marketplace
+  - name: Manage Your Account
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
