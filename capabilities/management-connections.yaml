@@ -1,0 +1,132 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Amazon API Gateway Management API — Connections
+  description: 'Amazon API Gateway Management API — Connections. 3 operations. Lead operation: Amazon API Gateway Get Connection
+    Info. Self-contained Naftiko capability covering one Aws Api Gateway business surface.'
+  tags:
+  - Aws Api Gateway
+  - Connections
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    AWS_API_GATEWAY_API_KEY: AWS_API_GATEWAY_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: management-connections
+    baseUri: https://{api_id}.execute-api.{region}.amazonaws.com/{stage}
+    description: Amazon API Gateway Management API — Connections business capability. Self-contained, no shared references.
+    resources:
+    - name: '@connections-connectionId'
+      path: /@connections/{connectionId}
+      operations:
+      - name: getconnection
+        method: GET
+        description: Amazon API Gateway Get Connection Info
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: posttoconnection
+        method: POST
+        description: Amazon API Gateway Send Message to Connection
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deleteconnection
+        method: DELETE
+        description: Amazon API Gateway Disconnect a Client
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: Authorization
+      value: '{{env.AWS_API_GATEWAY_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: management-connections-rest
+    port: 8080
+    description: REST adapter for Amazon API Gateway Management API — Connections. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/connections/{connectionid}
+      name: connections-connectionid
+      description: REST surface for @connections-connectionId.
+      operations:
+      - method: GET
+        name: getconnection
+        description: Amazon API Gateway Get Connection Info
+        call: management-connections.getconnection
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: posttoconnection
+        description: Amazon API Gateway Send Message to Connection
+        call: management-connections.posttoconnection
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deleteconnection
+        description: Amazon API Gateway Disconnect a Client
+        call: management-connections.deleteconnection
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: management-connections-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Amazon API Gateway Management API — Connections. One tool per consumed operation, routed
+      inline through this capability's consumes block.
+    tools:
+    - name: amazon-api-gateway-get-connection
+      description: Amazon API Gateway Get Connection Info
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: management-connections.getconnection
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: amazon-api-gateway-send-message
+      description: Amazon API Gateway Send Message to Connection
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: management-connections.posttoconnection
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: amazon-api-gateway-disconnect-client
+      description: Amazon API Gateway Disconnect a Client
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: management-connections.deleteconnection
+      outputParameters:
+      - type: object
+        mapping: $.

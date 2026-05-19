@@ -1,0 +1,163 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Amazon API Gateway V2 (HTTP and WebSocket)
+  description: 'Amazon API Gateway V2 (HTTP and WebSocket). 4 operations. Lead operation: Amazon API Gateway List APIs. Self-contained
+    Naftiko capability covering one Aws Api Gateway business surface.'
+  tags:
+  - Aws Api Gateway
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    AWS_API_GATEWAY_API_KEY: AWS_API_GATEWAY_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: v2-general
+    baseUri: https://apigateway.{region}.amazonaws.com
+    description: Amazon API Gateway V2 (HTTP and WebSocket) business capability. Self-contained, no shared references.
+    resources:
+    - name: v2-apis
+      path: /v2/apis
+      operations:
+      - name: getapis
+        method: GET
+        description: Amazon API Gateway List APIs
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createapi
+        method: POST
+        description: Amazon API Gateway Create an API
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: v2-apis-api_id
+      path: /v2/apis/{api_id}
+      operations:
+      - name: getapi
+        method: GET
+        description: Amazon API Gateway Get an API
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: deleteapi
+        method: DELETE
+        description: Amazon API Gateway Delete an API
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: Authorization
+      value: '{{env.AWS_API_GATEWAY_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: v2-general-rest
+    port: 8080
+    description: REST adapter for Amazon API Gateway V2 (HTTP and WebSocket). One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/v2/apis
+      name: v2-apis
+      description: REST surface for v2-apis.
+      operations:
+      - method: GET
+        name: getapis
+        description: Amazon API Gateway List APIs
+        call: v2-general.getapis
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createapi
+        description: Amazon API Gateway Create an API
+        call: v2-general.createapi
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v2/apis/{api-id}
+      name: v2-apis-api-id
+      description: REST surface for v2-apis-api_id.
+      operations:
+      - method: GET
+        name: getapi
+        description: Amazon API Gateway Get an API
+        call: v2-general.getapi
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deleteapi
+        description: Amazon API Gateway Delete an API
+        call: v2-general.deleteapi
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: v2-general-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Amazon API Gateway V2 (HTTP and WebSocket). One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: amazon-api-gateway-list-apis
+      description: Amazon API Gateway List APIs
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: v2-general.getapis
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: amazon-api-gateway-create-api
+      description: Amazon API Gateway Create an API
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: v2-general.createapi
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: amazon-api-gateway-get-api
+      description: Amazon API Gateway Get an API
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: v2-general.getapi
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: amazon-api-gateway-delete-api
+      description: Amazon API Gateway Delete an API
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: v2-general.deleteapi
+      outputParameters:
+      - type: object
+        mapping: $.

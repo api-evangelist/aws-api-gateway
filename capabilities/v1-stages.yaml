@@ -1,0 +1,72 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Amazon API Gateway V1 (REST) — Stages
+  description: 'Amazon API Gateway V1 (REST) — Stages. 1 operations. Lead operation: Amazon API Gateway List Stages. Self-contained
+    Naftiko capability covering one Aws Api Gateway business surface.'
+  tags:
+  - Aws Api Gateway
+  - Stages
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    AWS_API_GATEWAY_API_KEY: AWS_API_GATEWAY_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: v1-stages
+    baseUri: https://apigateway.{region}.amazonaws.com
+    description: Amazon API Gateway V1 (REST) — Stages business capability. Self-contained, no shared references.
+    resources:
+    - name: restapis-restapi_id-stages
+      path: /restapis/{restapi_id}/stages
+      operations:
+      - name: getstages
+        method: GET
+        description: Amazon API Gateway List Stages
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: Authorization
+      value: '{{env.AWS_API_GATEWAY_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: v1-stages-rest
+    port: 8080
+    description: REST adapter for Amazon API Gateway V1 (REST) — Stages. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/restapis/{restapi-id}/stages
+      name: restapis-restapi-id-stages
+      description: REST surface for restapis-restapi_id-stages.
+      operations:
+      - method: GET
+        name: getstages
+        description: Amazon API Gateway List Stages
+        call: v1-stages.getstages
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: v1-stages-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Amazon API Gateway V1 (REST) — Stages. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: amazon-api-gateway-list-stages
+      description: Amazon API Gateway List Stages
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: v1-stages.getstages
+      outputParameters:
+      - type: object
+        mapping: $.
