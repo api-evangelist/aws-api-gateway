@@ -1,0 +1,536 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: AWS API Gateway Agent Onboarding
+  description: 'AWS API Gateway Agent Onboarding — automated agent self-registration on Amazon
+    API Gateway (V1 REST APIs). Verifies Web Bot Auth signatures (RFC 9421) against a trusted-issuer
+    policy, optionally short-circuits to IAM-based trust for first-party agents running inside the
+    AWS account, composes createApiKey + ensureUsagePlan + createUsagePlanKey into a single scoped
+    credential issuance, and emits an audit event to CloudWatch Logs that the worker stitches with
+    CloudTrail for full observability. Companion to the API Evangelist agent-onboarding pattern.'
+  tags:
+  - AWS
+  - Amazon API Gateway
+  - Agent Onboarding
+  - Web Bot Auth
+  - RFC 9421
+  - RFC 7591
+  - Usage Plans
+  - CloudTrail
+  - CloudWatch Logs
+  - IAM
+  - MCP
+  - Naftiko Capability
+  - Agent Skills
+  created: '2026-05-28'
+  modified: '2026-05-28'
+  related:
+  - https://apievangelist.com/2026/05/27/automated-agent-onboarding-is-a-naftiko-capability-not-a-gateway-feature/
+  - https://apis.io/2026/06/09/automated-agent-onboarding-on-aws-api-gateway/
+  - https://github.com/api-evangelist/kong/blob/main/capabilities/kong-agent-onboarding.yaml
+  - https://github.com/api-evangelist/aws-api-gateway
+
+binds:
+- namespace: env
+  keys:
+    AWS_REGION: AWS_REGION
+    AWS_ACCESS_KEY_ID: AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY: AWS_SECRET_ACCESS_KEY
+    AWS_ROLE_ARN: AWS_ROLE_ARN
+    CLOUDWATCH_LOG_GROUP_NAME: CLOUDWATCH_LOG_GROUP_NAME
+    CLOUDWATCH_LOG_STREAM_NAME: CLOUDWATCH_LOG_STREAM_NAME
+    AGENT_TRUSTED_ISSUERS: AGENT_TRUSTED_ISSUERS
+    AGENT_TRUSTED_IAM_PRINCIPALS: AGENT_TRUSTED_IAM_PRINCIPALS
+    AGENT_CONSENT_DOC_URL: AGENT_CONSENT_DOC_URL
+    AGENT_CONSENT_HASH: AGENT_CONSENT_HASH
+
+capability:
+
+  # ============================================================================
+  # CONSUMES — upstream AWS API Gateway and CloudWatch Logs operations
+  # composed to provision a Usage-Plan-scoped credential for a verified agent.
+  # All operations use AWS SigV4 request signing (per AWS API Gateway and
+  # CloudWatch Logs conventions). The 'apikey' authentication shape below is
+  # the schema-level abstraction; the Naftiko Framework's AWS connector handles
+  # SigV4 derivation from the bound credentials.
+  # ============================================================================
+  consumes:
+
+  - type: http
+    namespace: aws-apigateway-admin
+    baseUri: https://apigateway.{{env.AWS_REGION}}.amazonaws.com
+    description: Amazon API Gateway V1 (REST) Admin operations needed to mint and
+      revoke scoped agent credentials and to ensure the scope-tier Usage Plan exists.
+    resources:
+
+    - name: apikeys
+      path: /apikeys
+      operations:
+      - name: createapikey
+        method: POST
+        description: Create a new API key. Returns { id, value, enabled, createdDate }.
+          The 'value' is the bearer credential the agent will use; it is returned exactly once.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: '{ name, enabled: true, generateDistinctId: true, tags: { agent_id, operator, skill_id } }'
+          required: true
+
+    - name: apikeys-id
+      path: /apikeys/{api_Key}
+      operations:
+      - name: deleteapikey
+        method: DELETE
+        description: Revoke a previously-issued API key. Invoked when the agent calls
+          its revocation_url.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+
+    - name: usageplans
+      path: /usageplans
+      operations:
+      - name: listusageplans
+        method: GET
+        description: List existing Usage Plans (used to find the scope-tier plan before creating).
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createusageplan
+        method: POST
+        description: Create a Usage Plan if the scope tier doesn't already exist.
+          Quota + throttle + stage bindings encoded here; the API key inherits these via membership.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: '{ name, description, apiStages: [...], quota: {limit, period}, throttle: {rateLimit, burstLimit}, tags }'
+          required: true
+
+    - name: usageplans-id-keys
+      path: /usageplans/{usageplanId}/keys
+      operations:
+      - name: createusageplankey
+        method: POST
+        description: Bind the newly-created API key to the scope-tier Usage Plan.
+          After this call, the key is rate-limited and stage-scoped per the plan's configuration.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: '{ keyId, keyType: "API_KEY" }'
+          required: true
+
+    authentication:
+      type: apikey
+      key: Authorization
+      value: '{{env.AWS_API_GATEWAY_API_KEY}}'
+      placement: header
+
+  - type: http
+    namespace: aws-cloudwatch-logs
+    baseUri: https://logs.{{env.AWS_REGION}}.amazonaws.com
+    description: CloudWatch Logs PutLogEvents target for emitting structured agent-onboarding
+      audit events. Worker queries this log group with CloudWatch Logs Insights and joins
+      against the CloudTrail trail (which captures the apigateway:CreateApiKey,
+      apigateway:CreateUsagePlanKey, apigateway:DeleteApiKey calls automatically).
+    resources:
+
+    - name: putlogevents
+      path: /
+      operations:
+      - name: putlogevents
+        method: POST
+        description: Write a structured JSON event to the agent-audit log stream. Body
+          is the AWS JSON-RPC PutLogEvents request envelope; the framework's CloudWatch
+          connector composes the X-Amz-Target header.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: '{ logGroupName, logStreamName, logEvents: [{timestamp, message}] }'
+          required: true
+
+    authentication:
+      type: apikey
+      key: Authorization
+      value: '{{env.AWS_API_GATEWAY_API_KEY}}'
+      placement: header
+
+  # ============================================================================
+  # ORCHESTRATION — two flows: onboard-agent composes the AWS calls into a
+  # single agent-onboarding business operation; revoke-agent inverts it.
+  # AWS-specific affordance: the verify_identity step short-circuits Web Bot
+  # Auth verification when the inbound request carries a trusted IAM role
+  # principal (agent running in Lambda/Bedrock/ECS in-account).
+  # ============================================================================
+  orchestration:
+
+  - name: onboard-agent
+    description: End-to-end agent onboarding on AWS API Gateway — verify identity
+      (Web Bot Auth or IAM principal), check policy, ensure Usage Plan, create + bind
+      API key, emit CloudWatch audit, return credential.
+    inputs:
+    - name: signature
+      type: object
+      description: RFC 9421 HTTP Message Signature headers from the agent's request.
+        Optional if iam_principal is present.
+      required: false
+    - name: signature_agent
+      type: string
+      description: Agent issuer (e.g., 'https://claude.ai/'). Optional if iam_principal present.
+      required: false
+    - name: iam_principal
+      type: string
+      description: For first-party agents — the IAM role/principal ARN the request
+        was signed with via SigV4. Adapter trusts these directly without Web Bot Auth
+        if the ARN matches AGENT_TRUSTED_IAM_PRINCIPALS.
+      required: false
+    - name: skill_id
+      type: string
+      required: true
+    - name: requested_scopes
+      type: array
+      description: Each scope MUST resolve to a Usage Plan named in the provider's policy file.
+      required: true
+    - name: consent_hash
+      type: string
+      required: true
+    - name: contact
+      type: object
+      description: '{ operator, support_url, purpose }'
+      required: true
+
+    steps:
+
+    - id: verify_identity
+      type: builtin.identity.resolve
+      description: Resolve the agent's identity. Prefers IAM principal (no extra
+        verification needed; SigV4 already authenticated the request); falls back to
+        RFC 9421 Web Bot Auth signature verification against the operator's published
+        key directory.
+      with:
+        iam_principal: ${input.iam_principal}
+        trusted_iam_principals: '{{env.AGENT_TRUSTED_IAM_PRINCIPALS}}'
+        signature: ${input.signature}
+        signature_agent: ${input.signature_agent}
+        trusted_issuers: '{{env.AGENT_TRUSTED_ISSUERS}}'
+      output:
+        agent_id: string
+        trust_mode: string   # 'iam' | 'web-bot-auth'
+        keyid: string
+      on_failure: deny
+
+    - id: verify_consent
+      type: builtin.policy.assert
+      description: Confirm the consent_hash matches the currently-published consent document.
+      with:
+        assert: '${input.consent_hash} == {{env.AGENT_CONSENT_HASH}}'
+      on_failure: deny
+
+    - id: classify_scopes
+      type: builtin.policy.scope-classify
+      description: Map each requested scope to (auto-issue | approval-required | forbidden)
+        per the provider's declared policy. Auto-issuable scopes must resolve to
+        existing Usage Plan names.
+      with:
+        requested: ${input.requested_scopes}
+      output:
+        auto: array
+        approval: array
+        forbidden: array
+        target_usage_plan: string
+      on:
+      - when: '${steps.classify_scopes.forbidden.length > 0}'
+        do: deny
+      - when: '${steps.classify_scopes.approval.length > 0}'
+        do: defer-to-approval-webhook
+
+    - id: ensure_usage_plan
+      type: builtin.upsert
+      description: Ensure the scope-tier Usage Plan exists. Lists existing plans;
+        creates the one named in classify_scopes.target_usage_plan only if missing.
+        Idempotent — concurrent agent onboardings against the same scope tier share
+        the plan.
+      with:
+        list_call: aws-apigateway-admin.listusageplans
+        filter: 'name == "${steps.classify_scopes.target_usage_plan}"'
+        create_call: aws-apigateway-admin.createusageplan
+        create_with:
+          body:
+            name: ${steps.classify_scopes.target_usage_plan}
+            description: 'Auto-managed by Naftiko agent-onboarding capability'
+            apiStages: '${policy.scopes[steps.classify_scopes.target_usage_plan].api_stages}'
+            quota: '${policy.scopes[steps.classify_scopes.target_usage_plan].quota}'
+            throttle: '${policy.scopes[steps.classify_scopes.target_usage_plan].throttle}'
+            tags:
+              managed-by: 'naftiko-agent-onboarding'
+              scope-tier: ${steps.classify_scopes.target_usage_plan}
+      output:
+        id: string
+
+    - id: create_api_key
+      call: aws-apigateway-admin.createapikey
+      description: Mint the API key the agent will use. createApiKey returns the
+        key 'value' in the response — this is the only point at which it is retrievable.
+      with:
+        body:
+          name: 'agent-${steps.verify_identity.agent_id}'
+          enabled: true
+          generateDistinctId: true
+          tags:
+            agent_id: ${steps.verify_identity.agent_id}
+            operator: ${input.contact.operator}
+            skill_id: ${input.skill_id}
+            trust_mode: ${steps.verify_identity.trust_mode}
+      output:
+        id: string
+        value: string
+        createdDate: string
+
+    - id: bind_key_to_usage_plan
+      call: aws-apigateway-admin.createusageplankey
+      description: Bind the new API key to the scope-tier Usage Plan so the quota
+        and throttle attach. Until this call returns, the key is enabled but has no
+        constraint — the worker MUST reject any incoming traffic carrying it until
+        binding confirms.
+      with:
+        usageplanId: ${steps.ensure_usage_plan.id}
+        body:
+          keyId: ${steps.create_api_key.id}
+          keyType: 'API_KEY'
+
+    - id: emit_audit
+      call: aws-cloudwatch-logs.putlogevents
+      description: Emit a structured agent-onboarding audit event to CloudWatch Logs.
+        The CloudTrail trail captures the parallel apigateway:CreateApiKey + CreateUsagePlanKey
+        events automatically; the worker joins both streams in CloudWatch Logs Insights
+        for the full observability picture.
+      with:
+        body:
+          logGroupName: '{{env.CLOUDWATCH_LOG_GROUP_NAME}}'
+          logStreamName: '{{env.CLOUDWATCH_LOG_STREAM_NAME}}'
+          logEvents:
+          - timestamp: '${now.epoch_ms}'
+            message:
+              event_type: 'agent.onboarded'
+              agent_id: ${steps.verify_identity.agent_id}
+              trust_mode: ${steps.verify_identity.trust_mode}
+              iam_principal: ${input.iam_principal}
+              signature_keyid: ${steps.verify_identity.keyid}
+              operator: ${input.contact.operator}
+              support_url: ${input.contact.support_url}
+              purpose: ${input.contact.purpose}
+              skill_id: ${input.skill_id}
+              scope: ${steps.classify_scopes.target_usage_plan}
+              consent_hash: ${input.consent_hash}
+              api_key_id: ${steps.create_api_key.id}
+              usage_plan_id: ${steps.ensure_usage_plan.id}
+
+    output:
+      agent_id: ${steps.verify_identity.agent_id}
+      trust_mode: ${steps.verify_identity.trust_mode}
+      api_key_id: ${steps.create_api_key.id}
+      usage_plan_id: ${steps.ensure_usage_plan.id}
+      credential:
+        type: 'Bearer'
+        header: 'x-api-key'
+        value: ${steps.create_api_key.value}
+        revocation_url: '/v1/agents/${steps.verify_identity.agent_id}/revoke'
+      scope: ${steps.classify_scopes.target_usage_plan}
+      audit_log_group: '{{env.CLOUDWATCH_LOG_GROUP_NAME}}'
+
+  - name: revoke-agent
+    description: Revoke an issued API key. Deletes the key from AWS API Gateway
+      (which auto-detaches it from any Usage Plan) and emits a corresponding audit event.
+    inputs:
+    - name: agent_id
+      type: string
+      required: true
+    - name: api_key_id
+      type: string
+      required: true
+    steps:
+    - id: delete_key
+      call: aws-apigateway-admin.deleteapikey
+      with:
+        api_Key: ${input.api_key_id}
+    - id: emit_revoke_audit
+      call: aws-cloudwatch-logs.putlogevents
+      with:
+        body:
+          logGroupName: '{{env.CLOUDWATCH_LOG_GROUP_NAME}}'
+          logStreamName: '{{env.CLOUDWATCH_LOG_STREAM_NAME}}'
+          logEvents:
+          - timestamp: '${now.epoch_ms}'
+            message:
+              event_type: 'agent.revoked'
+              agent_id: ${input.agent_id}
+              api_key_id: ${input.api_key_id}
+    output:
+      revoked: true
+
+  # ============================================================================
+  # EXPOSES — three downstream surfaces, identical shape to the Kong reference
+  # so the agent-facing contract is gateway-independent.
+  # ============================================================================
+  exposes:
+
+  - type: rest
+    namespace: aws-api-gateway-agent-onboarding-rest
+    port: 8080
+    description: REST surface for automated agent onboarding against AWS API Gateway.
+      Typically deployed as a Lambda + API Gateway route in the customer's account, or
+      as a Cloudflare Worker / EKS service in front of it.
+    resources:
+    - path: /v1/agents/onboard
+      name: agents-onboard
+      description: Agent self-registration endpoint.
+      operations:
+      - method: POST
+        name: onboardagent
+        description: Verify identity (IAM principal or Web Bot Auth), provision a
+          Usage-Plan-scoped API key, and return the credential.
+        call: orchestration.onboard-agent
+        with:
+          signature: rest.headers.signature
+          signature_agent: rest.headers.signature-agent
+          iam_principal: rest.headers.x-amzn-iam-principal
+          skill_id: rest.body.skill_id
+          requested_scopes: rest.body.scopes
+          consent_hash: rest.body.consent_hash
+          contact: rest.body.contact
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/agents/{agent_id}/revoke
+      name: agents-revoke
+      description: Revoke the API key issued during onboarding.
+      operations:
+      - method: POST
+        name: revokeagent
+        call: orchestration.revoke-agent
+        with:
+          agent_id: rest.agent_id
+          api_key_id: rest.body.api_key_id
+
+  - type: mcp
+    namespace: aws-api-gateway-agent-onboarding-mcp
+    port: 9090
+    transport: http
+    description: MCP surface — agent-register and agent-revoke as tools an MCP
+      client can call.
+    tools:
+    - name: agent-register
+      description: Register an agent with the AWS API Gateway-backed surface and
+        obtain a scoped API key. Trusts either a verified Web Bot Auth signature or
+        a trusted IAM principal.
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: orchestration.onboard-agent
+      with:
+        signature: tools.signature
+        signature_agent: tools.signature_agent
+        iam_principal: tools.iam_principal
+        skill_id: tools.skill_id
+        requested_scopes: tools.requested_scopes
+        consent_hash: tools.consent_hash
+        contact: tools.contact
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: agent-revoke
+      description: Revoke an issued agent API key.
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: orchestration.revoke-agent
+      with:
+        agent_id: tools.agent_id
+        api_key_id: tools.api_key_id
+
+  - type: agent-skill
+    namespace: aws-api-gateway-agent-onboarding-skills
+    description: 'Agent skill at /skills/onboard-agent.md. Same surface as the Kong
+      reference, with one AWS-specific addendum — agents running in-account can sign
+      requests with SigV4 against a trusted IAM role and skip the Web Bot Auth signature
+      entirely; the skill documents both paths.'
+    skill:
+      name: onboard-agent
+      description: Register this agent with the API provider and obtain a scoped credential.
+        For agents running inside the same AWS account as the provider, sign with SigV4
+        against the trusted IAM role and the iam_principal header carries the identity.
+      file: skills/onboard-agent.md
+
+  # ============================================================================
+  # GOVERNANCE — same five policies as Kong, plus one AWS-specific:
+  # the auto-deny window between key creation and Usage Plan binding.
+  # ============================================================================
+  governance:
+
+  - id: require-verified-identity
+    severity: blocking
+    description: All onboard calls must carry either a valid RFC 9421 Web Bot Auth
+      signature OR a SigV4 request signed by a principal in AGENT_TRUSTED_IAM_PRINCIPALS.
+      Requests with neither are rejected with 401.
+    enforce_at: [runtime]
+
+  - id: require-consent-hash-match
+    severity: blocking
+    description: The submitted consent_hash must match the provider's currently-published
+      AGENT_CONSENT_HASH env binding. Mismatch returns 422.
+    enforce_at: [runtime]
+
+  - id: forbidden-scopes-deny
+    severity: blocking
+    description: Any requested scope on the policy's forbidden list returns 403 immediately.
+    enforce_at: [runtime]
+
+  - id: approval-required-defer
+    severity: advisory
+    description: Requested scopes in the approval-required list route to the configured
+      webhook and return 202 Accepted with a status URL the agent polls.
+    enforce_at: [runtime]
+
+  - id: usage-plan-bind-window
+    severity: blocking
+    description: AWS createApiKey returns an enabled key BEFORE it is bound to a
+      Usage Plan. The orchestration MUST complete bind_key_to_usage_plan before the
+      key value is returned to the agent. If bind_key_to_usage_plan fails, the
+      orchestration MUST roll back by calling deleteapikey on the dangling key.
+    enforce_at: [runtime]
+
+  - id: tags-propagate-to-cloudtrail
+    severity: advisory
+    description: API key + Usage Plan tags (agent_id, operator, skill_id, trust_mode)
+      must be present on the createApiKey call so they propagate into CloudTrail's
+      resource-tagging records — the join key the worker uses to stitch CloudWatch
+      audit events with CloudTrail Admin events.
+    enforce_at: [runtime]
