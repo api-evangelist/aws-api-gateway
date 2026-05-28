@@ -6,7 +6,7 @@ info:
     policy, optionally short-circuits to IAM-based trust for first-party agents running inside the
     AWS account, composes createApiKey + ensureUsagePlan + createUsagePlanKey into a single scoped
     credential issuance, and emits an audit event to CloudWatch Logs that the worker stitches with
-    CloudTrail for full observability. Companion to the API Evangelist agent-onboarding pattern.'
+    CloudTrail for full observability. Companion to the API Evangelist agent-onboarding pattern. Runtime policy enforcement (signature verify, consent check, scope classify, audit emit) lives in the orchestration.steps below — each step that gates issuance carries on_failure: deny. Lint-time validation of this capability shape lives in the companion Polychro ruleset at https://github.com/api-evangelist/posts/blob/main/polychro/agent-onboarding-rules.yaml — Polychro is Naftiko''s governance layer, separate from the capability spec, and is the correct home for cross-object consistency rules that apply across every agent-onboarding capability.'
   tags:
   - AWS
   - Amazon API Gateway
@@ -493,44 +493,3 @@ capability:
   # GOVERNANCE — same five policies as Kong, plus one AWS-specific:
   # the auto-deny window between key creation and Usage Plan binding.
   # ============================================================================
-  governance:
-
-  - id: require-verified-identity
-    severity: blocking
-    description: All onboard calls must carry either a valid RFC 9421 Web Bot Auth
-      signature OR a SigV4 request signed by a principal in AGENT_TRUSTED_IAM_PRINCIPALS.
-      Requests with neither are rejected with 401.
-    enforce_at: [runtime]
-
-  - id: require-consent-hash-match
-    severity: blocking
-    description: The submitted consent_hash must match the provider's currently-published
-      AGENT_CONSENT_HASH env binding. Mismatch returns 422.
-    enforce_at: [runtime]
-
-  - id: forbidden-scopes-deny
-    severity: blocking
-    description: Any requested scope on the policy's forbidden list returns 403 immediately.
-    enforce_at: [runtime]
-
-  - id: approval-required-defer
-    severity: advisory
-    description: Requested scopes in the approval-required list route to the configured
-      webhook and return 202 Accepted with a status URL the agent polls.
-    enforce_at: [runtime]
-
-  - id: usage-plan-bind-window
-    severity: blocking
-    description: AWS createApiKey returns an enabled key BEFORE it is bound to a
-      Usage Plan. The orchestration MUST complete bind_key_to_usage_plan before the
-      key value is returned to the agent. If bind_key_to_usage_plan fails, the
-      orchestration MUST roll back by calling deleteapikey on the dangling key.
-    enforce_at: [runtime]
-
-  - id: tags-propagate-to-cloudtrail
-    severity: advisory
-    description: API key + Usage Plan tags (agent_id, operator, skill_id, trust_mode)
-      must be present on the createApiKey call so they propagate into CloudTrail's
-      resource-tagging records — the join key the worker uses to stitch CloudWatch
-      audit events with CloudTrail Admin events.
-    enforce_at: [runtime]
