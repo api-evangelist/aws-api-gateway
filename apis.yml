@@ -20,7 +20,7 @@ tags:
 - Developer Portal
 url: https://raw.githubusercontent.com/api-evangelist/aws-api-gateway/refs/heads/main/apis.yml
 created: '2026-03-27'
-modified: '2026-05-22'
+modified: '2026-05-29'
 specificationVersion: '0.19'
 apis:
 - aid: aws-api-gateway:aws-api-gateway-v1
@@ -97,6 +97,9 @@ apis:
     title: WebSocket API Guide
   - type: OpenAPI
     url: openapi/aws-api-gateway-v2-openapi.yml
+  - type: AsyncAPI
+    url: asyncapi/aws-api-gateway-asyncapi.yml
+    title: WebSocket API Platform Protocol (AsyncAPI 2.6)
   - type: NaftikoCapability
     url: capabilities/v2-general.yaml
   - type: NaftikoCapability

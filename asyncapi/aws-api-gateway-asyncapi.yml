@@ -1,0 +1,297 @@
+asyncapi: 2.6.0
+info:
+  title: Amazon API Gateway WebSocket API Protocol
+  version: 1.0.0
+  description: |
+    AsyncAPI description of the *platform protocol* exposed by Amazon API Gateway
+    WebSocket APIs. Customer-deployed WebSocket APIs are message-routed based on a
+    route selection expression evaluated against each incoming JSON message; this
+    document specifies only the platform-defined surface (the WebSocket connection
+    lifecycle and the route extraction model) plus the IAM-signed back-channel
+    used by backend services to push messages to connected clients.
+
+    Customer-specific application routes (the values matched by
+    `routeSelectionExpression`) are intentionally NOT enumerated here, because
+    they are defined per deployed API by the customer. Only the platform-reserved
+    routes `$connect`, `$disconnect`, and `$default` are first-class.
+  contact:
+    name: AWS API Gateway
+    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api.html
+  license:
+    name: AWS Service Terms
+    url: https://aws.amazon.com/service-terms/
+  tags:
+    - name: AWS
+    - name: API Gateway
+    - name: WebSocket
+    - name: Real-Time
+
+defaultContentType: application/json
+
+servers:
+  production:
+    url: '{api-id}.execute-api.{region}.amazonaws.com'
+    protocol: wss
+    description: |
+      Default WebSocket connection endpoint for a deployed API Gateway WebSocket
+      API. Clients connect to `wss://{api-id}.execute-api.{region}.amazonaws.com/{stage}`.
+      The `stage` segment is included in the connection path (see channel address).
+    variables:
+      api-id:
+        description: The 10-character API identifier returned when the WebSocket API is created.
+        default: aabbccddee
+      region:
+        description: AWS Region in which the API is deployed.
+        default: us-east-1
+        enum:
+          - us-east-1
+          - us-east-2
+          - us-west-1
+          - us-west-2
+          - eu-west-1
+          - eu-central-1
+          - ap-northeast-1
+          - ap-southeast-1
+          - ap-southeast-2
+  custom-domain:
+    url: '{domain-name}'
+    protocol: wss
+    description: |
+      Optional custom domain name mapped to a WebSocket API stage via API Gateway
+      custom domain names + ACM certificates. When a custom domain is in use the
+      `stage` path segment is omitted from the connection URL.
+    variables:
+      domain-name:
+        description: Customer-mapped custom domain (e.g. ws.example.com).
+        default: ws.example.com
+
+channels:
+  connection:
+    address: '/{stage}'
+    description: |
+      The WebSocket connection itself. A client opens a single bidirectional
+      WebSocket against this path; API Gateway then routes the lifecycle and each
+      inbound JSON message through the routing model described below.
+
+      Route selection is configured at the API level by `routeSelectionExpression`
+      (e.g. `${request.body.action}`). API Gateway evaluates the expression
+      against each inbound message and dispatches to the matching route key.
+      Three route keys are reserved by the platform:
+
+        - `$connect`  - invoked once when the WebSocket connection is established.
+        - `$disconnect` - invoked once when either side closes the connection.
+        - `$default`  - invoked for non-JSON messages or when no custom route key matches.
+
+      Customer-defined route keys (matched against the value extracted by
+      `routeSelectionExpression`) sit alongside these three platform routes and
+      are not enumerated here.
+    parameters:
+      stage:
+        description: |
+          Deployment stage name (e.g. `prod`, `dev`). Omit when connecting via a
+          custom domain name mapping.
+        schema:
+          type: string
+          default: prod
+    bindings:
+      ws:
+        bindingVersion: 0.1.0
+        method: GET
+    publish:
+      operationId: clientSendMessage
+      summary: Client sends a message frame to the WebSocket API.
+      description: |
+        Inbound frame from the client. API Gateway parses the payload as JSON,
+        evaluates `routeSelectionExpression` against it to extract a route key,
+        and routes the message to either a customer-defined route, the
+        `$default` route (no match / non-JSON), or back to `$disconnect` on
+        close. The full event delivered to the integration includes a
+        `requestContext` containing `connectionId`, `domainName`, `stage`,
+        `routeKey`, `eventType`, `messageId`, and `requestTime`.
+      message:
+        oneOf:
+          - $ref: '#/components/messages/RouteSelectedMessage'
+          - $ref: '#/components/messages/DefaultMessage'
+    subscribe:
+      operationId: serverPushMessage
+      summary: Server pushes a message frame to the connected client.
+      description: |
+        Outbound frame delivered to the client. Two platform mechanisms produce
+        these frames: (1) an integration response returned from the route's
+        backend (e.g. Lambda) via a configured route response, and (2) an
+        out-of-band push from a backend service that calls
+        `@connections/{connectionId}` on the ApiGatewayManagementApi (see
+        `components.operations` below).
+      message:
+        $ref: '#/components/messages/ServerMessage'
+
+  lifecycle-connect:
+    address: $connect
+    description: |
+      Platform-reserved route invoked exactly once when API Gateway accepts a new
+      WebSocket connection. The integration receives no message body; instead it
+      receives the connection's `requestContext`, query string, headers, and any
+      identity claims. A non-2xx response from this route's integration causes
+      API Gateway to reject the connection (used for AuthN/Z gating).
+    subscribe:
+      operationId: onConnect
+      summary: API Gateway delivers a `$connect` lifecycle event to the integration.
+      message:
+        $ref: '#/components/messages/ConnectEvent'
+
+  lifecycle-disconnect:
+    address: $disconnect
+    description: |
+      Platform-reserved route invoked on connection teardown (client close,
+      server-side `DELETE @connections/{id}`, idle timeout at 10 minutes, or
+      the 2-hour max connection lifetime). Best-effort delivery - integrations
+      MUST treat it as an at-most-once notification.
+    subscribe:
+      operationId: onDisconnect
+      summary: API Gateway delivers a `$disconnect` lifecycle event to the integration.
+      message:
+        $ref: '#/components/messages/DisconnectEvent'
+
+  lifecycle-default:
+    address: $default
+    description: |
+      Platform-reserved fallback route. Invoked when the inbound payload is not
+      valid JSON, when `routeSelectionExpression` cannot be evaluated against the
+      payload, or when no customer-defined route key matches the extracted value.
+    subscribe:
+      operationId: onDefault
+      summary: API Gateway delivers an unrouted inbound message to the `$default` integration.
+      message:
+        $ref: '#/components/messages/DefaultMessage'
+
+components:
+  messages:
+    RouteSelectedMessage:
+      name: RouteSelectedMessage
+      title: Client message matching a customer-defined route key
+      summary: |
+        Inbound JSON message where the value extracted by `routeSelectionExpression`
+        matches a customer-configured route key.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/JsonObject'
+
+    DefaultMessage:
+      name: DefaultMessage
+      title: Client message routed to $default
+      summary: |
+        Inbound message that did not match any custom route key, or that could
+        not be parsed as JSON for route selection.
+      payload:
+        type: string
+        description: Raw frame payload as received from the client.
+
+    ServerMessage:
+      name: ServerMessage
+      title: Server-originated frame pushed to client
+      summary: |
+        Outbound frame produced either by an integration response on the
+        matched route or by a backend `PostToConnection` call against the
+        ApiGatewayManagementApi.
+      payload:
+        oneOf:
+          - type: string
+          - $ref: '#/components/schemas/JsonObject'
+
+    ConnectEvent:
+      name: ConnectEvent
+      title: $connect lifecycle event
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          requestContext:
+            $ref: '#/components/schemas/RequestContext'
+          headers:
+            type: object
+            additionalProperties:
+              type: string
+          queryStringParameters:
+            type: object
+            additionalProperties:
+              type: string
+
+    DisconnectEvent:
+      name: DisconnectEvent
+      title: $disconnect lifecycle event
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          requestContext:
+            $ref: '#/components/schemas/RequestContext'
+
+  schemas:
+    JsonObject:
+      type: object
+      description: |
+        Arbitrary JSON object. API Gateway evaluates the API-level
+        `routeSelectionExpression` (e.g. `${request.body.action}`) against this
+        payload to extract a route key.
+      additionalProperties: true
+
+    RequestContext:
+      type: object
+      description: |
+        Platform-injected event context delivered to every WebSocket route
+        integration. Contains the `connectionId` required for back-channel
+        pushes via the ApiGatewayManagementApi.
+      properties:
+        connectionId:
+          type: string
+          description: Unique identifier for the open WebSocket connection.
+        domainName:
+          type: string
+          description: |
+            Fully-qualified domain name of the deployed API. Combined with
+            `stage`, forms the `@connections` callback URL base.
+        stage:
+          type: string
+          description: Deployment stage name. Omitted when invoked via a custom domain mapping.
+        routeKey:
+          type: string
+          description: |
+            The route key invoked - one of `$connect`, `$disconnect`,
+            `$default`, or a customer-defined value extracted from the message
+            by `routeSelectionExpression`.
+        eventType:
+          type: string
+          enum: [CONNECT, MESSAGE, DISCONNECT]
+        messageId:
+          type: string
+        requestTime:
+          type: string
+        identity:
+          type: object
+          additionalProperties: true
+
+  operations:
+    PostToConnection:
+      description: |
+        IAM-signed (SigV4) HTTPS back-channel used by a backend service to push
+        a message frame to a connected WebSocket client.
+
+            POST https://{api-id}.execute-api.{region}.amazonaws.com/{stage}/@connections/{connectionId}
+
+        Returns `410 GoneException` if the connection no longer exists.
+    GetConnection:
+      description: |
+        IAM-signed HTTPS request returning the latest status of a WebSocket
+        connection (connectedAt, identity, lastActiveAt, source IP).
+
+            GET https://{api-id}.execute-api.{region}.amazonaws.com/{stage}/@connections/{connectionId}
+    DeleteConnection:
+      description: |
+        IAM-signed HTTPS request that forcibly closes a WebSocket connection
+        from the server side.
+
+            DELETE https://{api-id}.execute-api.{region}.amazonaws.com/{stage}/@connections/{connectionId}
+
+externalDocs:
+  description: AWS - API Gateway WebSocket APIs developer guide
+  url: https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api.html
