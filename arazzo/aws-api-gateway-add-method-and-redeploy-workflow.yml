@@ -1,0 +1,111 @@
+arazzo: 1.0.1
+info:
+  title: AWS API Gateway Add a Method and Redeploy
+  summary: Verify a REST API exists, attach a method to one of its resources, and publish a fresh deployment.
+  description: >-
+    A common iteration on an existing Amazon API Gateway V1 REST API. The
+    workflow confirms the REST API exists, lists its resources to pick a target
+    resource, puts a new HTTP method on that resource, and then creates a fresh
+    deployment so the change is reflected on a stage. Every step spells out its
+    request inline so the flow can be read and executed without opening the
+    underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: apiGatewayV1
+  url: ../openapi/aws-api-gateway-v1-openapi.yml
+  type: openapi
+workflows:
+- workflowId: add-method-and-redeploy
+  summary: Attach a method to an existing REST API resource and redeploy.
+  description: >-
+    Confirms the REST API, resolves a resource, puts a method, and creates a
+    deployment to publish the change.
+  inputs:
+    type: object
+    required:
+    - restApiId
+    - httpMethod
+    - stageName
+    properties:
+      restApiId:
+        type: string
+        description: Identifier of the existing REST API.
+      resourceId:
+        type: string
+        description: Optional explicit resource id; when omitted the first listed resource is used.
+      httpMethod:
+        type: string
+        description: HTTP verb to add to the resource.
+      authorizationType:
+        type: string
+        description: Authorization type for the method.
+      apiKeyRequired:
+        type: boolean
+        description: Whether the method requires an API key.
+      stageName:
+        type: string
+        description: Stage to publish the redeployment to.
+  steps:
+  - stepId: confirmRestApi
+    description: Confirm the target REST API exists before modifying it.
+    operationId: getRestApi
+    parameters:
+    - name: restapi_id
+      in: path
+      value: $inputs.restApiId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      restApiId: $response.body#/id
+  - stepId: listResources
+    description: List the resources for the REST API to obtain a target resource id.
+    operationId: getResources
+    parameters:
+    - name: restapi_id
+      in: path
+      value: $inputs.restApiId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      firstResourceId: $response.body#/items/0/id
+  - stepId: putMethod
+    description: Add the requested HTTP method to the resolved resource.
+    operationId: putMethod
+    parameters:
+    - name: restapi_id
+      in: path
+      value: $inputs.restApiId
+    - name: resource_id
+      in: path
+      value: $steps.listResources.outputs.firstResourceId
+    - name: http_method
+      in: path
+      value: $inputs.httpMethod
+    requestBody:
+      contentType: application/json
+      payload:
+        authorizationType: $inputs.authorizationType
+        apiKeyRequired: $inputs.apiKeyRequired
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      methodHttpMethod: $response.body#/httpMethod
+  - stepId: redeploy
+    description: Create a deployment so the new method is published to the stage.
+    operationId: createDeployment
+    parameters:
+    - name: restapi_id
+      in: path
+      value: $inputs.restApiId
+    requestBody:
+      contentType: application/json
+      payload:
+        stageName: $inputs.stageName
+        description: Redeployment after adding a method.
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      deploymentId: $response.body#/id
+  outputs:
+    methodHttpMethod: $steps.putMethod.outputs.methodHttpMethod
+    deploymentId: $steps.redeploy.outputs.deploymentId

@@ -1,0 +1,143 @@
+arazzo: 1.0.1
+info:
+  title: AWS API Gateway Provision and Deploy a REST API
+  summary: Create a REST API, configure a method on its root resource, deploy it, and confirm the stage.
+  description: >-
+    The canonical Amazon API Gateway V1 provisioning flow. The workflow creates
+    a new RestApi, lists its automatically created resources to obtain the root
+    resource id, puts an HTTP method on that resource, creates a deployment to a
+    named stage, and finally lists the stages to confirm the deployment is live.
+    Every step spells out its request inline so the flow can be read and executed
+    without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: apiGatewayV1
+  url: ../openapi/aws-api-gateway-v1-openapi.yml
+  type: openapi
+workflows:
+- workflowId: provision-rest-api
+  summary: Stand up a deployable REST API end to end.
+  description: >-
+    Creates a REST API, resolves its root resource, attaches a method, deploys
+    to a stage, and verifies the stage exists.
+  inputs:
+    type: object
+    required:
+    - name
+    - httpMethod
+    - stageName
+    properties:
+      name:
+        type: string
+        description: Name of the new REST API.
+      description:
+        type: string
+        description: Optional description for the REST API.
+      version:
+        type: string
+        description: Optional version identifier for the REST API.
+      httpMethod:
+        type: string
+        description: The HTTP verb to add to the root resource (e.g. GET, ANY).
+      authorizationType:
+        type: string
+        description: Authorization type for the method (e.g. NONE, AWS_IAM).
+      apiKeyRequired:
+        type: boolean
+        description: Whether the method requires an API key.
+      stageName:
+        type: string
+        description: Name of the stage to deploy the API to.
+  steps:
+  - stepId: createRestApi
+    description: >-
+      Create the REST API container that will hold resources, methods, and
+      deployments.
+    operationId: createRestApi
+    requestBody:
+      contentType: application/json
+      payload:
+        name: $inputs.name
+        description: $inputs.description
+        version: $inputs.version
+        endpointConfiguration:
+          types:
+          - REGIONAL
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      restApiId: $response.body#/id
+      restApiName: $response.body#/name
+  - stepId: listResources
+    description: >-
+      List the resources for the new REST API to obtain the root resource id
+      that the method will be attached to.
+    operationId: getResources
+    parameters:
+    - name: restapi_id
+      in: path
+      value: $steps.createRestApi.outputs.restApiId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      rootResourceId: $response.body#/items/0/id
+  - stepId: putMethod
+    description: >-
+      Add the requested HTTP method to the root resource so the API can receive
+      requests.
+    operationId: putMethod
+    parameters:
+    - name: restapi_id
+      in: path
+      value: $steps.createRestApi.outputs.restApiId
+    - name: resource_id
+      in: path
+      value: $steps.listResources.outputs.rootResourceId
+    - name: http_method
+      in: path
+      value: $inputs.httpMethod
+    requestBody:
+      contentType: application/json
+      payload:
+        authorizationType: $inputs.authorizationType
+        apiKeyRequired: $inputs.apiKeyRequired
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      methodHttpMethod: $response.body#/httpMethod
+  - stepId: createDeployment
+    description: >-
+      Create a deployment that snapshots the current configuration and publishes
+      it to the named stage.
+    operationId: createDeployment
+    parameters:
+    - name: restapi_id
+      in: path
+      value: $steps.createRestApi.outputs.restApiId
+    requestBody:
+      contentType: application/json
+      payload:
+        stageName: $inputs.stageName
+        description: $inputs.description
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      deploymentId: $response.body#/id
+  - stepId: confirmStage
+    description: >-
+      List the stages for the REST API to confirm the deployment created the
+      requested stage.
+    operationId: getStages
+    parameters:
+    - name: restapi_id
+      in: path
+      value: $steps.createRestApi.outputs.restApiId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      stages: $response.body#/item
+  outputs:
+    restApiId: $steps.createRestApi.outputs.restApiId
+    rootResourceId: $steps.listResources.outputs.rootResourceId
+    deploymentId: $steps.createDeployment.outputs.deploymentId
+    stages: $steps.confirmStage.outputs.stages

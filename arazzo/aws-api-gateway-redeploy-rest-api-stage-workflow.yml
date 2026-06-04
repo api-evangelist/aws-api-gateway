@@ -1,0 +1,80 @@
+arazzo: 1.0.1
+info:
+  title: AWS API Gateway Redeploy a REST API Stage
+  summary: Confirm a REST API, review its existing deployments, and publish a fresh deployment to a stage.
+  description: >-
+    Re-publishes an existing Amazon API Gateway V1 REST API. The workflow
+    confirms the REST API exists, lists its existing deployments to capture the
+    current history, and creates a new deployment to the named stage so the
+    latest configuration goes live. Every step spells out its request inline so
+    the flow can be read and executed without opening the underlying OpenAPI
+    description.
+  version: 1.0.0
+sourceDescriptions:
+- name: apiGatewayV1
+  url: ../openapi/aws-api-gateway-v1-openapi.yml
+  type: openapi
+workflows:
+- workflowId: redeploy-rest-api-stage
+  summary: Review deployments and publish a fresh one to a stage.
+  description: >-
+    Confirms a REST API, lists deployments, and creates a new deployment to the
+    named stage.
+  inputs:
+    type: object
+    required:
+    - restApiId
+    - stageName
+    properties:
+      restApiId:
+        type: string
+        description: Identifier of the REST API to redeploy.
+      stageName:
+        type: string
+        description: Stage to publish the new deployment to.
+      description:
+        type: string
+        description: Optional description for the new deployment.
+  steps:
+  - stepId: confirmRestApi
+    description: Confirm the REST API exists.
+    operationId: getRestApi
+    parameters:
+    - name: restapi_id
+      in: path
+      value: $inputs.restApiId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      restApiName: $response.body#/name
+  - stepId: listDeployments
+    description: List existing deployments to capture deployment history.
+    operationId: getDeployments
+    parameters:
+    - name: restapi_id
+      in: path
+      value: $inputs.restApiId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      deployments: $response.body#/items
+  - stepId: redeploy
+    description: Create a new deployment to publish the latest configuration to the stage.
+    operationId: createDeployment
+    parameters:
+    - name: restapi_id
+      in: path
+      value: $inputs.restApiId
+    requestBody:
+      contentType: application/json
+      payload:
+        stageName: $inputs.stageName
+        description: $inputs.description
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      deploymentId: $response.body#/id
+  outputs:
+    restApiName: $steps.confirmRestApi.outputs.restApiName
+    deployments: $steps.listDeployments.outputs.deployments
+    deploymentId: $steps.redeploy.outputs.deploymentId

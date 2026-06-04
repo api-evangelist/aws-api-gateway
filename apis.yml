@@ -155,6 +155,45 @@ apis:
   - type: RateLimits
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/limits.html
 common:
+- type: ArazzoWorkflows
+  url: arazzo/
+  workflows:
+  - url: arazzo/aws-api-gateway-add-method-and-redeploy-workflow.yml
+    name: AWS API Gateway Add a Method and Redeploy
+    summary: Verify a REST API exists, attach a method to one of its resources, and publish a fresh deployment.
+  - url: arazzo/aws-api-gateway-audit-http-api-workflow.yml
+    name: AWS API Gateway Audit an HTTP API Surface
+    summary: Confirm an HTTP API and enumerate its routes, integrations, and stages in a single read-only pass.
+  - url: arazzo/aws-api-gateway-build-http-api-workflow.yml
+    name: AWS API Gateway Build an HTTP API
+    summary: Create an HTTP API, attach a backend integration, wire a route to it, and publish a stage.
+  - url: arazzo/aws-api-gateway-build-websocket-api-workflow.yml
+    name: AWS API Gateway Build a WebSocket API
+    summary: Create a WebSocket API, add an integration, and wire the $connect route to it.
+  - url: arazzo/aws-api-gateway-create-api-key-and-usage-plan-workflow.yml
+    name: AWS API Gateway Create an API Key and Usage Plan
+    summary: Create an API key, create a throttled and quota-limited usage plan, and confirm the plan was registered.
+  - url: arazzo/aws-api-gateway-decommission-http-api-workflow.yml
+    name: AWS API Gateway Decommission an HTTP API
+    summary: Confirm an HTTP API, check for published stages, and delete the API when it is safe to remove.
+  - url: arazzo/aws-api-gateway-deploy-http-api-stage-workflow.yml
+    name: AWS API Gateway Deploy an HTTP API to a New Stage
+    summary: Confirm an HTTP API, create a deployment, and publish it to a new stage bound to that deployment.
+  - url: arazzo/aws-api-gateway-inspect-rest-api-method-workflow.yml
+    name: AWS API Gateway Inspect a REST API Method
+    summary: Confirm a REST API, list its resources, and read the method configuration for a chosen resource and verb.
+  - url: arazzo/aws-api-gateway-metered-rest-api-workflow.yml
+    name: AWS API Gateway Provision a Metered REST API
+    summary: Create a REST API with a key-protected method and branch into usage-plan setup when an API key is required.
+  - url: arazzo/aws-api-gateway-provision-rest-api-workflow.yml
+    name: AWS API Gateway Provision and Deploy a REST API
+    summary: Create a REST API, configure a method on its root resource, deploy it, and confirm the stage.
+  - url: arazzo/aws-api-gateway-redeploy-rest-api-stage-workflow.yml
+    name: AWS API Gateway Redeploy a REST API Stage
+    summary: Confirm a REST API, review its existing deployments, and publish a fresh deployment to a stage.
+  - url: arazzo/aws-api-gateway-secure-http-api-authorizer-workflow.yml
+    name: AWS API Gateway Secure an HTTP API with an Authorizer
+    summary: Create an HTTP API, attach an authorizer, and add a route that uses it.
 - type: Website
   url: https://aws.amazon.com/api-gateway/
 - type: Documentation

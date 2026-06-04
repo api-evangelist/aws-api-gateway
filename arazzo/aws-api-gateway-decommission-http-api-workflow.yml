@@ -1,0 +1,83 @@
+arazzo: 1.0.1
+info:
+  title: AWS API Gateway Decommission an HTTP API
+  summary: Confirm an HTTP API, check for published stages, and delete the API when it is safe to remove.
+  description: >-
+    A guarded teardown of an Amazon API Gateway V2 API. The workflow confirms the
+    API exists, lists its stages, and branches: when no stages are published it
+    deletes the API, and when stages still exist it stops at the inventory so an
+    operator can decide. Because getStages collides with the V1 description it is
+    addressed through the V2 source. Every step spells out its request inline so
+    the flow can be read and executed without opening the underlying OpenAPI
+    description.
+  version: 1.0.0
+sourceDescriptions:
+- name: apiGatewayV2
+  url: ../openapi/aws-api-gateway-v2-openapi.yml
+  type: openapi
+workflows:
+- workflowId: decommission-http-api
+  summary: Delete an API only when it has no published stages.
+  description: >-
+    Confirms an API, lists its stages, and branches to delete the API when no
+    stages are present.
+  inputs:
+    type: object
+    required:
+    - apiId
+    properties:
+      apiId:
+        type: string
+        description: Identifier of the API to decommission.
+  steps:
+  - stepId: confirmApi
+    description: Confirm the API exists before attempting teardown.
+    operationId: getApi
+    parameters:
+    - name: api_id
+      in: path
+      value: $inputs.apiId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      apiName: $response.body#/Name
+  - stepId: listStages
+    description: List stages to decide whether the API is safe to delete.
+    operationId: $sourceDescriptions.apiGatewayV2.getStages
+    parameters:
+    - name: api_id
+      in: path
+      value: $inputs.apiId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      stages: $response.body#/Items
+    onSuccess:
+    - name: noStages
+      type: goto
+      stepId: deleteApi
+      criteria:
+      - context: $response.body
+        condition: $.Items.length == 0
+        type: jsonpath
+    - name: stagesExist
+      type: end
+      criteria:
+      - context: $response.body
+        condition: $.Items.length > 0
+        type: jsonpath
+  - stepId: deleteApi
+    description: Delete the API now that no stages remain.
+    operationId: deleteApi
+    parameters:
+    - name: api_id
+      in: path
+      value: $inputs.apiId
+    successCriteria:
+    - condition: $statusCode == 204
+    outputs:
+      statusCode: $statusCode
+  outputs:
+    apiName: $steps.confirmApi.outputs.apiName
+    stages: $steps.listStages.outputs.stages
+    deleteStatus: $steps.deleteApi.outputs.statusCode

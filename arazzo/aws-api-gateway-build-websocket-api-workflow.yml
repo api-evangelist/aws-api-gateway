@@ -1,0 +1,106 @@
+arazzo: 1.0.1
+info:
+  title: AWS API Gateway Build a WebSocket API
+  summary: Create a WebSocket API, add an integration, and wire the $connect route to it.
+  description: >-
+    The Amazon API Gateway V2 build flow for a WebSocket API. The workflow
+    creates a WebSocket-protocol API with a route selection expression, creates a
+    backend integration, and wires the $connect route to that integration so
+    clients can establish connections. Because createApi collides with the V1
+    description it is addressed through the V2 source. Every step spells out its
+    request inline so the flow can be read and executed without opening the
+    underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: apiGatewayV2
+  url: ../openapi/aws-api-gateway-v2-openapi.yml
+  type: openapi
+workflows:
+- workflowId: build-websocket-api
+  summary: Stand up a WebSocket API with an integration and a connect route.
+  description: >-
+    Creates a WebSocket API, an integration, and a route bound to the
+    integration for connection handling.
+  inputs:
+    type: object
+    required:
+    - name
+    - routeSelectionExpression
+    - integrationUri
+    - routeKey
+    properties:
+      name:
+        type: string
+        description: Name of the WebSocket API.
+      routeSelectionExpression:
+        type: string
+        description: Route selection expression (e.g. "$request.body.action").
+      description:
+        type: string
+        description: Optional description for the API.
+      integrationType:
+        type: string
+        description: Type of integration (AWS, AWS_PROXY, HTTP, HTTP_PROXY, MOCK).
+      integrationUri:
+        type: string
+        description: Integration target URI.
+      payloadFormatVersion:
+        type: string
+        description: Payload format version for the integration.
+      routeKey:
+        type: string
+        description: Route key for the route (e.g. "$connect").
+  steps:
+  - stepId: createApi
+    description: Create the WebSocket API with a route selection expression.
+    operationId: $sourceDescriptions.apiGatewayV2.createApi
+    requestBody:
+      contentType: application/json
+      payload:
+        Name: $inputs.name
+        ProtocolType: WEBSOCKET
+        RouteSelectionExpression: $inputs.routeSelectionExpression
+        Description: $inputs.description
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      apiId: $response.body#/ApiId
+      apiEndpoint: $response.body#/ApiEndpoint
+  - stepId: createIntegration
+    description: Create the backend integration that handles connection events.
+    operationId: createIntegration
+    parameters:
+    - name: api_id
+      in: path
+      value: $steps.createApi.outputs.apiId
+    requestBody:
+      contentType: application/json
+      payload:
+        IntegrationType: $inputs.integrationType
+        IntegrationUri: $inputs.integrationUri
+        PayloadFormatVersion: $inputs.payloadFormatVersion
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      integrationId: $response.body#/IntegrationId
+  - stepId: createRoute
+    description: Wire the route key to the integration target.
+    operationId: createRoute
+    parameters:
+    - name: api_id
+      in: path
+      value: $steps.createApi.outputs.apiId
+    requestBody:
+      contentType: application/json
+      payload:
+        RouteKey: $inputs.routeKey
+        Target: integrations/$steps.createIntegration.outputs.integrationId
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      routeId: $response.body#/RouteId
+  outputs:
+    apiId: $steps.createApi.outputs.apiId
+    apiEndpoint: $steps.createApi.outputs.apiEndpoint
+    integrationId: $steps.createIntegration.outputs.integrationId
+    routeId: $steps.createRoute.outputs.routeId

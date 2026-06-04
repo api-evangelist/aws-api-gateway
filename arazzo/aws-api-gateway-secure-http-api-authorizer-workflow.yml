@@ -1,0 +1,138 @@
+arazzo: 1.0.1
+info:
+  title: AWS API Gateway Secure an HTTP API with an Authorizer
+  summary: Create an HTTP API, attach an authorizer, and add a route that uses it.
+  description: >-
+    Adds request- or JWT-based authorization to an Amazon API Gateway V2 HTTP
+    API. The workflow creates an API, creates an authorizer, and then creates a
+    route whose authorization type reflects the authorizer type. Because createApi
+    collides with the V1 description it is addressed through the V2 source. Every
+    step spells out its request inline so the flow can be read and executed
+    without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: apiGatewayV2
+  url: ../openapi/aws-api-gateway-v2-openapi.yml
+  type: openapi
+workflows:
+- workflowId: secure-http-api-authorizer
+  summary: Create an API, an authorizer, and a route protected by it.
+  description: >-
+    Creates an HTTP API and an authorizer, then branches on the authorizer type
+    to create a route with the appropriate authorization type.
+  inputs:
+    type: object
+    required:
+    - name
+    - authorizerName
+    - authorizerType
+    - identitySource
+    - routeKey
+    properties:
+      name:
+        type: string
+        description: Name of the HTTP API.
+      authorizerName:
+        type: string
+        description: Name of the authorizer.
+      authorizerType:
+        type: string
+        description: Type of authorizer (REQUEST or JWT).
+      identitySource:
+        type: array
+        description: Identity sources the authorizer reads (e.g. ["$request.header.Authorization"]).
+        items:
+          type: string
+      authorizerUri:
+        type: string
+        description: URI of the Lambda authorizer (used for REQUEST authorizers).
+      routeKey:
+        type: string
+        description: Route key for the protected route (e.g. "GET /secure").
+  steps:
+  - stepId: createApi
+    description: Create the HTTP API container.
+    operationId: $sourceDescriptions.apiGatewayV2.createApi
+    requestBody:
+      contentType: application/json
+      payload:
+        Name: $inputs.name
+        ProtocolType: HTTP
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      apiId: $response.body#/ApiId
+  - stepId: createAuthorizer
+    description: Create the authorizer that will guard routes on the API.
+    operationId: createAuthorizer
+    parameters:
+    - name: api_id
+      in: path
+      value: $steps.createApi.outputs.apiId
+    requestBody:
+      contentType: application/json
+      payload:
+        Name: $inputs.authorizerName
+        AuthorizerType: $inputs.authorizerType
+        IdentitySource: $inputs.identitySource
+        AuthorizerUri: $inputs.authorizerUri
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      authorizerId: $response.body#/AuthorizerId
+      authorizerType: $response.body#/AuthorizerType
+    onSuccess:
+    - name: jwtAuthorizer
+      type: goto
+      stepId: createJwtRoute
+      criteria:
+      - context: $response.body
+        condition: $.AuthorizerType == "JWT"
+        type: jsonpath
+    - name: requestAuthorizer
+      type: goto
+      stepId: createRequestRoute
+      criteria:
+      - context: $response.body
+        condition: $.AuthorizerType != "JWT"
+        type: jsonpath
+  - stepId: createJwtRoute
+    description: Create a route protected by JWT authorization.
+    operationId: createRoute
+    parameters:
+    - name: api_id
+      in: path
+      value: $steps.createApi.outputs.apiId
+    requestBody:
+      contentType: application/json
+      payload:
+        RouteKey: $inputs.routeKey
+        AuthorizationType: JWT
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      routeId: $response.body#/RouteId
+    onSuccess:
+    - name: done
+      type: end
+  - stepId: createRequestRoute
+    description: Create a route protected by a custom (REQUEST) Lambda authorizer.
+    operationId: createRoute
+    parameters:
+    - name: api_id
+      in: path
+      value: $steps.createApi.outputs.apiId
+    requestBody:
+      contentType: application/json
+      payload:
+        RouteKey: $inputs.routeKey
+        AuthorizationType: CUSTOM
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      routeId: $response.body#/RouteId
+  outputs:
+    apiId: $steps.createApi.outputs.apiId
+    authorizerId: $steps.createAuthorizer.outputs.authorizerId
+    jwtRouteId: $steps.createJwtRoute.outputs.routeId
+    requestRouteId: $steps.createRequestRoute.outputs.routeId

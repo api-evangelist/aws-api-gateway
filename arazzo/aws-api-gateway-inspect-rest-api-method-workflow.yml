@@ -1,0 +1,80 @@
+arazzo: 1.0.1
+info:
+  title: AWS API Gateway Inspect a REST API Method
+  summary: Confirm a REST API, list its resources, and read the method configuration for a chosen resource and verb.
+  description: >-
+    A read-only audit of an Amazon API Gateway V1 method. The workflow confirms
+    the REST API exists, lists its resources to resolve a target resource id,
+    and retrieves the method definition for the requested HTTP verb so its
+    authorization type and api-key requirement can be inspected. Every step
+    spells out its request inline so the flow can be read and executed without
+    opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: apiGatewayV1
+  url: ../openapi/aws-api-gateway-v1-openapi.yml
+  type: openapi
+workflows:
+- workflowId: inspect-rest-api-method
+  summary: Resolve a resource and read its method configuration.
+  description: >-
+    Confirms a REST API, lists resources, and reads a method for the supplied
+    resource and HTTP verb.
+  inputs:
+    type: object
+    required:
+    - restApiId
+    - httpMethod
+    properties:
+      restApiId:
+        type: string
+        description: Identifier of the REST API to inspect.
+      httpMethod:
+        type: string
+        description: HTTP verb of the method to read.
+  steps:
+  - stepId: confirmRestApi
+    description: Confirm the REST API exists.
+    operationId: getRestApi
+    parameters:
+    - name: restapi_id
+      in: path
+      value: $inputs.restApiId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      restApiName: $response.body#/name
+  - stepId: listResources
+    description: List resources to resolve a target resource id.
+    operationId: getResources
+    parameters:
+    - name: restapi_id
+      in: path
+      value: $inputs.restApiId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      resourceId: $response.body#/items/0/id
+  - stepId: getMethod
+    description: Read the method configuration for the resolved resource and HTTP verb.
+    operationId: getMethod
+    parameters:
+    - name: restapi_id
+      in: path
+      value: $inputs.restApiId
+    - name: resource_id
+      in: path
+      value: $steps.listResources.outputs.resourceId
+    - name: http_method
+      in: path
+      value: $inputs.httpMethod
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      authorizationType: $response.body#/authorizationType
+      apiKeyRequired: $response.body#/apiKeyRequired
+  outputs:
+    restApiName: $steps.confirmRestApi.outputs.restApiName
+    resourceId: $steps.listResources.outputs.resourceId
+    authorizationType: $steps.getMethod.outputs.authorizationType
+    apiKeyRequired: $steps.getMethod.outputs.apiKeyRequired

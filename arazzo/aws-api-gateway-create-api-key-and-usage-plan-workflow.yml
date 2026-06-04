@@ -1,0 +1,101 @@
+arazzo: 1.0.1
+info:
+  title: AWS API Gateway Create an API Key and Usage Plan
+  summary: Create an API key, create a throttled and quota-limited usage plan, and confirm the plan was registered.
+  description: >-
+    Sets up metered access for Amazon API Gateway V1. The workflow creates an
+    API key, creates a usage plan carrying throttle and quota settings, and then
+    lists usage plans to confirm the new plan is registered. The underlying V1
+    description does not expose an operation for associating a key with a plan,
+    so that final association is documented as an out-of-band follow-up and this
+    flow verifies the plan list instead. Every step spells out its request
+    inline so the flow can be read and executed without opening the underlying
+    OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: apiGatewayV1
+  url: ../openapi/aws-api-gateway-v1-openapi.yml
+  type: openapi
+workflows:
+- workflowId: create-api-key-and-usage-plan
+  summary: Create an API key and a usage plan, then confirm the plan exists.
+  description: >-
+    Creates an API key and a usage plan with throttle and quota configuration,
+    then lists usage plans to verify registration.
+  inputs:
+    type: object
+    required:
+    - keyName
+    - planName
+    properties:
+      keyName:
+        type: string
+        description: Name of the API key to create.
+      keyDescription:
+        type: string
+        description: Optional description for the API key.
+      planName:
+        type: string
+        description: Name of the usage plan to create.
+      planDescription:
+        type: string
+        description: Optional description for the usage plan.
+      burstLimit:
+        type: integer
+        description: Throttle burst limit for the usage plan.
+      rateLimit:
+        type: number
+        description: Throttle steady-state rate limit (requests per second).
+      quotaLimit:
+        type: integer
+        description: Maximum number of requests allowed in the quota period.
+      quotaPeriod:
+        type: string
+        description: Quota period (DAY, WEEK, or MONTH).
+  steps:
+  - stepId: createApiKey
+    description: Create an enabled API key that callers will present to the gateway.
+    operationId: createApiKey
+    requestBody:
+      contentType: application/json
+      payload:
+        name: $inputs.keyName
+        description: $inputs.keyDescription
+        enabled: true
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      apiKeyId: $response.body#/id
+      apiKeyValue: $response.body#/value
+  - stepId: createUsagePlan
+    description: >-
+      Create a usage plan with throttle and quota settings to govern how the API
+      key may be used.
+    operationId: createUsagePlan
+    requestBody:
+      contentType: application/json
+      payload:
+        name: $inputs.planName
+        description: $inputs.planDescription
+        throttle:
+          burstLimit: $inputs.burstLimit
+          rateLimit: $inputs.rateLimit
+        quota:
+          limit: $inputs.quotaLimit
+          period: $inputs.quotaPeriod
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      usagePlanId: $response.body#/id
+      usagePlanName: $response.body#/name
+  - stepId: confirmUsagePlan
+    description: List usage plans to confirm the new plan was registered.
+    operationId: getUsagePlans
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      usagePlans: $response.body#/items
+  outputs:
+    apiKeyId: $steps.createApiKey.outputs.apiKeyId
+    usagePlanId: $steps.createUsagePlan.outputs.usagePlanId
+    usagePlans: $steps.confirmUsagePlan.outputs.usagePlans

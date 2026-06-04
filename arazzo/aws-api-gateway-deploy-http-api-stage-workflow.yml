@@ -1,0 +1,86 @@
+arazzo: 1.0.1
+info:
+  title: AWS API Gateway Deploy an HTTP API to a New Stage
+  summary: Confirm an HTTP API, create a deployment, and publish it to a new stage bound to that deployment.
+  description: >-
+    Publishes a new stage for an existing Amazon API Gateway V2 HTTP or WebSocket
+    API. The workflow confirms the API exists, creates a deployment snapshot, and
+    creates a stage bound to that deployment id. Because createDeployment collides
+    with the V1 description it is addressed through the V2 source. Every step
+    spells out its request inline so the flow can be read and executed without
+    opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: apiGatewayV2
+  url: ../openapi/aws-api-gateway-v2-openapi.yml
+  type: openapi
+workflows:
+- workflowId: deploy-http-api-stage
+  summary: Create a deployment and bind a new stage to it.
+  description: >-
+    Confirms an API, creates a deployment, and creates a stage referencing the
+    new deployment id.
+  inputs:
+    type: object
+    required:
+    - apiId
+    - stageName
+    properties:
+      apiId:
+        type: string
+        description: Identifier of the existing API.
+      description:
+        type: string
+        description: Optional description for the deployment.
+      stageName:
+        type: string
+        description: Name of the stage to create.
+  steps:
+  - stepId: confirmApi
+    description: Confirm the API exists before deploying it.
+    operationId: getApi
+    parameters:
+    - name: api_id
+      in: path
+      value: $inputs.apiId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      apiName: $response.body#/Name
+  - stepId: createDeployment
+    description: Create a deployment snapshot of the current API configuration.
+    operationId: $sourceDescriptions.apiGatewayV2.createDeployment
+    parameters:
+    - name: api_id
+      in: path
+      value: $inputs.apiId
+    requestBody:
+      contentType: application/json
+      payload:
+        Description: $inputs.description
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      deploymentId: $response.body#/DeploymentId
+      deploymentStatus: $response.body#/DeploymentStatus
+  - stepId: createStage
+    description: Create a stage bound to the new deployment id.
+    operationId: createStage
+    parameters:
+    - name: api_id
+      in: path
+      value: $inputs.apiId
+    requestBody:
+      contentType: application/json
+      payload:
+        StageName: $inputs.stageName
+        DeploymentId: $steps.createDeployment.outputs.deploymentId
+        AutoDeploy: false
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      stageName: $response.body#/StageName
+  outputs:
+    apiName: $steps.confirmApi.outputs.apiName
+    deploymentId: $steps.createDeployment.outputs.deploymentId
+    stageName: $steps.createStage.outputs.stageName

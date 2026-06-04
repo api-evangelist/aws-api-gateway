@@ -1,0 +1,165 @@
+arazzo: 1.0.1
+info:
+  title: AWS API Gateway Provision a Metered REST API
+  summary: Create a REST API with a key-protected method and branch into usage-plan setup when an API key is required.
+  description: >-
+    Provisions an Amazon API Gateway V1 REST API whose method may require an API
+    key, then branches: when the method requires a key the workflow creates an
+    API key and a usage plan to meter it, and when no key is required it proceeds
+    straight to deployment. Because the V1 description exposes no operation to
+    associate a key with a plan, the key/plan association is documented as an
+    out-of-band follow-up. Every step spells out its request inline so the flow
+    can be read and executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: apiGatewayV1
+  url: ../openapi/aws-api-gateway-v1-openapi.yml
+  type: openapi
+workflows:
+- workflowId: metered-rest-api
+  summary: Create a REST API, attach a key-aware method, and branch into metering when required.
+  description: >-
+    Creates a REST API and a method, branches on whether the method requires an
+    API key to optionally set up a key and usage plan, then deploys.
+  inputs:
+    type: object
+    required:
+    - name
+    - httpMethod
+    - apiKeyRequired
+    - stageName
+    properties:
+      name:
+        type: string
+        description: Name of the new REST API.
+      httpMethod:
+        type: string
+        description: HTTP verb to add to the root resource.
+      authorizationType:
+        type: string
+        description: Authorization type for the method.
+      apiKeyRequired:
+        type: boolean
+        description: Whether the method requires an API key.
+      keyName:
+        type: string
+        description: Name of the API key to create when one is required.
+      planName:
+        type: string
+        description: Name of the usage plan to create when a key is required.
+      stageName:
+        type: string
+        description: Stage to deploy the API to.
+  steps:
+  - stepId: createRestApi
+    description: Create the REST API container.
+    operationId: createRestApi
+    requestBody:
+      contentType: application/json
+      payload:
+        name: $inputs.name
+        endpointConfiguration:
+          types:
+          - REGIONAL
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      restApiId: $response.body#/id
+  - stepId: listResources
+    description: List resources to obtain the root resource id.
+    operationId: getResources
+    parameters:
+    - name: restapi_id
+      in: path
+      value: $steps.createRestApi.outputs.restApiId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      rootResourceId: $response.body#/items/0/id
+  - stepId: putMethod
+    description: Attach the method to the root resource, honoring the api-key requirement.
+    operationId: putMethod
+    parameters:
+    - name: restapi_id
+      in: path
+      value: $steps.createRestApi.outputs.restApiId
+    - name: resource_id
+      in: path
+      value: $steps.listResources.outputs.rootResourceId
+    - name: http_method
+      in: path
+      value: $inputs.httpMethod
+    requestBody:
+      contentType: application/json
+      payload:
+        authorizationType: $inputs.authorizationType
+        apiKeyRequired: $inputs.apiKeyRequired
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      apiKeyRequired: $response.body#/apiKeyRequired
+    onSuccess:
+    - name: keyRequired
+      type: goto
+      stepId: createApiKey
+      criteria:
+      - context: $response.body
+        condition: $.apiKeyRequired == true
+        type: jsonpath
+    - name: keyNotRequired
+      type: goto
+      stepId: deploy
+      criteria:
+      - context: $response.body
+        condition: $.apiKeyRequired == false
+        type: jsonpath
+  - stepId: createApiKey
+    description: Create an API key to meter access to the key-protected method.
+    operationId: createApiKey
+    requestBody:
+      contentType: application/json
+      payload:
+        name: $inputs.keyName
+        enabled: true
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      apiKeyId: $response.body#/id
+  - stepId: createUsagePlan
+    description: Create a usage plan to govern the API key.
+    operationId: createUsagePlan
+    requestBody:
+      contentType: application/json
+      payload:
+        name: $inputs.planName
+        throttle:
+          burstLimit: 100
+          rateLimit: 50
+        quota:
+          limit: 10000
+          period: DAY
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      usagePlanId: $response.body#/id
+  - stepId: deploy
+    description: Create a deployment to publish the API to the named stage.
+    operationId: createDeployment
+    parameters:
+    - name: restapi_id
+      in: path
+      value: $steps.createRestApi.outputs.restApiId
+    requestBody:
+      contentType: application/json
+      payload:
+        stageName: $inputs.stageName
+        description: Deployment for a metered REST API.
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      deploymentId: $response.body#/id
+  outputs:
+    restApiId: $steps.createRestApi.outputs.restApiId
+    apiKeyId: $steps.createApiKey.outputs.apiKeyId
+    usagePlanId: $steps.createUsagePlan.outputs.usagePlanId
+    deploymentId: $steps.deploy.outputs.deploymentId

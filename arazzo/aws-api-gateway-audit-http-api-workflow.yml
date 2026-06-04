@@ -1,0 +1,81 @@
+arazzo: 1.0.1
+info:
+  title: AWS API Gateway Audit an HTTP API Surface
+  summary: Confirm an HTTP API and enumerate its routes, integrations, and stages in a single read-only pass.
+  description: >-
+    A read-only inventory of an Amazon API Gateway V2 API. The workflow confirms
+    the API exists, then lists its routes, integrations, and stages so the full
+    request surface and published environments can be reviewed together. Because
+    getStages collides with the V1 description it is addressed through the V2
+    source. Every step spells out its request inline so the flow can be read and
+    executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: apiGatewayV2
+  url: ../openapi/aws-api-gateway-v2-openapi.yml
+  type: openapi
+workflows:
+- workflowId: audit-http-api
+  summary: Enumerate routes, integrations, and stages for an API.
+  description: >-
+    Confirms an API and lists its routes, integrations, and stages.
+  inputs:
+    type: object
+    required:
+    - apiId
+    properties:
+      apiId:
+        type: string
+        description: Identifier of the API to audit.
+  steps:
+  - stepId: confirmApi
+    description: Confirm the API exists.
+    operationId: getApi
+    parameters:
+    - name: api_id
+      in: path
+      value: $inputs.apiId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      apiName: $response.body#/Name
+      protocolType: $response.body#/ProtocolType
+  - stepId: listRoutes
+    description: List the routes defined on the API.
+    operationId: getRoutes
+    parameters:
+    - name: api_id
+      in: path
+      value: $inputs.apiId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      routes: $response.body#/Items
+  - stepId: listIntegrations
+    description: List the backend integrations defined on the API.
+    operationId: getIntegrations
+    parameters:
+    - name: api_id
+      in: path
+      value: $inputs.apiId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      integrations: $response.body#/Items
+  - stepId: listStages
+    description: List the published stages for the API.
+    operationId: $sourceDescriptions.apiGatewayV2.getStages
+    parameters:
+    - name: api_id
+      in: path
+      value: $inputs.apiId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      stages: $response.body#/Items
+  outputs:
+    apiName: $steps.confirmApi.outputs.apiName
+    protocolType: $steps.confirmApi.outputs.protocolType
+    routes: $steps.listRoutes.outputs.routes
+    integrations: $steps.listIntegrations.outputs.integrations
+    stages: $steps.listStages.outputs.stages
