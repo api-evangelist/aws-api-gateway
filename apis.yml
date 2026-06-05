@@ -1,10 +1,11 @@
 aid: aws-api-gateway
 name: Amazon API Gateway
-description: Amazon API Gateway is a fully managed service that makes it easy to create, publish, maintain, monitor, and secure
-  APIs at any scale. It acts as the front door for applications to access backend services, supporting REST APIs, HTTP APIs,
-  and WebSocket APIs with built-in traffic management, authorization, monitoring, and API version management. API Gateway
-  integrates natively with AWS Lambda, CloudWatch, CloudFront, IAM, and Cognito, and (as of December 2025) can expose REST
-  APIs as MCP-compatible tools for Amazon Bedrock AgentCore Gateway for agent-driven API consumption.
+description: >-
+  Amazon API Gateway is a fully managed service that makes it easy to create, publish, maintain, monitor, and secure
+  APIs at any scale. It acts as the front door for applications to access backend services, supporting REST APIs, HTTP
+  APIs, and WebSocket APIs with built-in traffic management, authorization, monitoring, and API version management. API
+  Gateway integrates natively with AWS Lambda, CloudWatch, CloudFront, IAM, and Cognito, and (as of December 2025) can
+  expose REST APIs as MCP-compatible tools for Amazon Bedrock AgentCore Gateway for agent-driven API consumption.
 type: Index
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 tags:
@@ -25,9 +26,10 @@ specificationVersion: '0.19'
 apis:
 - aid: aws-api-gateway:aws-api-gateway-v1
   name: Amazon API Gateway V1 (REST)
-  description: The API Gateway V1 control plane API is used to create, deploy, and manage REST APIs in Amazon API Gateway.
-    It exposes resources for RestApis, Resources, Methods, Stages, Deployments, Authorizers, API keys, usage plans, and related
-    configuration.
+  description: >-
+    The API Gateway V1 control plane API is used to create, deploy, and manage REST APIs in Amazon API Gateway. It
+    exposes resources for RestApis, Resources, Methods, Stages, Deployments, Authorizers, API keys, usage plans, and
+    related configuration.
   image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
   humanURL: https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html
   baseURL: https://apigateway.{region}.amazonaws.com
@@ -58,24 +60,13 @@ apis:
     title: Private Integration with Application Load Balancer (Nov 2025)
   - type: OpenAPI
     url: openapi/aws-api-gateway-v1-openapi.yml
-  - type: NaftikoCapability
-    url: capabilities/v1-apikeys.yaml
-  - type: NaftikoCapability
-    url: capabilities/v1-deployments.yaml
-  - type: NaftikoCapability
-    url: capabilities/v1-methods.yaml
-  - type: NaftikoCapability
-    url: capabilities/v1-resources.yaml
-  - type: NaftikoCapability
-    url: capabilities/v1-restapis.yaml
-  - type: NaftikoCapability
-    url: capabilities/v1-stages.yaml
-  - type: NaftikoCapability
-    url: capabilities/v1-usageplans.yaml
+  - url: graphql/aws-api-gateway-graphql.md
+    type: GraphQL
 - aid: aws-api-gateway:aws-api-gateway-v2
   name: Amazon API Gateway V2 (HTTP and WebSocket)
-  description: The API Gateway V2 control plane API is used to create, deploy, and manage HTTP APIs and WebSocket APIs in
-    Amazon API Gateway. It provides resources for Apis, Routes, Integrations, Stages, Deployments, and Authorizers for the
+  description: >-
+    The API Gateway V2 control plane API is used to create, deploy, and manage HTTP APIs and WebSocket APIs in Amazon
+    API Gateway. It provides resources for Apis, Routes, Integrations, Stages, Deployments, and Authorizers for the
     newer HTTP and WebSocket API types.
   image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
   humanURL: https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api.html
@@ -100,21 +91,10 @@ apis:
   - type: AsyncAPI
     url: asyncapi/aws-api-gateway-asyncapi.yml
     title: WebSocket API Platform Protocol (AsyncAPI 2.6)
-  - type: NaftikoCapability
-    url: capabilities/v2-general.yaml
-  - type: NaftikoCapability
-    url: capabilities/v2-authorizers.yaml
-  - type: NaftikoCapability
-    url: capabilities/v2-deployments.yaml
-  - type: NaftikoCapability
-    url: capabilities/v2-integrations.yaml
-  - type: NaftikoCapability
-    url: capabilities/v2-routes.yaml
-  - type: NaftikoCapability
-    url: capabilities/v2-stages.yaml
 - aid: aws-api-gateway:aws-api-gateway-management
   name: Amazon API Gateway Management API
-  description: The API Gateway Management API allows backend services to send messages to connected clients of a deployed
+  description: >-
+    The API Gateway Management API allows backend services to send messages to connected clients of a deployed
     WebSocket API and to disconnect clients. Requests are made against the deployed stage's callback URL.
   image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
   humanURL: https://docs.aws.amazon.com/apigatewaymanagementapi/latest/reference/Welcome.html
@@ -126,19 +106,19 @@ apis:
   - WebSocket
   properties:
   - type: Documentation
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-how-to-call-websocket-api-connections.html
+    url: >-
+      https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-how-to-call-websocket-api-connections.html
   - type: APIReference
     url: https://docs.aws.amazon.com/apigatewaymanagementapi/latest/reference/Welcome.html
   - type: OpenAPI
     url: openapi/aws-api-gateway-management-openapi.yml
-  - type: NaftikoCapability
-    url: capabilities/management-connections.yaml
 - aid: aws-api-gateway:aws-api-gateway-portals
   name: Amazon API Gateway Portals
-  description: The API Gateway Portals control plane (introduced November 19, 2025) lets you create branded developer portals
-    that catalog REST APIs. A portal contains PortalProducts (logical groupings of REST APIs) and Product REST Endpoint Pages
-    that publish path/method/stage-level documentation. Portals are Region-scoped, shareable across AWS accounts, and access-controlled
-    via Amazon Cognito user pools.
+  description: >-
+    The API Gateway Portals control plane (introduced November 19, 2025) lets you create branded developer portals
+    that catalog REST APIs. A portal contains PortalProducts (logical groupings of REST APIs) and Product REST
+    Endpoint Pages that publish path/method/stage-level documentation. Portals are Region-scoped, shareable across AWS
+    accounts, and access-controlled via Amazon Cognito user pools.
   image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
   humanURL: https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-portals.html
   baseURL: https://apigateway.{region}.amazonaws.com
@@ -155,6 +135,8 @@ apis:
   - type: RateLimits
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/limits.html
 common:
+- type: PostmanWorkspace
+  url: https://www.postman.com/kinlaneapi/amazon-api-gateway/overview
 - type: ArazzoWorkflows
   url: arazzo/
   workflows:
@@ -243,7 +225,9 @@ common:
 - type: Features
   data:
   - name: REST API Management
-    description: Create, deploy, and manage REST APIs with full lifecycle control including stages, deployments, and versioning.
+    description: >-
+      Create, deploy, and manage REST APIs with full lifecycle control including stages, deployments, and
+      versioning.
   - name: HTTP API Support
     description: Build lightweight HTTP APIs optimized for serverless workloads at up to 71% lower cost than REST APIs.
   - name: WebSocket APIs
@@ -267,23 +251,30 @@ common:
   - name: CloudFront Edge Distribution
     description: Leverage Amazon CloudFront edge locations for global low-latency API distribution.
   - name: Bedrock AgentCore Gateway MCP Target
-    description: 'Expose REST API stages as Model Context Protocol (MCP) tools for AI agents via Bedrock AgentCore Gateway.
-      AgentCore translates incoming MCP requests into HTTP requests, supports tools/list and tools/call methods, and accepts
-      API_KEY, NO_AUTH, or GATEWAY_IAM_ROLE outbound auth. Launched December 2, 2025.'
+    description: >-
+      Expose REST API stages as Model Context Protocol (MCP) tools for AI agents via Bedrock AgentCore Gateway.
+      AgentCore translates incoming MCP requests into HTTP requests, supports tools/list and tools/call methods, and
+      accepts API_KEY, NO_AUTH, or GATEWAY_IAM_ROLE outbound auth. Launched December 2, 2025.
   - name: Developer Portals
-    description: 'Native API Gateway Portals (launched November 19, 2025) let you publish PortalProducts containing REST APIs
-      and per-endpoint documentation. Portals can be shared across AWS accounts and access-controlled via Cognito user pools.'
+    description: >-
+      Native API Gateway Portals (launched November 19, 2025) let you publish PortalProducts containing REST APIs
+      and per-endpoint documentation. Portals can be shared across AWS accounts and access-controlled via Cognito
+      user pools.
   - name: REST API Response Streaming
-    description: REST APIs can progressively stream response payloads to clients as they become available (launched November
+    description: >-
+      REST APIs can progressively stream response payloads to clients as they become available (launched November
       19, 2025), enabling long-running and incremental response patterns.
   - name: Private Integration with Application Load Balancer
-    description: REST APIs support private integrations with Application Load Balancers (launched November 21, 2025), expanding
+    description: >-
+      REST APIs support private integrations with Application Load Balancers (launched November 21, 2025), expanding
       private integration options beyond NLB and AWS Cloud Map.
   - name: SIGv4a Authentication for REST APIs
-    description: REST APIs now support AWS Signature Version 4a (launched August 19, 2025), enabling multi-Region signing
-      for cross-Region API invocations.
+    description: >-
+      REST APIs now support AWS Signature Version 4a (launched August 19, 2025), enabling multi-Region signing for
+      cross-Region API invocations.
   - name: Enhanced TLS Security Policies
-    description: Configurable TLS security policies for REST APIs and custom domain names (launched November 19, 2025) allow
+    description: >-
+      Configurable TLS security policies for REST APIs and custom domain names (launched November 19, 2025) allow
       tighter control over accepted protocols and ciphers.
   - name: Dual-Stack IPv4/IPv6 Endpoints
     description: REST, HTTP, and WebSocket APIs and custom domain names support dual-stack endpoints (launched March 28, 2025).
@@ -294,7 +285,8 @@ common:
   - name: Microservices Gateway
     description: Consolidate access to multiple microservices behind a single API endpoint with routing and load balancing.
   - name: Real-Time Applications
-    description: Enable chat apps, collaborative tools, and live dashboards using WebSocket APIs for persistent bidirectional
+    description: >-
+      Enable chat apps, collaborative tools, and live dashboards using WebSocket APIs for persistent bidirectional
       connections.
   - name: Mobile and Web Application APIs
     description: Create secure, scalable REST and HTTP APIs for mobile and web front-ends with Cognito authentication.
@@ -303,17 +295,20 @@ common:
   - name: Third-Party API Integration
     description: Aggregate and normalize third-party APIs behind a consistent API surface with transformation and mapping.
   - name: MCP Tool Server for AI Agents
-    description: Expose REST APIs as MCP-compatible tool catalogs via Bedrock AgentCore Gateway so AI agents can list and invoke
-      operations without bespoke client code.
+    description: >-
+      Expose REST APIs as MCP-compatible tool catalogs via Bedrock AgentCore Gateway so AI agents can list and
+      invoke operations without bespoke client code.
   - name: Developer Portal for Partner APIs
-    description: Use native API Gateway Portals to publish partner-facing REST APIs with branded documentation, Cognito-gated
+    description: >-
+      Use native API Gateway Portals to publish partner-facing REST APIs with branded documentation, Cognito-gated
       access, and self-service key issuance.
 - type: Integrations
   data:
   - name: AWS Lambda
     description: Invoke Lambda functions as API backends for fully serverless request handling.
   - name: Amazon Cognito
-    description: Authenticate and authorize API requests using Cognito user pools and identity pools. Also used to gate access
+    description: >-
+      Authenticate and authorize API requests using Cognito user pools and identity pools. Also used to gate access
       to API Gateway Portals.
   - name: Amazon CloudWatch
     description: Monitor API performance metrics, error rates, and latency with CloudWatch dashboards and alarms.
@@ -332,20 +327,25 @@ common:
   - name: Amazon VPC
     description: Create private APIs accessible only within a VPC using VPC endpoint integration.
   - name: Amazon Bedrock AgentCore Gateway
-    description: 'Expose API Gateway REST API stages as MCP-compatible tools for AI agents. AgentCore Gateway translates MCP
-      tools/list and tools/call into HTTP requests against API Gateway. Public REST APIs only; supports API_KEY, NO_AUTH,
-      or GATEWAY_IAM_ROLE outbound auth. Same-account / same-Region required.'
+    description: >-
+      Expose API Gateway REST API stages as MCP-compatible tools for AI agents. AgentCore Gateway translates MCP
+      tools/list and tools/call into HTTP requests against API Gateway. Public REST APIs only; supports API_KEY,
+      NO_AUTH, or GATEWAY_IAM_ROLE outbound auth. Same-account / same-Region required.
   - name: Amazon EventBridge
-    description: Trigger workflows from API events and integrate APIs with event-driven backends. EventBridge can also drive
+    description: >-
+      Trigger workflows from API events and integrate APIs with event-driven backends. EventBridge can also drive
       asynchronous backends behind HTTP APIs via service integrations.
   - name: AWS AppSync
-    description: Pair API Gateway HTTP / WebSocket APIs with AppSync GraphQL APIs to combine REST/MCP front doors with realtime
+    description: >-
+      Pair API Gateway HTTP / WebSocket APIs with AppSync GraphQL APIs to combine REST/MCP front doors with realtime
       GraphQL subscriptions over the same backend services.
   - name: Application Load Balancer
-    description: REST APIs can use private integration to route to internal ALBs inside a VPC (added November 21, 2025) without
+    description: >-
+      REST APIs can use private integration to route to internal ALBs inside a VPC (added November 21, 2025) without
       requiring NLB or AWS Cloud Map.
   - name: AWS Lambda Authorizers
-    description: Custom request and token authorizers for REST and HTTP APIs that delegate authorization decisions to a Lambda
+    description: >-
+      Custom request and token authorizers for REST and HTTP APIs that delegate authorization decisions to a Lambda
       function.
   - name: AWS PrivateLink
     description: Expose APIs privately via Interface VPC endpoints; underlies the Private REST API endpoint type.
