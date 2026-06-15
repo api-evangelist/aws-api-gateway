@@ -1,0 +1,1761 @@
+{
+  "info": {
+    "_postman_id": "49e788ae-437e-49ad-a44c-6c6e30697229",
+    "name": "Amazon API Gateway V1 (REST)",
+    "description": "The API Gateway V1 control plane API is used to create, deploy, and manage REST APIs in Amazon API Gateway.\n\nContact Support:\n Name: AWS Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-06-05T13:13:40.000Z",
+    "updatedAt": "2026-06-05T13:13:40.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-49e788ae-437e-49ad-a44c-6c6e30697229"
+  },
+  "item": [
+    {
+      "name": "restapis",
+      "item": [
+        {
+          "name": "{restapi_id}",
+          "item": [
+            {
+              "name": "resources",
+              "item": [
+                {
+                  "name": "{resource_id}",
+                  "item": [
+                    {
+                      "name": "methods",
+                      "item": [
+                        {
+                          "name": "{http_method}",
+                          "item": [
+                            {
+                              "name": "Amazon API Gateway Get a Method",
+                              "id": "dcabf74e-fbcf-4ffb-93fd-0f4534e0bb7f",
+                              "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                              },
+                              "request": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/restapis/:restapi_id/resources/:resource_id/methods/:http_method",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "restapis",
+                                    ":restapi_id",
+                                    "resources",
+                                    ":resource_id",
+                                    "methods",
+                                    ":http_method"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "id": "8868eb04-3c51-4238-964b-ad03c4fc783e",
+                                      "key": "restapi_id",
+                                      "value": "<string>",
+                                      "description": "(Required) Identifier of the RestApi resource."
+                                    },
+                                    {
+                                      "id": "610f4579-0339-4fec-8f4f-3eb8529d9a6d",
+                                      "key": "resource_id",
+                                      "value": "<string>",
+                                      "description": "(Required) Identifier of the Resource."
+                                    },
+                                    {
+                                      "id": "c7f43732-fe00-4cc7-96f0-45da9eb39dd2",
+                                      "key": "http_method",
+                                      "value": "PUT",
+                                      "description": "(Required) HTTP verb of the Method."
+                                    }
+                                  ]
+                                },
+                                "description": "Retrieves the Method resource for a given HTTP verb on a Resource."
+                              },
+                              "response": [
+                                {
+                                  "id": "c43166fe-9dbd-4e82-967a-30990ef7efc5",
+                                  "name": "Successful response",
+                                  "originalRequest": {
+                                    "method": "GET",
+                                    "header": [
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "description": "Added as a part of security scheme: apikey",
+                                        "key": "Authorization",
+                                        "value": "<API Key>"
+                                      }
+                                    ],
+                                    "url": {
+                                      "raw": "{{baseUrl}}/restapis/:restapi_id/resources/:resource_id/methods/:http_method",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "restapis",
+                                        ":restapi_id",
+                                        "resources",
+                                        ":resource_id",
+                                        "methods",
+                                        ":http_method"
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "restapi_id"
+                                        },
+                                        {
+                                          "key": "resource_id"
+                                        },
+                                        {
+                                          "key": "http_method"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "OK",
+                                  "code": 200,
+                                  "_postman_previewlanguage": "json",
+                                  "header": [
+                                    {
+                                      "key": "Content-Type",
+                                      "value": "application/json"
+                                    }
+                                  ],
+                                  "cookie": [],
+                                  "responseTime": null,
+                                  "body": "{\n  \"httpMethod\": \"<string>\",\n  \"authorizationType\": \"<string>\",\n  \"apiKeyRequired\": \"<boolean>\"\n}",
+                                  "createdAt": "2026-06-05T13:13:40.000Z",
+                                  "updatedAt": "2026-06-05T13:13:40.000Z",
+                                  "uid": "35240-c43166fe-9dbd-4e82-967a-30990ef7efc5"
+                                }
+                              ],
+                              "createdAt": "2026-06-05T13:13:40.000Z",
+                              "updatedAt": "2026-06-05T13:13:40.000Z",
+                              "uid": "35240-dcabf74e-fbcf-4ffb-93fd-0f4534e0bb7f"
+                            },
+                            {
+                              "name": "Amazon API Gateway Put a Method",
+                              "id": "6444d15a-7d1e-446f-acc5-652aa4682d70",
+                              "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                              },
+                              "request": {
+                                "method": "PUT",
+                                "header": [
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "raw",
+                                  "raw": "{\n  \"authorizationType\": \"<string>\",\n  \"apiKeyRequired\": \"<boolean>\"\n}",
+                                  "options": {
+                                    "raw": {
+                                      "headerFamily": "json",
+                                      "language": "json"
+                                    }
+                                  }
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/restapis/:restapi_id/resources/:resource_id/methods/:http_method",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "restapis",
+                                    ":restapi_id",
+                                    "resources",
+                                    ":resource_id",
+                                    "methods",
+                                    ":http_method"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "id": "6dd53929-2b5d-41d4-b8fd-a6175a19b9a3",
+                                      "key": "restapi_id",
+                                      "value": "<string>",
+                                      "description": "(Required) Identifier of the RestApi resource."
+                                    },
+                                    {
+                                      "id": "332cc4ac-b429-4632-bbab-e3dd4117a67a",
+                                      "key": "resource_id",
+                                      "value": "<string>",
+                                      "description": "(Required) Identifier of the Resource."
+                                    },
+                                    {
+                                      "id": "6113d70a-217c-4a3e-99da-f679be0bea25",
+                                      "key": "http_method",
+                                      "value": "PUT",
+                                      "description": "(Required) HTTP verb of the Method."
+                                    }
+                                  ]
+                                },
+                                "description": "Adds an HTTP method to a Resource."
+                              },
+                              "response": [
+                                {
+                                  "id": "40a17ed5-2e9d-4f39-b8a1-766b4a737b27",
+                                  "name": "Created",
+                                  "originalRequest": {
+                                    "method": "PUT",
+                                    "header": [
+                                      {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "description": "Added as a part of security scheme: apikey",
+                                        "key": "Authorization",
+                                        "value": "<API Key>"
+                                      }
+                                    ],
+                                    "body": {
+                                      "mode": "raw",
+                                      "raw": "{\n  \"authorizationType\": \"<string>\",\n  \"apiKeyRequired\": \"<boolean>\"\n}",
+                                      "options": {
+                                        "raw": {
+                                          "headerFamily": "json",
+                                          "language": "json"
+                                        }
+                                      }
+                                    },
+                                    "url": {
+                                      "raw": "{{baseUrl}}/restapis/:restapi_id/resources/:resource_id/methods/:http_method",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "restapis",
+                                        ":restapi_id",
+                                        "resources",
+                                        ":resource_id",
+                                        "methods",
+                                        ":http_method"
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "restapi_id"
+                                        },
+                                        {
+                                          "key": "resource_id"
+                                        },
+                                        {
+                                          "key": "http_method"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "Created",
+                                  "code": 201,
+                                  "_postman_previewlanguage": "json",
+                                  "header": [
+                                    {
+                                      "key": "Content-Type",
+                                      "value": "application/json"
+                                    }
+                                  ],
+                                  "cookie": [],
+                                  "responseTime": null,
+                                  "body": "{\n  \"httpMethod\": \"<string>\",\n  \"authorizationType\": \"<string>\",\n  \"apiKeyRequired\": \"<boolean>\"\n}",
+                                  "createdAt": "2026-06-05T13:13:40.000Z",
+                                  "updatedAt": "2026-06-05T13:13:40.000Z",
+                                  "uid": "35240-40a17ed5-2e9d-4f39-b8a1-766b4a737b27"
+                                }
+                              ],
+                              "createdAt": "2026-06-05T13:13:40.000Z",
+                              "updatedAt": "2026-06-05T13:13:40.000Z",
+                              "uid": "35240-6444d15a-7d1e-446f-acc5-652aa4682d70"
+                            },
+                            {
+                              "name": "Amazon API Gateway Delete a Method",
+                              "id": "660f9bfa-d133-4940-84fa-6759436785d7",
+                              "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                              },
+                              "request": {
+                                "method": "DELETE",
+                                "header": [],
+                                "url": {
+                                  "raw": "{{baseUrl}}/restapis/:restapi_id/resources/:resource_id/methods/:http_method",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "restapis",
+                                    ":restapi_id",
+                                    "resources",
+                                    ":resource_id",
+                                    "methods",
+                                    ":http_method"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "id": "dc1537a0-b6a4-4c72-a4b6-02ba5478a386",
+                                      "key": "restapi_id",
+                                      "value": "<string>",
+                                      "description": "(Required) Identifier of the RestApi resource."
+                                    },
+                                    {
+                                      "id": "4ab57536-c162-4a5f-ac1a-f2dc68f917c0",
+                                      "key": "resource_id",
+                                      "value": "<string>",
+                                      "description": "(Required) Identifier of the Resource."
+                                    },
+                                    {
+                                      "id": "78df6038-a414-4ad0-9bd2-cc6fb78e86ff",
+                                      "key": "http_method",
+                                      "value": "PUT",
+                                      "description": "(Required) HTTP verb of the Method."
+                                    }
+                                  ]
+                                },
+                                "description": "Deletes a Method resource."
+                              },
+                              "response": [
+                                {
+                                  "id": "f0817b56-437b-47c1-a1b3-bee21e740554",
+                                  "name": "Accepted",
+                                  "originalRequest": {
+                                    "method": "DELETE",
+                                    "header": [
+                                      {
+                                        "description": "Added as a part of security scheme: apikey",
+                                        "key": "Authorization",
+                                        "value": "<API Key>"
+                                      }
+                                    ],
+                                    "url": {
+                                      "raw": "{{baseUrl}}/restapis/:restapi_id/resources/:resource_id/methods/:http_method",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "restapis",
+                                        ":restapi_id",
+                                        "resources",
+                                        ":resource_id",
+                                        "methods",
+                                        ":http_method"
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "restapi_id"
+                                        },
+                                        {
+                                          "key": "resource_id"
+                                        },
+                                        {
+                                          "key": "http_method"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "Accepted",
+                                  "code": 202,
+                                  "_postman_previewlanguage": "text",
+                                  "header": [],
+                                  "cookie": [],
+                                  "responseTime": null,
+                                  "body": null,
+                                  "createdAt": "2026-06-05T13:13:40.000Z",
+                                  "updatedAt": "2026-06-05T13:13:40.000Z",
+                                  "uid": "35240-f0817b56-437b-47c1-a1b3-bee21e740554"
+                                }
+                              ],
+                              "createdAt": "2026-06-05T13:13:40.000Z",
+                              "updatedAt": "2026-06-05T13:13:40.000Z",
+                              "uid": "35240-660f9bfa-d133-4940-84fa-6759436785d7"
+                            }
+                          ],
+                          "id": "5ef68332-8ed9-4ffe-b188-28b21418e6a4",
+                          "createdAt": "2026-06-05T13:13:40.000Z",
+                          "updatedAt": "2026-06-05T13:13:40.000Z",
+                          "uid": "35240-5ef68332-8ed9-4ffe-b188-28b21418e6a4"
+                        }
+                      ],
+                      "id": "66d71d86-421a-4543-9221-7494e87553fd",
+                      "createdAt": "2026-06-05T13:13:40.000Z",
+                      "updatedAt": "2026-06-05T13:13:40.000Z",
+                      "uid": "35240-66d71d86-421a-4543-9221-7494e87553fd"
+                    }
+                  ],
+                  "id": "25f8180c-e5c5-4ab1-9771-61bdbc3d3159",
+                  "createdAt": "2026-06-05T13:13:40.000Z",
+                  "updatedAt": "2026-06-05T13:13:40.000Z",
+                  "uid": "35240-25f8180c-e5c5-4ab1-9771-61bdbc3d3159"
+                },
+                {
+                  "name": "Amazon API Gateway List Resources",
+                  "id": "3b94e3ef-db76-46e6-945f-8a4e01b3304f",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/restapis/:restapi_id/resources",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "restapis",
+                        ":restapi_id",
+                        "resources"
+                      ],
+                      "variable": [
+                        {
+                          "id": "e5f63638-03bd-4f13-9867-2bb3f6644824",
+                          "key": "restapi_id",
+                          "value": "<string>",
+                          "description": "(Required) Identifier of the RestApi resource."
+                        }
+                      ]
+                    },
+                    "description": "Lists the Resource resources for a RestApi."
+                  },
+                  "response": [
+                    {
+                      "id": "3bec5080-ce90-49de-ad7c-26c3a13171af",
+                      "name": "Successful response",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/restapis/:restapi_id/resources",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "restapis",
+                            ":restapi_id",
+                            "resources"
+                          ],
+                          "variable": [
+                            {
+                              "key": "restapi_id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"items\": [\n    {\n      \"id\": \"<string>\",\n      \"parentId\": \"<string>\",\n      \"pathPart\": \"<string>\",\n      \"path\": \"<string>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"parentId\": \"<string>\",\n      \"pathPart\": \"<string>\",\n      \"path\": \"<string>\"\n    }\n  ]\n}",
+                      "createdAt": "2026-06-05T13:13:40.000Z",
+                      "updatedAt": "2026-06-05T13:13:40.000Z",
+                      "uid": "35240-3bec5080-ce90-49de-ad7c-26c3a13171af"
+                    }
+                  ],
+                  "createdAt": "2026-06-05T13:13:40.000Z",
+                  "updatedAt": "2026-06-05T13:13:40.000Z",
+                  "uid": "35240-3b94e3ef-db76-46e6-945f-8a4e01b3304f"
+                }
+              ],
+              "id": "1f941d12-94ef-41ac-821b-9383a78a793b",
+              "createdAt": "2026-06-05T13:13:40.000Z",
+              "updatedAt": "2026-06-05T13:13:40.000Z",
+              "uid": "35240-1f941d12-94ef-41ac-821b-9383a78a793b"
+            },
+            {
+              "name": "deployments",
+              "item": [
+                {
+                  "name": "Amazon API Gateway List Deployments",
+                  "id": "7af051e0-46b1-4d91-bf61-bd7f336c828e",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/restapis/:restapi_id/deployments",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "restapis",
+                        ":restapi_id",
+                        "deployments"
+                      ],
+                      "variable": [
+                        {
+                          "id": "d8ed6818-b8d9-4090-8f23-e4863ae4ce2b",
+                          "key": "restapi_id",
+                          "value": "<string>",
+                          "description": "(Required) Identifier of the RestApi resource."
+                        }
+                      ]
+                    },
+                    "description": "Lists deployments for a RestApi."
+                  },
+                  "response": [
+                    {
+                      "id": "6e756633-e752-44ab-bc44-a13ab26b4cb8",
+                      "name": "Successful response",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/restapis/:restapi_id/deployments",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "restapis",
+                            ":restapi_id",
+                            "deployments"
+                          ],
+                          "variable": [
+                            {
+                              "key": "restapi_id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"items\": [\n    {\n      \"id\": \"<string>\",\n      \"description\": \"<string>\",\n      \"createdDate\": \"<dateTime>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"description\": \"<string>\",\n      \"createdDate\": \"<dateTime>\"\n    }\n  ]\n}",
+                      "createdAt": "2026-06-05T13:13:40.000Z",
+                      "updatedAt": "2026-06-05T13:13:40.000Z",
+                      "uid": "35240-6e756633-e752-44ab-bc44-a13ab26b4cb8"
+                    }
+                  ],
+                  "createdAt": "2026-06-05T13:13:40.000Z",
+                  "updatedAt": "2026-06-05T13:13:40.000Z",
+                  "uid": "35240-7af051e0-46b1-4d91-bf61-bd7f336c828e"
+                },
+                {
+                  "name": "Amazon API Gateway Create a Deployment",
+                  "id": "f43034ac-8750-4f12-9b44-37332c77471f",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"stageName\": \"<string>\",\n  \"description\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/restapis/:restapi_id/deployments",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "restapis",
+                        ":restapi_id",
+                        "deployments"
+                      ],
+                      "variable": [
+                        {
+                          "id": "9d4fa482-575e-4bac-99c2-29757e5ebdc9",
+                          "key": "restapi_id",
+                          "value": "<string>",
+                          "description": "(Required) Identifier of the RestApi resource."
+                        }
+                      ]
+                    },
+                    "description": "Creates a deployment for a RestApi."
+                  },
+                  "response": [
+                    {
+                      "id": "c7d8a928-4a71-4499-a704-f33400561387",
+                      "name": "Created",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"stageName\": \"<string>\",\n  \"description\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/restapis/:restapi_id/deployments",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "restapis",
+                            ":restapi_id",
+                            "deployments"
+                          ],
+                          "variable": [
+                            {
+                              "key": "restapi_id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Created",
+                      "code": 201,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"id\": \"<string>\",\n  \"description\": \"<string>\",\n  \"createdDate\": \"<dateTime>\"\n}",
+                      "createdAt": "2026-06-05T13:13:40.000Z",
+                      "updatedAt": "2026-06-05T13:13:40.000Z",
+                      "uid": "35240-c7d8a928-4a71-4499-a704-f33400561387"
+                    }
+                  ],
+                  "createdAt": "2026-06-05T13:13:40.000Z",
+                  "updatedAt": "2026-06-05T13:13:40.000Z",
+                  "uid": "35240-f43034ac-8750-4f12-9b44-37332c77471f"
+                }
+              ],
+              "id": "286a78e3-0e28-4e01-8379-e51fbeee0547",
+              "createdAt": "2026-06-05T13:13:40.000Z",
+              "updatedAt": "2026-06-05T13:13:40.000Z",
+              "uid": "35240-286a78e3-0e28-4e01-8379-e51fbeee0547"
+            },
+            {
+              "name": "stages",
+              "item": [
+                {
+                  "name": "Amazon API Gateway List Stages",
+                  "id": "e4bff1f3-2cdc-482d-851f-0c25d619164b",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/restapis/:restapi_id/stages",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "restapis",
+                        ":restapi_id",
+                        "stages"
+                      ],
+                      "variable": [
+                        {
+                          "id": "32cc7e4e-bae8-48d9-bda0-9f7c6798d535",
+                          "key": "restapi_id",
+                          "value": "<string>",
+                          "description": "(Required) Identifier of the RestApi resource."
+                        }
+                      ]
+                    },
+                    "description": "Lists deployment stages for a RestApi."
+                  },
+                  "response": [
+                    {
+                      "id": "6850d5a9-ad0b-4ae3-b317-538890563a7f",
+                      "name": "Successful response",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/restapis/:restapi_id/stages",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "restapis",
+                            ":restapi_id",
+                            "stages"
+                          ],
+                          "variable": [
+                            {
+                              "key": "restapi_id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"item\": [\n    {\n      \"deploymentId\": \"<string>\",\n      \"stageName\": \"<string>\",\n      \"description\": \"<string>\"\n    },\n    {\n      \"deploymentId\": \"<string>\",\n      \"stageName\": \"<string>\",\n      \"description\": \"<string>\"\n    }\n  ]\n}",
+                      "createdAt": "2026-06-05T13:13:40.000Z",
+                      "updatedAt": "2026-06-05T13:13:40.000Z",
+                      "uid": "35240-6850d5a9-ad0b-4ae3-b317-538890563a7f"
+                    }
+                  ],
+                  "createdAt": "2026-06-05T13:13:40.000Z",
+                  "updatedAt": "2026-06-05T13:13:40.000Z",
+                  "uid": "35240-e4bff1f3-2cdc-482d-851f-0c25d619164b"
+                }
+              ],
+              "id": "d73d9b30-5f25-4d9f-a488-b65832b5bc09",
+              "createdAt": "2026-06-05T13:13:40.000Z",
+              "updatedAt": "2026-06-05T13:13:40.000Z",
+              "uid": "35240-d73d9b30-5f25-4d9f-a488-b65832b5bc09"
+            },
+            {
+              "name": "Amazon API Gateway Get a REST API",
+              "id": "4d7a85f5-69f3-4130-9f2f-4df010ce37f4",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/restapis/:restapi_id",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "restapis",
+                    ":restapi_id"
+                  ],
+                  "variable": [
+                    {
+                      "id": "0a0aaf7e-271b-4824-a7a8-b0581eb5985d",
+                      "key": "restapi_id",
+                      "value": "<string>",
+                      "description": "(Required) Identifier of the RestApi resource."
+                    }
+                  ]
+                },
+                "description": "Retrieves a single RestApi resource."
+              },
+              "response": [
+                {
+                  "id": "6b2bfd11-d305-4b98-afbd-004642c42f35",
+                  "name": "Successful response",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/restapis/:restapi_id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "restapis",
+                        ":restapi_id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "restapi_id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"createdDate\": \"<dateTime>\",\n  \"version\": \"<string>\",\n  \"endpointConfiguration\": {\n    \"types\": [\n      \"REGIONAL\",\n      \"REGIONAL\"\n    ]\n  }\n}",
+                  "createdAt": "2026-06-05T13:13:40.000Z",
+                  "updatedAt": "2026-06-05T13:13:40.000Z",
+                  "uid": "35240-6b2bfd11-d305-4b98-afbd-004642c42f35"
+                },
+                {
+                  "id": "dc5a07e8-6b6b-48c9-ab30-36664f72027c",
+                  "name": "The requested resource was not found.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/restapis/:restapi_id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "restapis",
+                        ":restapi_id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "restapi_id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"message\": \"<string>\",\n  \"code\": \"<string>\"\n}",
+                  "createdAt": "2026-06-05T13:13:40.000Z",
+                  "updatedAt": "2026-06-05T13:13:40.000Z",
+                  "uid": "35240-dc5a07e8-6b6b-48c9-ab30-36664f72027c"
+                }
+              ],
+              "createdAt": "2026-06-05T13:13:40.000Z",
+              "updatedAt": "2026-06-05T13:13:40.000Z",
+              "uid": "35240-4d7a85f5-69f3-4130-9f2f-4df010ce37f4"
+            },
+            {
+              "name": "Amazon API Gateway Delete a REST API",
+              "id": "14a6fa42-f059-4d71-b3de-50ddc2a07d7b",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/restapis/:restapi_id",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "restapis",
+                    ":restapi_id"
+                  ],
+                  "variable": [
+                    {
+                      "id": "57b66680-69c7-4068-9df3-7329e43adc2f",
+                      "key": "restapi_id",
+                      "value": "<string>",
+                      "description": "(Required) Identifier of the RestApi resource."
+                    }
+                  ]
+                },
+                "description": "Deletes the specified RestApi resource."
+              },
+              "response": [
+                {
+                  "id": "38995a23-6c7e-44da-a5dc-fbb0454662c8",
+                  "name": "Accepted",
+                  "originalRequest": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/restapis/:restapi_id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "restapis",
+                        ":restapi_id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "restapi_id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Accepted",
+                  "code": 202,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-06-05T13:13:40.000Z",
+                  "updatedAt": "2026-06-05T13:13:40.000Z",
+                  "uid": "35240-38995a23-6c7e-44da-a5dc-fbb0454662c8"
+                },
+                {
+                  "id": "275fe953-5665-4428-92d5-74ad6244a621",
+                  "name": "The requested resource was not found.",
+                  "originalRequest": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/restapis/:restapi_id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "restapis",
+                        ":restapi_id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "restapi_id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"message\": \"<string>\",\n  \"code\": \"<string>\"\n}",
+                  "createdAt": "2026-06-05T13:13:40.000Z",
+                  "updatedAt": "2026-06-05T13:13:40.000Z",
+                  "uid": "35240-275fe953-5665-4428-92d5-74ad6244a621"
+                }
+              ],
+              "createdAt": "2026-06-05T13:13:40.000Z",
+              "updatedAt": "2026-06-05T13:13:40.000Z",
+              "uid": "35240-14a6fa42-f059-4d71-b3de-50ddc2a07d7b"
+            }
+          ],
+          "id": "86b03e94-e349-4c07-a2ac-9ee56d019611",
+          "createdAt": "2026-06-05T13:13:40.000Z",
+          "updatedAt": "2026-06-05T13:13:40.000Z",
+          "uid": "35240-86b03e94-e349-4c07-a2ac-9ee56d019611"
+        },
+        {
+          "name": "Amazon API Gateway List REST APIs",
+          "id": "7951f822-5eec-4be1-b9c2-cec36c4c86f4",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/restapis",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "restapis"
+              ]
+            },
+            "description": "Lists the RestApi resources for the caller's account."
+          },
+          "response": [
+            {
+              "id": "ed552909-f3bf-4ca5-a178-5eb19278814a",
+              "name": "Successful response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/restapis",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "restapis"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"items\": [\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"createdDate\": \"<dateTime>\",\n      \"version\": \"<string>\",\n      \"endpointConfiguration\": {\n        \"types\": [\n          \"REGIONAL\",\n          \"REGIONAL\"\n        ]\n      }\n    },\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"createdDate\": \"<dateTime>\",\n      \"version\": \"<string>\",\n      \"endpointConfiguration\": {\n        \"types\": [\n          \"REGIONAL\",\n          \"PRIVATE\"\n        ]\n      }\n    }\n  ]\n}",
+              "createdAt": "2026-06-05T13:13:40.000Z",
+              "updatedAt": "2026-06-05T13:13:40.000Z",
+              "uid": "35240-ed552909-f3bf-4ca5-a178-5eb19278814a"
+            },
+            {
+              "id": "ef5855a8-a11b-4b61-9771-6ea007bbc674",
+              "name": "The request was not authenticated.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/restapis",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "restapis"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"message\": \"<string>\",\n  \"code\": \"<string>\"\n}",
+              "createdAt": "2026-06-05T13:13:40.000Z",
+              "updatedAt": "2026-06-05T13:13:40.000Z",
+              "uid": "35240-ef5855a8-a11b-4b61-9771-6ea007bbc674"
+            }
+          ],
+          "createdAt": "2026-06-05T13:13:40.000Z",
+          "updatedAt": "2026-06-05T13:13:40.000Z",
+          "uid": "35240-7951f822-5eec-4be1-b9c2-cec36c4c86f4"
+        },
+        {
+          "name": "Amazon API Gateway Create a REST API",
+          "id": "26dab837-1fc2-4dc2-843a-994d2eb15cfa",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"version\": \"<string>\",\n  \"endpointConfiguration\": {\n    \"types\": [\n      \"EDGE\",\n      \"PRIVATE\"\n    ]\n  }\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/restapis",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "restapis"
+              ]
+            },
+            "description": "Creates a new RestApi resource."
+          },
+          "response": [
+            {
+              "id": "de65fd61-6007-40da-b8c2-34895b051b9a",
+              "name": "Created",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"version\": \"<string>\",\n  \"endpointConfiguration\": {\n    \"types\": [\n      \"EDGE\",\n      \"PRIVATE\"\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/restapis",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "restapis"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"createdDate\": \"<dateTime>\",\n  \"version\": \"<string>\",\n  \"endpointConfiguration\": {\n    \"types\": [\n      \"REGIONAL\",\n      \"REGIONAL\"\n    ]\n  }\n}",
+              "createdAt": "2026-06-05T13:13:40.000Z",
+              "updatedAt": "2026-06-05T13:13:40.000Z",
+              "uid": "35240-de65fd61-6007-40da-b8c2-34895b051b9a"
+            },
+            {
+              "id": "f680a2b3-87a8-433b-8404-fdc95576d61f",
+              "name": "The request was malformed.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"version\": \"<string>\",\n  \"endpointConfiguration\": {\n    \"types\": [\n      \"EDGE\",\n      \"PRIVATE\"\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/restapis",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "restapis"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"message\": \"<string>\",\n  \"code\": \"<string>\"\n}",
+              "createdAt": "2026-06-05T13:13:40.000Z",
+              "updatedAt": "2026-06-05T13:13:40.000Z",
+              "uid": "35240-f680a2b3-87a8-433b-8404-fdc95576d61f"
+            }
+          ],
+          "createdAt": "2026-06-05T13:13:40.000Z",
+          "updatedAt": "2026-06-05T13:13:40.000Z",
+          "uid": "35240-26dab837-1fc2-4dc2-843a-994d2eb15cfa"
+        }
+      ],
+      "id": "a29a3563-7538-48ef-bb4a-7aa66aa16574",
+      "createdAt": "2026-06-05T13:13:40.000Z",
+      "updatedAt": "2026-06-05T13:13:40.000Z",
+      "uid": "35240-a29a3563-7538-48ef-bb4a-7aa66aa16574"
+    },
+    {
+      "name": "apikeys",
+      "item": [
+        {
+          "name": "Amazon API Gateway List API Keys",
+          "id": "93072242-ba9d-436a-baf4-033ff7acd5bd",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/apikeys",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "apikeys"
+              ]
+            },
+            "description": "Lists the ApiKeys for the caller's account."
+          },
+          "response": [
+            {
+              "id": "4c3cc7fb-e5a0-4ad5-bb8c-5022627e279c",
+              "name": "Successful response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/apikeys",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "apikeys"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"items\": [\n    {\n      \"id\": \"<string>\",\n      \"value\": \"<string>\",\n      \"name\": \"<string>\",\n      \"enabled\": \"<boolean>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"value\": \"<string>\",\n      \"name\": \"<string>\",\n      \"enabled\": \"<boolean>\"\n    }\n  ]\n}",
+              "createdAt": "2026-06-05T13:13:40.000Z",
+              "updatedAt": "2026-06-05T13:13:40.000Z",
+              "uid": "35240-4c3cc7fb-e5a0-4ad5-bb8c-5022627e279c"
+            }
+          ],
+          "createdAt": "2026-06-05T13:13:40.000Z",
+          "updatedAt": "2026-06-05T13:13:40.000Z",
+          "uid": "35240-93072242-ba9d-436a-baf4-033ff7acd5bd"
+        },
+        {
+          "name": "Amazon API Gateway Create an API Key",
+          "id": "423fc6bd-23d1-4ee7-851e-9549af7eb1db",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"enabled\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/apikeys",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "apikeys"
+              ]
+            },
+            "description": "Creates a new ApiKey resource."
+          },
+          "response": [
+            {
+              "id": "e063666d-3fb2-4322-bc81-4527d165c71d",
+              "name": "Created",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"enabled\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/apikeys",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "apikeys"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"id\": \"<string>\",\n  \"value\": \"<string>\",\n  \"name\": \"<string>\",\n  \"enabled\": \"<boolean>\"\n}",
+              "createdAt": "2026-06-05T13:13:40.000Z",
+              "updatedAt": "2026-06-05T13:13:40.000Z",
+              "uid": "35240-e063666d-3fb2-4322-bc81-4527d165c71d"
+            }
+          ],
+          "createdAt": "2026-06-05T13:13:40.000Z",
+          "updatedAt": "2026-06-05T13:13:40.000Z",
+          "uid": "35240-423fc6bd-23d1-4ee7-851e-9549af7eb1db"
+        }
+      ],
+      "id": "27271298-2d61-48cf-a22a-5cfc600f428b",
+      "createdAt": "2026-06-05T13:13:40.000Z",
+      "updatedAt": "2026-06-05T13:13:40.000Z",
+      "uid": "35240-27271298-2d61-48cf-a22a-5cfc600f428b"
+    },
+    {
+      "name": "usageplans",
+      "item": [
+        {
+          "name": "Amazon API Gateway List Usage Plans",
+          "id": "7269efe8-81f2-41f5-a751-26f6981fb2c5",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/usageplans",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "usageplans"
+              ]
+            },
+            "description": "Lists the usage plans for the caller's account."
+          },
+          "response": [
+            {
+              "id": "9e301bc0-e13a-4d95-9aa6-a5c1fa4ac18a",
+              "name": "Successful response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/usageplans",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "usageplans"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"items\": [\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"throttle\": {\n        \"burstLimit\": \"<integer>\",\n        \"rateLimit\": \"<number>\"\n      },\n      \"quota\": {\n        \"limit\": \"<integer>\",\n        \"period\": \"DAY\"\n      }\n    },\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"throttle\": {\n        \"burstLimit\": \"<integer>\",\n        \"rateLimit\": \"<number>\"\n      },\n      \"quota\": {\n        \"limit\": \"<integer>\",\n        \"period\": \"DAY\"\n      }\n    }\n  ]\n}",
+              "createdAt": "2026-06-05T13:13:40.000Z",
+              "updatedAt": "2026-06-05T13:13:40.000Z",
+              "uid": "35240-9e301bc0-e13a-4d95-9aa6-a5c1fa4ac18a"
+            }
+          ],
+          "createdAt": "2026-06-05T13:13:40.000Z",
+          "updatedAt": "2026-06-05T13:13:40.000Z",
+          "uid": "35240-7269efe8-81f2-41f5-a751-26f6981fb2c5"
+        },
+        {
+          "name": "Amazon API Gateway Create a Usage Plan",
+          "id": "a925a95c-eb5d-4532-9f3d-044edaa0b54d",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"throttle\": {\n    \"burstLimit\": \"<integer>\",\n    \"rateLimit\": \"<number>\"\n  },\n  \"quota\": {\n    \"limit\": \"<integer>\",\n    \"period\": \"DAY\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/usageplans",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "usageplans"
+              ]
+            },
+            "description": "Creates a usage plan with throttle and quota configuration."
+          },
+          "response": [
+            {
+              "id": "6869586f-42c2-4cbe-ae09-f3327e12c56f",
+              "name": "Created",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"throttle\": {\n    \"burstLimit\": \"<integer>\",\n    \"rateLimit\": \"<number>\"\n  },\n  \"quota\": {\n    \"limit\": \"<integer>\",\n    \"period\": \"DAY\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/usageplans",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "usageplans"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"throttle\": {\n    \"burstLimit\": \"<integer>\",\n    \"rateLimit\": \"<number>\"\n  },\n  \"quota\": {\n    \"limit\": \"<integer>\",\n    \"period\": \"WEEK\"\n  }\n}",
+              "createdAt": "2026-06-05T13:13:40.000Z",
+              "updatedAt": "2026-06-05T13:13:40.000Z",
+              "uid": "35240-6869586f-42c2-4cbe-ae09-f3327e12c56f"
+            }
+          ],
+          "createdAt": "2026-06-05T13:13:40.000Z",
+          "updatedAt": "2026-06-05T13:13:40.000Z",
+          "uid": "35240-a925a95c-eb5d-4532-9f3d-044edaa0b54d"
+        }
+      ],
+      "id": "57a0e921-4ce6-453b-8baf-3d6bf12c623f",
+      "createdAt": "2026-06-05T13:13:40.000Z",
+      "updatedAt": "2026-06-05T13:13:40.000Z",
+      "uid": "35240-57a0e921-4ce6-453b-8baf-3d6bf12c623f"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "region",
+      "value": "us-east-1"
+    },
+    {
+      "key": "baseUrl",
+      "value": "https://apigateway.{{region}}.amazonaws.com"
+    }
+  ]
+}

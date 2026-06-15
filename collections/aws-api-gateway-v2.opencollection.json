@@ -1,0 +1,340 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Amazon API Gateway V2 (HTTP and WebSocket)",
+    "version": "2018-11-29"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Default",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Amazon API Gateway List APIs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://apigateway.{region}.amazonaws.com/v2/apis"
+          },
+          "docs": "Gets a collection of HTTP and WebSocket APIs."
+        },
+        {
+          "info": {
+            "name": "Amazon API Gateway Create an API",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://apigateway.{region}.amazonaws.com/v2/apis",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates an HTTP or WebSocket API."
+        },
+        {
+          "info": {
+            "name": "Amazon API Gateway Get an API",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://apigateway.{region}.amazonaws.com/v2/apis/:api_id",
+            "params": [
+              {
+                "name": "api_id",
+                "value": "",
+                "type": "path",
+                "description": "API identifier."
+              }
+            ]
+          },
+          "docs": "Retrieves a single HTTP or WebSocket API."
+        },
+        {
+          "info": {
+            "name": "Amazon API Gateway Delete an API",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://apigateway.{region}.amazonaws.com/v2/apis/:api_id",
+            "params": [
+              {
+                "name": "api_id",
+                "value": "",
+                "type": "path",
+                "description": "API identifier."
+              }
+            ]
+          },
+          "docs": "Deletes the specified API."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Routes",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Amazon API Gateway List Routes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://apigateway.{region}.amazonaws.com/v2/apis/:api_id/routes",
+            "params": [
+              {
+                "name": "api_id",
+                "value": "",
+                "type": "path",
+                "description": "API identifier."
+              }
+            ]
+          },
+          "docs": "Gets a collection of routes for an API."
+        },
+        {
+          "info": {
+            "name": "Amazon API Gateway Create a Route",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://apigateway.{region}.amazonaws.com/v2/apis/:api_id/routes",
+            "params": [
+              {
+                "name": "api_id",
+                "value": "",
+                "type": "path",
+                "description": "API identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a route for an API."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Integrations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Amazon API Gateway List Integrations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://apigateway.{region}.amazonaws.com/v2/apis/:api_id/integrations",
+            "params": [
+              {
+                "name": "api_id",
+                "value": "",
+                "type": "path",
+                "description": "API identifier."
+              }
+            ]
+          },
+          "docs": "Gets a collection of integrations for an API."
+        },
+        {
+          "info": {
+            "name": "Amazon API Gateway Create an Integration",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://apigateway.{region}.amazonaws.com/v2/apis/:api_id/integrations",
+            "params": [
+              {
+                "name": "api_id",
+                "value": "",
+                "type": "path",
+                "description": "API identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates an integration for an API."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Stages",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Amazon API Gateway List Stages",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://apigateway.{region}.amazonaws.com/v2/apis/:api_id/stages",
+            "params": [
+              {
+                "name": "api_id",
+                "value": "",
+                "type": "path",
+                "description": "API identifier."
+              }
+            ]
+          },
+          "docs": "Gets a collection of stages for an API."
+        },
+        {
+          "info": {
+            "name": "Amazon API Gateway Create a Stage",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://apigateway.{region}.amazonaws.com/v2/apis/:api_id/stages",
+            "params": [
+              {
+                "name": "api_id",
+                "value": "",
+                "type": "path",
+                "description": "API identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a deployment stage for an API."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Deployments",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Amazon API Gateway List Deployments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://apigateway.{region}.amazonaws.com/v2/apis/:api_id/deployments",
+            "params": [
+              {
+                "name": "api_id",
+                "value": "",
+                "type": "path",
+                "description": "API identifier."
+              }
+            ]
+          },
+          "docs": "Gets a collection of deployments for an API."
+        },
+        {
+          "info": {
+            "name": "Amazon API Gateway Create a Deployment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://apigateway.{region}.amazonaws.com/v2/apis/:api_id/deployments",
+            "params": [
+              {
+                "name": "api_id",
+                "value": "",
+                "type": "path",
+                "description": "API identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a deployment for an API."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Authorizers",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Amazon API Gateway List Authorizers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://apigateway.{region}.amazonaws.com/v2/apis/:api_id/authorizers",
+            "params": [
+              {
+                "name": "api_id",
+                "value": "",
+                "type": "path",
+                "description": "API identifier."
+              }
+            ]
+          },
+          "docs": "Gets a collection of authorizers for an API."
+        },
+        {
+          "info": {
+            "name": "Amazon API Gateway Create an Authorizer",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://apigateway.{region}.amazonaws.com/v2/apis/:api_id/authorizers",
+            "params": [
+              {
+                "name": "api_id",
+                "value": "",
+                "type": "path",
+                "description": "API identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates an authorizer for an API."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

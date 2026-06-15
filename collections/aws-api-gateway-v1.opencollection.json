@@ -1,0 +1,367 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Amazon API Gateway V1 (REST)",
+    "version": "2015-07-09"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "RestApis",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Amazon API Gateway List REST APIs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://apigateway.{region}.amazonaws.com/restapis"
+          },
+          "docs": "Lists the RestApi resources for the caller's account."
+        },
+        {
+          "info": {
+            "name": "Amazon API Gateway Create a REST API",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://apigateway.{region}.amazonaws.com/restapis",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new RestApi resource."
+        },
+        {
+          "info": {
+            "name": "Amazon API Gateway Get a REST API",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://apigateway.{region}.amazonaws.com/restapis/:restapi_id",
+            "params": [
+              {
+                "name": "restapi_id",
+                "value": "",
+                "type": "path",
+                "description": "Identifier of the RestApi resource."
+              }
+            ]
+          },
+          "docs": "Retrieves a single RestApi resource."
+        },
+        {
+          "info": {
+            "name": "Amazon API Gateway Delete a REST API",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://apigateway.{region}.amazonaws.com/restapis/:restapi_id",
+            "params": [
+              {
+                "name": "restapi_id",
+                "value": "",
+                "type": "path",
+                "description": "Identifier of the RestApi resource."
+              }
+            ]
+          },
+          "docs": "Deletes the specified RestApi resource."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Resources",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Amazon API Gateway List Resources",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://apigateway.{region}.amazonaws.com/restapis/:restapi_id/resources",
+            "params": [
+              {
+                "name": "restapi_id",
+                "value": "",
+                "type": "path",
+                "description": "Identifier of the RestApi resource."
+              }
+            ]
+          },
+          "docs": "Lists the Resource resources for a RestApi."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Methods",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Amazon API Gateway Get a Method",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://apigateway.{region}.amazonaws.com/restapis/:restapi_id/resources/:resource_id/methods/:http_method",
+            "params": [
+              {
+                "name": "restapi_id",
+                "value": "",
+                "type": "path",
+                "description": "Identifier of the RestApi resource."
+              },
+              {
+                "name": "resource_id",
+                "value": "",
+                "type": "path",
+                "description": "Identifier of the Resource."
+              },
+              {
+                "name": "http_method",
+                "value": "",
+                "type": "path",
+                "description": "HTTP verb of the Method."
+              }
+            ]
+          },
+          "docs": "Retrieves the Method resource for a given HTTP verb on a Resource."
+        },
+        {
+          "info": {
+            "name": "Amazon API Gateway Put a Method",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://apigateway.{region}.amazonaws.com/restapis/:restapi_id/resources/:resource_id/methods/:http_method",
+            "params": [
+              {
+                "name": "restapi_id",
+                "value": "",
+                "type": "path",
+                "description": "Identifier of the RestApi resource."
+              },
+              {
+                "name": "resource_id",
+                "value": "",
+                "type": "path",
+                "description": "Identifier of the Resource."
+              },
+              {
+                "name": "http_method",
+                "value": "",
+                "type": "path",
+                "description": "HTTP verb of the Method."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Adds an HTTP method to a Resource."
+        },
+        {
+          "info": {
+            "name": "Amazon API Gateway Delete a Method",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://apigateway.{region}.amazonaws.com/restapis/:restapi_id/resources/:resource_id/methods/:http_method",
+            "params": [
+              {
+                "name": "restapi_id",
+                "value": "",
+                "type": "path",
+                "description": "Identifier of the RestApi resource."
+              },
+              {
+                "name": "resource_id",
+                "value": "",
+                "type": "path",
+                "description": "Identifier of the Resource."
+              },
+              {
+                "name": "http_method",
+                "value": "",
+                "type": "path",
+                "description": "HTTP verb of the Method."
+              }
+            ]
+          },
+          "docs": "Deletes a Method resource."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Deployments",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Amazon API Gateway List Deployments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://apigateway.{region}.amazonaws.com/restapis/:restapi_id/deployments",
+            "params": [
+              {
+                "name": "restapi_id",
+                "value": "",
+                "type": "path",
+                "description": "Identifier of the RestApi resource."
+              }
+            ]
+          },
+          "docs": "Lists deployments for a RestApi."
+        },
+        {
+          "info": {
+            "name": "Amazon API Gateway Create a Deployment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://apigateway.{region}.amazonaws.com/restapis/:restapi_id/deployments",
+            "params": [
+              {
+                "name": "restapi_id",
+                "value": "",
+                "type": "path",
+                "description": "Identifier of the RestApi resource."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a deployment for a RestApi."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Stages",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Amazon API Gateway List Stages",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://apigateway.{region}.amazonaws.com/restapis/:restapi_id/stages",
+            "params": [
+              {
+                "name": "restapi_id",
+                "value": "",
+                "type": "path",
+                "description": "Identifier of the RestApi resource."
+              }
+            ]
+          },
+          "docs": "Lists deployment stages for a RestApi."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "ApiKeys",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Amazon API Gateway List API Keys",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://apigateway.{region}.amazonaws.com/apikeys"
+          },
+          "docs": "Lists the ApiKeys for the caller's account."
+        },
+        {
+          "info": {
+            "name": "Amazon API Gateway Create an API Key",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://apigateway.{region}.amazonaws.com/apikeys",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new ApiKey resource."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "UsagePlans",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Amazon API Gateway List Usage Plans",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://apigateway.{region}.amazonaws.com/usageplans"
+          },
+          "docs": "Lists the usage plans for the caller's account."
+        },
+        {
+          "info": {
+            "name": "Amazon API Gateway Create a Usage Plan",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://apigateway.{region}.amazonaws.com/usageplans",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a usage plan with throttle and quota configuration."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

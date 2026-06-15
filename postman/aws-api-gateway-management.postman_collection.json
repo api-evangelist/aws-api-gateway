@@ -1,0 +1,636 @@
+{
+  "info": {
+    "_postman_id": "4583ef0a-c3ca-4fae-b688-8916047466e7",
+    "name": "Amazon API Gateway Management API",
+    "description": "The API Gateway Management API allows backend services to send messages to connected clients of a deployed WebSocket API and to disconnect clients. Requests are made against the deployed stage's callback URL.\n\nContact Support:\n Name: AWS Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-06-05T13:13:46.000Z",
+    "updatedAt": "2026-06-05T13:13:46.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-4583ef0a-c3ca-4fae-b688-8916047466e7"
+  },
+  "item": [
+    {
+      "name": "@connections",
+      "item": [
+        {
+          "name": "{connectionId}",
+          "item": [
+            {
+              "name": "Amazon API Gateway Get Connection Info",
+              "id": "b974e535-8f4a-46e1-a3e5-224f7f4bcfa2",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/@connections/:connectionId",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "@connections",
+                    ":connectionId"
+                  ],
+                  "variable": [
+                    {
+                      "id": "224cc024-7c3b-4d50-b8ea-3485bdf8fc91",
+                      "key": "connectionId",
+                      "value": "<string>",
+                      "description": "(Required) Identifier of the WebSocket connection."
+                    }
+                  ]
+                },
+                "description": "Retrieves information about the connection with the provided id."
+              },
+              "response": [
+                {
+                  "id": "6c3fcd3c-6d72-4f1d-9a44-d091fc079e50",
+                  "name": "Successful response",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/@connections/:connectionId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "@connections",
+                        ":connectionId"
+                      ],
+                      "variable": [
+                        {
+                          "key": "connectionId"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"ConnectedAt\": \"<dateTime>\",\n  \"LastActiveAt\": \"<dateTime>\",\n  \"Identity\": {\n    \"SourceIp\": \"<string>\",\n    \"UserAgent\": \"<string>\"\n  }\n}",
+                  "createdAt": "2026-06-05T13:13:46.000Z",
+                  "updatedAt": "2026-06-05T13:13:46.000Z",
+                  "uid": "35240-6c3fcd3c-6d72-4f1d-9a44-d091fc079e50"
+                },
+                {
+                  "id": "d52e17b6-c625-4502-99c8-05028b08d805",
+                  "name": "The specified connection does not exist.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/@connections/:connectionId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "@connections",
+                        ":connectionId"
+                      ],
+                      "variable": [
+                        {
+                          "key": "connectionId"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"Message\": \"<string>\"\n}",
+                  "createdAt": "2026-06-05T13:13:46.000Z",
+                  "updatedAt": "2026-06-05T13:13:46.000Z",
+                  "uid": "35240-d52e17b6-c625-4502-99c8-05028b08d805"
+                },
+                {
+                  "id": "11fb6bb3-ae85-444c-a3db-8eb4fa7c476b",
+                  "name": "The connection is no longer available.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/@connections/:connectionId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "@connections",
+                        ":connectionId"
+                      ],
+                      "variable": [
+                        {
+                          "key": "connectionId"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Gone",
+                  "code": 410,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"Message\": \"<string>\"\n}",
+                  "createdAt": "2026-06-05T13:13:46.000Z",
+                  "updatedAt": "2026-06-05T13:13:46.000Z",
+                  "uid": "35240-11fb6bb3-ae85-444c-a3db-8eb4fa7c476b"
+                }
+              ],
+              "createdAt": "2026-06-05T13:13:46.000Z",
+              "updatedAt": "2026-06-05T13:13:46.000Z",
+              "uid": "35240-b974e535-8f4a-46e1-a3e5-224f7f4bcfa2"
+            },
+            {
+              "name": "Amazon API Gateway Send Message to Connection",
+              "id": "938ac5ae-70eb-4926-9899-3276b0524db8",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/octet-stream"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "<binary>"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/@connections/:connectionId",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "@connections",
+                    ":connectionId"
+                  ],
+                  "variable": [
+                    {
+                      "id": "fe7eacf0-a038-461e-8faa-d5643d2e4d39",
+                      "key": "connectionId",
+                      "value": "<string>",
+                      "description": "(Required) Identifier of the WebSocket connection."
+                    }
+                  ]
+                },
+                "description": "Sends a message to the connected WebSocket client identified by connectionId."
+              },
+              "response": [
+                {
+                  "id": "a922f64d-b751-48e8-8cea-20612bf9d0a7",
+                  "name": "Message accepted for delivery.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/octet-stream"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "<binary>"
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/@connections/:connectionId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "@connections",
+                        ":connectionId"
+                      ],
+                      "variable": [
+                        {
+                          "key": "connectionId"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-06-05T13:13:46.000Z",
+                  "updatedAt": "2026-06-05T13:13:46.000Z",
+                  "uid": "35240-a922f64d-b751-48e8-8cea-20612bf9d0a7"
+                },
+                {
+                  "id": "297e720b-9570-46fe-a203-6f6eb3807ecd",
+                  "name": "The specified connection does not exist.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/octet-stream"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "<binary>"
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/@connections/:connectionId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "@connections",
+                        ":connectionId"
+                      ],
+                      "variable": [
+                        {
+                          "key": "connectionId"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"Message\": \"<string>\"\n}",
+                  "createdAt": "2026-06-05T13:13:46.000Z",
+                  "updatedAt": "2026-06-05T13:13:46.000Z",
+                  "uid": "35240-297e720b-9570-46fe-a203-6f6eb3807ecd"
+                },
+                {
+                  "id": "febfc13e-89d8-4e40-b1f0-b98947f45f21",
+                  "name": "The connection is no longer available.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/octet-stream"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "<binary>"
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/@connections/:connectionId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "@connections",
+                        ":connectionId"
+                      ],
+                      "variable": [
+                        {
+                          "key": "connectionId"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Gone",
+                  "code": 410,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"Message\": \"<string>\"\n}",
+                  "createdAt": "2026-06-05T13:13:46.000Z",
+                  "updatedAt": "2026-06-05T13:13:46.000Z",
+                  "uid": "35240-febfc13e-89d8-4e40-b1f0-b98947f45f21"
+                }
+              ],
+              "createdAt": "2026-06-05T13:13:46.000Z",
+              "updatedAt": "2026-06-05T13:13:46.000Z",
+              "uid": "35240-938ac5ae-70eb-4926-9899-3276b0524db8"
+            },
+            {
+              "name": "Amazon API Gateway Disconnect a Client",
+              "id": "a1c9e78c-77ea-4343-ad0d-47ce736517d8",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/@connections/:connectionId",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "@connections",
+                    ":connectionId"
+                  ],
+                  "variable": [
+                    {
+                      "id": "7531f1ab-3fd1-4695-9945-1ea6606347f6",
+                      "key": "connectionId",
+                      "value": "<string>",
+                      "description": "(Required) Identifier of the WebSocket connection."
+                    }
+                  ]
+                },
+                "description": "Forcibly disconnects the WebSocket client identified by connectionId."
+              },
+              "response": [
+                {
+                  "id": "805601c8-4d01-4c76-bc91-77292ae3654e",
+                  "name": "Disconnected.",
+                  "originalRequest": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/@connections/:connectionId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "@connections",
+                        ":connectionId"
+                      ],
+                      "variable": [
+                        {
+                          "key": "connectionId"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "No Content",
+                  "code": 204,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-06-05T13:13:46.000Z",
+                  "updatedAt": "2026-06-05T13:13:46.000Z",
+                  "uid": "35240-805601c8-4d01-4c76-bc91-77292ae3654e"
+                },
+                {
+                  "id": "2f12204d-b6ae-4f53-80c0-b5c3e99daf9e",
+                  "name": "The specified connection does not exist.",
+                  "originalRequest": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/@connections/:connectionId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "@connections",
+                        ":connectionId"
+                      ],
+                      "variable": [
+                        {
+                          "key": "connectionId"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"Message\": \"<string>\"\n}",
+                  "createdAt": "2026-06-05T13:13:46.000Z",
+                  "updatedAt": "2026-06-05T13:13:46.000Z",
+                  "uid": "35240-2f12204d-b6ae-4f53-80c0-b5c3e99daf9e"
+                },
+                {
+                  "id": "5a6fcbba-45ca-41ab-a8fc-4d317267716a",
+                  "name": "The connection is no longer available.",
+                  "originalRequest": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/@connections/:connectionId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "@connections",
+                        ":connectionId"
+                      ],
+                      "variable": [
+                        {
+                          "key": "connectionId"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Gone",
+                  "code": 410,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"Message\": \"<string>\"\n}",
+                  "createdAt": "2026-06-05T13:13:46.000Z",
+                  "updatedAt": "2026-06-05T13:13:46.000Z",
+                  "uid": "35240-5a6fcbba-45ca-41ab-a8fc-4d317267716a"
+                }
+              ],
+              "createdAt": "2026-06-05T13:13:46.000Z",
+              "updatedAt": "2026-06-05T13:13:46.000Z",
+              "uid": "35240-a1c9e78c-77ea-4343-ad0d-47ce736517d8"
+            }
+          ],
+          "id": "a93b8754-9b91-4ef4-87c5-a5431c14eeb0",
+          "createdAt": "2026-06-05T13:13:46.000Z",
+          "updatedAt": "2026-06-05T13:13:46.000Z",
+          "uid": "35240-a93b8754-9b91-4ef4-87c5-a5431c14eeb0"
+        }
+      ],
+      "id": "bd0dac63-3ebc-4e88-8f05-19a2333461ae",
+      "createdAt": "2026-06-05T13:13:46.000Z",
+      "updatedAt": "2026-06-05T13:13:46.000Z",
+      "uid": "35240-bd0dac63-3ebc-4e88-8f05-19a2333461ae"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "api_id",
+      "value": "example"
+    },
+    {
+      "key": "region",
+      "value": "us-east-1"
+    },
+    {
+      "key": "stage",
+      "value": "prod"
+    },
+    {
+      "key": "baseUrl",
+      "value": "https://{{api_id}}.execute-api.{{region}}.amazonaws.com/{{stage}}"
+    }
+  ]
+}
