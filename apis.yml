@@ -7,7 +7,7 @@ description: >-
   Gateway integrates natively with AWS Lambda, CloudWatch, CloudFront, IAM, and Cognito, and (as of December 2025) can
   expose REST APIs as MCP-compatible tools for Amazon Bedrock AgentCore Gateway for agent-driven API consumption.
 type: Index
-image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 tags:
 - API Gateway
 - AWS
@@ -30,7 +30,7 @@ apis:
     The API Gateway V1 control plane API is used to create, deploy, and manage REST APIs in Amazon API Gateway. It
     exposes resources for RestApis, Resources, Methods, Stages, Deployments, Authorizers, API keys, usage plans, and
     related configuration.
-  image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   humanURL: https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html
   baseURL: https://apigateway.{region}.amazonaws.com
   tags:
@@ -68,7 +68,7 @@ apis:
     The API Gateway V2 control plane API is used to create, deploy, and manage HTTP APIs and WebSocket APIs in Amazon
     API Gateway. It provides resources for Apis, Routes, Integrations, Stages, Deployments, and Authorizers for the
     newer HTTP and WebSocket API types.
-  image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   humanURL: https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api.html
   baseURL: https://apigateway.{region}.amazonaws.com
   tags:
@@ -96,7 +96,7 @@ apis:
   description: >-
     The API Gateway Management API allows backend services to send messages to connected clients of a deployed
     WebSocket API and to disconnect clients. Requests are made against the deployed stage's callback URL.
-  image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   humanURL: https://docs.aws.amazon.com/apigatewaymanagementapi/latest/reference/Welcome.html
   baseURL: https://{api-id}.execute-api.{region}.amazonaws.com/{stage}
   tags:
@@ -119,7 +119,7 @@ apis:
     that catalog REST APIs. A portal contains PortalProducts (logical groupings of REST APIs) and Product REST
     Endpoint Pages that publish path/method/stage-level documentation. Portals are Region-scoped, shareable across AWS
     accounts, and access-controlled via Amazon Cognito user pools.
-  image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   humanURL: https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-portals.html
   baseURL: https://apigateway.{region}.amazonaws.com
   tags:
