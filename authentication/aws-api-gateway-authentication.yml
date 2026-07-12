@@ -1,0 +1,19 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/aws-api-gateway-management-openapi.yml, openapi/aws-api-gateway-v1-openapi.yml,
+  openapi/aws-api-gateway-v2-openapi.yml
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+schemes:
+- name: sigv4
+  type: apiKey
+  in: header
+  parameter: Authorization
+  description: AWS Signature Version 4 signed request.
+  sources:
+  - openapi/aws-api-gateway-management-openapi.yml
+  - openapi/aws-api-gateway-v1-openapi.yml
+  - openapi/aws-api-gateway-v2-openapi.yml

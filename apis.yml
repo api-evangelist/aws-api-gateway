@@ -135,6 +135,14 @@ apis:
   - type: RateLimits
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/limits.html
 common:
+- type: TrustCenter
+  url: security/aws-api-gateway-trust-center.yml
+- type: VulnerabilityDisclosure
+  url: security/aws-api-gateway-vulnerability-disclosure.yml
+- type: DomainSecurity
+  url: security/aws-api-gateway-domain-security.yml
+- type: Authentication
+  url: authentication/aws-api-gateway-authentication.yml
 - type: PostmanWorkspace
   url: https://www.postman.com/kinlaneapi/amazon-api-gateway/overview
 - type: Arazzo
