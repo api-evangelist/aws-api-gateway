@@ -135,6 +135,8 @@ apis:
   - type: RateLimits
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/limits.html
 common:
+- type: AgenticAccess
+  url: agentic-access/aws-api-gateway-agentic-access.yml
 - type: TrustCenter
   url: security/aws-api-gateway-trust-center.yml
 - type: VulnerabilityDisclosure
