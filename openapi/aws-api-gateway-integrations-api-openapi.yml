@@ -1,0 +1,163 @@
+openapi: 3.1.0
+info:
+  title: Amazon API Gateway Management ApiKeys Integrations API
+  description: The API Gateway Management API allows backend services to send messages to connected clients of a deployed WebSocket API and to disconnect clients. Requests are made against the deployed stage's callback URL.
+  version: '2018-11-29'
+  contact:
+    name: AWS Support
+    url: https://aws.amazon.com/premiumsupport/
+  termsOfService: https://aws.amazon.com/service-terms/
+servers:
+- url: https://{api_id}.execute-api.{region}.amazonaws.com/{stage}
+  description: WebSocket API callback endpoint
+  variables:
+    api_id:
+      default: example
+      description: WebSocket API identifier
+    region:
+      default: us-east-1
+      description: AWS region
+    stage:
+      default: prod
+      description: Deployment stage name
+security:
+- sigv4: []
+tags:
+- name: Integrations
+  description: Manage backend integrations
+paths:
+  /v2/apis/{api_id}/integrations:
+    parameters:
+    - $ref: '#/components/parameters/ApiId'
+    get:
+      operationId: getIntegrations
+      summary: Amazon API Gateway List Integrations
+      description: Gets a collection of integrations for an API.
+      tags:
+      - Integrations
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Integrations'
+              examples:
+                getIntegrations200Example:
+                  summary: Default getIntegrations 200 response
+                  x-microcks-default: true
+                  value:
+                    Items:
+                    - example-value
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    post:
+      operationId: createIntegration
+      summary: Amazon API Gateway Create an Integration
+      description: Creates an integration for an API.
+      tags:
+      - Integrations
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateIntegrationRequest'
+            examples:
+              createIntegrationRequestExample:
+                summary: Default createIntegration request
+                x-microcks-default: true
+                value:
+                  IntegrationType: AWS
+                  IntegrationUri: https://example.com/resource/123
+                  PayloadFormatVersion: '1.0'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Integration'
+              examples:
+                createIntegration201Example:
+                  summary: Default createIntegration 201 response
+                  x-microcks-default: true
+                  value:
+                    IntegrationId: abc123
+                    IntegrationType: example-value
+                    IntegrationUri: https://example.com/resource/123
+                    PayloadFormatVersion: '1.0'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  parameters:
+    ApiId:
+      name: api_id
+      in: path
+      required: true
+      description: API identifier.
+      schema:
+        type: string
+  schemas:
+    CreateIntegrationRequest:
+      type: object
+      required:
+      - IntegrationType
+      properties:
+        IntegrationType:
+          type: string
+          description: Type of integration.
+          enum:
+          - AWS
+          - AWS_PROXY
+          - HTTP
+          - HTTP_PROXY
+          - MOCK
+          example: AWS
+        IntegrationUri:
+          type: string
+          description: Integration target URI.
+          example: https://example.com/resource/123
+        PayloadFormatVersion:
+          type: string
+          description: Payload format version.
+          example: '1.0'
+    Integration:
+      type: object
+      properties:
+        IntegrationId:
+          type: string
+          description: Integration identifier.
+          example: abc123
+        IntegrationType:
+          type: string
+          description: Type of integration (AWS_PROXY, HTTP_PROXY, etc.).
+          example: example-value
+        IntegrationUri:
+          type: string
+          description: Integration target URI.
+          example: https://example.com/resource/123
+        PayloadFormatVersion:
+          type: string
+          description: Payload format version.
+          example: '1.0'
+    Integrations:
+      type: object
+      properties:
+        Items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Integration'
+          example:
+          - example-value
+  securitySchemes:
+    sigv4:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: AWS Signature Version 4 signed request.
+externalDocs:
+  description: Amazon API Gateway Management API Reference
+  url: https://docs.aws.amazon.com/apigatewaymanagementapi/latest/reference/Welcome.html

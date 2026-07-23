@@ -1,0 +1,145 @@
+openapi: 3.1.0
+info:
+  title: Amazon API Gateway Management ApiKeys API
+  description: The API Gateway Management API allows backend services to send messages to connected clients of a deployed WebSocket API and to disconnect clients. Requests are made against the deployed stage's callback URL.
+  version: '2018-11-29'
+  contact:
+    name: AWS Support
+    url: https://aws.amazon.com/premiumsupport/
+  termsOfService: https://aws.amazon.com/service-terms/
+servers:
+- url: https://{api_id}.execute-api.{region}.amazonaws.com/{stage}
+  description: WebSocket API callback endpoint
+  variables:
+    api_id:
+      default: example
+      description: WebSocket API identifier
+    region:
+      default: us-east-1
+      description: AWS region
+    stage:
+      default: prod
+      description: Deployment stage name
+security:
+- sigv4: []
+tags:
+- name: ApiKeys
+  description: Manage API keys
+paths:
+  /apikeys:
+    get:
+      operationId: getApiKeys
+      summary: Amazon API Gateway List API Keys
+      description: Lists the ApiKeys for the caller's account.
+      tags:
+      - ApiKeys
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKeys'
+              examples:
+                getApiKeys200Example:
+                  summary: Default getApiKeys 200 response
+                  x-microcks-default: true
+                  value:
+                    items:
+                    - example-value
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    post:
+      operationId: createApiKey
+      summary: Amazon API Gateway Create an API Key
+      description: Creates a new ApiKey resource.
+      tags:
+      - ApiKeys
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateApiKeyRequest'
+            examples:
+              createApiKeyRequestExample:
+                summary: Default createApiKey request
+                x-microcks-default: true
+                value:
+                  name: my-resource
+                  description: A description of this resource.
+                  enabled: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKey'
+              examples:
+                createApiKey201Example:
+                  summary: Default createApiKey 201 response
+                  x-microcks-default: true
+                  value:
+                    id: abc123
+                    value: example-value
+                    name: my-resource
+                    enabled: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    ApiKeys:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiKey'
+          example:
+          - example-value
+    CreateApiKeyRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the ApiKey.
+          example: my-resource
+        description:
+          type: string
+          description: Description of the ApiKey.
+          example: A description of this resource.
+        enabled:
+          type: boolean
+          description: Whether the ApiKey should be enabled.
+          example: true
+    ApiKey:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ApiKey identifier.
+          example: abc123
+        value:
+          type: string
+          description: Value of the ApiKey.
+          example: example-value
+        name:
+          type: string
+          description: Name of the ApiKey.
+          example: my-resource
+        enabled:
+          type: boolean
+          description: Whether the ApiKey is enabled.
+          example: true
+  securitySchemes:
+    sigv4:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: AWS Signature Version 4 signed request.
+externalDocs:
+  description: Amazon API Gateway Management API Reference
+  url: https://docs.aws.amazon.com/apigatewaymanagementapi/latest/reference/Welcome.html

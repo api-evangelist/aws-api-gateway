@@ -1,19 +1,12 @@
 openapi: 3.1.0
 info:
-  title: Amazon API Gateway Management API
-  description: >-
-    The API Gateway Management API allows backend services to send
-    messages to connected clients of a deployed WebSocket API and to
-    disconnect clients. Requests are made against the deployed stage's
-    callback URL.
+  title: Amazon API Gateway Management ApiKeys Connections API
+  description: The API Gateway Management API allows backend services to send messages to connected clients of a deployed WebSocket API and to disconnect clients. Requests are made against the deployed stage's callback URL.
   version: '2018-11-29'
   contact:
     name: AWS Support
     url: https://aws.amazon.com/premiumsupport/
   termsOfService: https://aws.amazon.com/service-terms/
-externalDocs:
-  description: Amazon API Gateway Management API Reference
-  url: https://docs.aws.amazon.com/apigatewaymanagementapi/latest/reference/Welcome.html
 servers:
 - url: https://{api_id}.execute-api.{region}.amazonaws.com/{stage}
   description: WebSocket API callback endpoint
@@ -27,11 +20,11 @@ servers:
     stage:
       default: prod
       description: Deployment stage name
+security:
+- sigv4: []
 tags:
 - name: Connections
   description: Manage and message active WebSocket connections
-security:
-- sigv4: []
 paths:
   /@connections/{connectionId}:
     parameters:
@@ -39,8 +32,7 @@ paths:
     get:
       operationId: getConnection
       summary: Amazon API Gateway Get Connection Info
-      description: >-
-        Retrieves information about the connection with the provided id.
+      description: Retrieves information about the connection with the provided id.
       tags:
       - Connections
       responses:
@@ -70,9 +62,7 @@ paths:
     post:
       operationId: postToConnection
       summary: Amazon API Gateway Send Message to Connection
-      description: >-
-        Sends a message to the connected WebSocket client identified
-        by connectionId.
+      description: Sends a message to the connected WebSocket client identified by connectionId.
       tags:
       - Connections
       requestBody:
@@ -97,9 +87,7 @@ paths:
     delete:
       operationId: deleteConnection
       summary: Amazon API Gateway Disconnect a Client
-      description: >-
-        Forcibly disconnects the WebSocket client identified by
-        connectionId.
+      description: Forcibly disconnects the WebSocket client identified by connectionId.
       tags:
       - Connections
       responses:
@@ -113,34 +101,25 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
-  securitySchemes:
-    sigv4:
-      type: apiKey
-      in: header
-      name: Authorization
-      description: AWS Signature Version 4 signed request.
-  parameters:
-    ConnectionId:
-      name: connectionId
-      in: path
-      required: true
-      description: Identifier of the WebSocket connection.
-      schema:
-        type: string
-  responses:
-    NotFound:
-      description: The specified connection does not exist.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Gone:
-      description: The connection is no longer available.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
+    Error:
+      type: object
+      properties:
+        Message:
+          type: string
+          description: Human-readable error message.
+          example: example-value
+    Identity:
+      type: object
+      properties:
+        SourceIp:
+          type: string
+          description: Source IP address of the client.
+          example: example-value
+        UserAgent:
+          type: string
+          description: User agent string from the client.
+          example: example-value
     Connection:
       type: object
       properties:
@@ -156,21 +135,33 @@ components:
           example: '2025-03-15T14:30:00Z'
         Identity:
           $ref: '#/components/schemas/Identity'
-    Identity:
-      type: object
-      properties:
-        SourceIp:
-          type: string
-          description: Source IP address of the client.
-          example: example-value
-        UserAgent:
-          type: string
-          description: User agent string from the client.
-          example: example-value
-    Error:
-      type: object
-      properties:
-        Message:
-          type: string
-          description: Human-readable error message.
-          example: example-value
+  responses:
+    NotFound:
+      description: The specified connection does not exist.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Gone:
+      description: The connection is no longer available.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    ConnectionId:
+      name: connectionId
+      in: path
+      required: true
+      description: Identifier of the WebSocket connection.
+      schema:
+        type: string
+  securitySchemes:
+    sigv4:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: AWS Signature Version 4 signed request.
+externalDocs:
+  description: Amazon API Gateway Management API Reference
+  url: https://docs.aws.amazon.com/apigatewaymanagementapi/latest/reference/Welcome.html

@@ -1,0 +1,176 @@
+openapi: 3.1.0
+info:
+  title: Amazon API Gateway Management ApiKeys Methods API
+  description: The API Gateway Management API allows backend services to send messages to connected clients of a deployed WebSocket API and to disconnect clients. Requests are made against the deployed stage's callback URL.
+  version: '2018-11-29'
+  contact:
+    name: AWS Support
+    url: https://aws.amazon.com/premiumsupport/
+  termsOfService: https://aws.amazon.com/service-terms/
+servers:
+- url: https://{api_id}.execute-api.{region}.amazonaws.com/{stage}
+  description: WebSocket API callback endpoint
+  variables:
+    api_id:
+      default: example
+      description: WebSocket API identifier
+    region:
+      default: us-east-1
+      description: AWS region
+    stage:
+      default: prod
+      description: Deployment stage name
+security:
+- sigv4: []
+tags:
+- name: Methods
+  description: Manage HTTP methods on resources
+paths:
+  /restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}:
+    parameters:
+    - $ref: '#/components/parameters/RestApiId'
+    - $ref: '#/components/parameters/ResourceId'
+    - $ref: '#/components/parameters/HttpMethod'
+    get:
+      operationId: getMethod
+      summary: Amazon API Gateway Get a Method
+      description: Retrieves the Method resource for a given HTTP verb on a Resource.
+      tags:
+      - Methods
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Method'
+              examples:
+                getMethod200Example:
+                  summary: Default getMethod 200 response
+                  x-microcks-default: true
+                  value:
+                    httpMethod: example-value
+                    authorizationType: example-value
+                    apiKeyRequired: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    put:
+      operationId: putMethod
+      summary: Amazon API Gateway Put a Method
+      description: Adds an HTTP method to a Resource.
+      tags:
+      - Methods
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PutMethodRequest'
+            examples:
+              putMethodRequestExample:
+                summary: Default putMethod request
+                x-microcks-default: true
+                value:
+                  authorizationType: example-value
+                  apiKeyRequired: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Method'
+              examples:
+                putMethod201Example:
+                  summary: Default putMethod 201 response
+                  x-microcks-default: true
+                  value:
+                    httpMethod: example-value
+                    authorizationType: example-value
+                    apiKeyRequired: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    delete:
+      operationId: deleteMethod
+      summary: Amazon API Gateway Delete a Method
+      description: Deletes a Method resource.
+      tags:
+      - Methods
+      responses:
+        '202':
+          description: Accepted
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  parameters:
+    HttpMethod:
+      name: http_method
+      in: path
+      required: true
+      description: HTTP verb of the Method.
+      schema:
+        type: string
+        enum:
+        - GET
+        - POST
+        - PUT
+        - PATCH
+        - DELETE
+        - HEAD
+        - OPTIONS
+        - ANY
+    ResourceId:
+      name: resource_id
+      in: path
+      required: true
+      description: Identifier of the Resource.
+      schema:
+        type: string
+    RestApiId:
+      name: restapi_id
+      in: path
+      required: true
+      description: Identifier of the RestApi resource.
+      schema:
+        type: string
+  schemas:
+    PutMethodRequest:
+      type: object
+      required:
+      - authorizationType
+      properties:
+        authorizationType:
+          type: string
+          description: Authorization type (NONE, AWS_IAM, CUSTOM, COGNITO_USER_POOLS).
+          example: example-value
+        apiKeyRequired:
+          type: boolean
+          description: Whether to require an API key.
+          example: true
+    Method:
+      type: object
+      properties:
+        httpMethod:
+          type: string
+          description: HTTP method verb.
+          example: example-value
+        authorizationType:
+          type: string
+          description: Authorization type for invoking the method.
+          example: example-value
+        apiKeyRequired:
+          type: boolean
+          description: Whether the method requires an API key.
+          example: true
+  securitySchemes:
+    sigv4:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: AWS Signature Version 4 signed request.
+externalDocs:
+  description: Amazon API Gateway Management API Reference
+  url: https://docs.aws.amazon.com/apigatewaymanagementapi/latest/reference/Welcome.html

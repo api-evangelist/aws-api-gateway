@@ -1,0 +1,178 @@
+openapi: 3.1.0
+info:
+  title: Amazon API Gateway Management ApiKeys UsagePlans API
+  description: The API Gateway Management API allows backend services to send messages to connected clients of a deployed WebSocket API and to disconnect clients. Requests are made against the deployed stage's callback URL.
+  version: '2018-11-29'
+  contact:
+    name: AWS Support
+    url: https://aws.amazon.com/premiumsupport/
+  termsOfService: https://aws.amazon.com/service-terms/
+servers:
+- url: https://{api_id}.execute-api.{region}.amazonaws.com/{stage}
+  description: WebSocket API callback endpoint
+  variables:
+    api_id:
+      default: example
+      description: WebSocket API identifier
+    region:
+      default: us-east-1
+      description: AWS region
+    stage:
+      default: prod
+      description: Deployment stage name
+security:
+- sigv4: []
+tags:
+- name: UsagePlans
+  description: Manage usage plans
+paths:
+  /usageplans:
+    get:
+      operationId: getUsagePlans
+      summary: Amazon API Gateway List Usage Plans
+      description: Lists the usage plans for the caller's account.
+      tags:
+      - UsagePlans
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsagePlans'
+              examples:
+                getUsagePlans200Example:
+                  summary: Default getUsagePlans 200 response
+                  x-microcks-default: true
+                  value:
+                    items:
+                    - example-value
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    post:
+      operationId: createUsagePlan
+      summary: Amazon API Gateway Create a Usage Plan
+      description: Creates a usage plan with throttle and quota configuration.
+      tags:
+      - UsagePlans
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUsagePlanRequest'
+            examples:
+              createUsagePlanRequestExample:
+                summary: Default createUsagePlan request
+                x-microcks-default: true
+                value:
+                  name: my-resource
+                  description: A description of this resource.
+                  throttle:
+                    burstLimit: 86
+                    rateLimit: 27.41
+                  quota:
+                    limit: 68
+                    period: DAY
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsagePlan'
+              examples:
+                createUsagePlan201Example:
+                  summary: Default createUsagePlan 201 response
+                  x-microcks-default: true
+                  value:
+                    id: abc123
+                    name: my-resource
+                    throttle:
+                      burstLimit: 7
+                      rateLimit: 67.04
+                    quota:
+                      limit: 17
+                      period: DAY
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    UsagePlan:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Usage plan identifier.
+          example: abc123
+        name:
+          type: string
+          description: Usage plan name.
+          example: my-resource
+        throttle:
+          $ref: '#/components/schemas/ThrottleSettings'
+        quota:
+          $ref: '#/components/schemas/QuotaSettings'
+    QuotaSettings:
+      type: object
+      properties:
+        limit:
+          type: integer
+          description: Maximum number of requests in the period.
+          example: 24
+        period:
+          type: string
+          description: Time period (DAY, WEEK, MONTH).
+          enum:
+          - DAY
+          - WEEK
+          - MONTH
+          example: DAY
+    ThrottleSettings:
+      type: object
+      properties:
+        burstLimit:
+          type: integer
+          description: Burst limit for requests.
+          example: 49
+        rateLimit:
+          type: number
+          description: Steady-state rate limit (requests per second).
+          example: 69.99
+    CreateUsagePlanRequest:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          description: Name of the usage plan.
+          example: my-resource
+        description:
+          type: string
+          description: Description of the usage plan.
+          example: A description of this resource.
+        throttle:
+          $ref: '#/components/schemas/ThrottleSettings'
+        quota:
+          $ref: '#/components/schemas/QuotaSettings'
+    UsagePlans:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/UsagePlan'
+          example:
+          - example-value
+  securitySchemes:
+    sigv4:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: AWS Signature Version 4 signed request.
+externalDocs:
+  description: Amazon API Gateway Management API Reference
+  url: https://docs.aws.amazon.com/apigatewaymanagementapi/latest/reference/Welcome.html

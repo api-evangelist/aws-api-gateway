@@ -1,0 +1,267 @@
+openapi: 3.1.0
+info:
+  title: Amazon API Gateway Management ApiKeys RestApis API
+  description: The API Gateway Management API allows backend services to send messages to connected clients of a deployed WebSocket API and to disconnect clients. Requests are made against the deployed stage's callback URL.
+  version: '2018-11-29'
+  contact:
+    name: AWS Support
+    url: https://aws.amazon.com/premiumsupport/
+  termsOfService: https://aws.amazon.com/service-terms/
+servers:
+- url: https://{api_id}.execute-api.{region}.amazonaws.com/{stage}
+  description: WebSocket API callback endpoint
+  variables:
+    api_id:
+      default: example
+      description: WebSocket API identifier
+    region:
+      default: us-east-1
+      description: AWS region
+    stage:
+      default: prod
+      description: Deployment stage name
+security:
+- sigv4: []
+tags:
+- name: RestApis
+  description: Manage REST API definitions
+paths:
+  /restapis:
+    get:
+      operationId: getRestApis
+      summary: Amazon API Gateway List REST APIs
+      description: Lists the RestApi resources for the caller's account.
+      tags:
+      - RestApis
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestApis'
+              examples:
+                getRestApis200Example:
+                  summary: Default getRestApis 200 response
+                  x-microcks-default: true
+                  value:
+                    items:
+                    - example-value
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    post:
+      operationId: createRestApi
+      summary: Amazon API Gateway Create a REST API
+      description: Creates a new RestApi resource.
+      tags:
+      - RestApis
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateRestApiRequest'
+            examples:
+              createRestApiRequestExample:
+                summary: Default createRestApi request
+                x-microcks-default: true
+                value:
+                  name: my-resource
+                  description: A description of this resource.
+                  version: '1.0'
+                  endpointConfiguration:
+                    types:
+                    - EDGE
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestApi'
+              examples:
+                createRestApi201Example:
+                  summary: Default createRestApi 201 response
+                  x-microcks-default: true
+                  value:
+                    id: abc123
+                    name: my-resource
+                    description: A description of this resource.
+                    createdDate: '2025-03-15T14:30:00Z'
+                    version: '1.0'
+                    endpointConfiguration:
+                      types:
+                      - EDGE
+        '400':
+          $ref: '#/components/responses/BadRequest'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /restapis/{restapi_id}:
+    parameters:
+    - $ref: '#/components/parameters/RestApiId'
+    get:
+      operationId: getRestApi
+      summary: Amazon API Gateway Get a REST API
+      description: Retrieves a single RestApi resource.
+      tags:
+      - RestApis
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestApi'
+              examples:
+                getRestApi200Example:
+                  summary: Default getRestApi 200 response
+                  x-microcks-default: true
+                  value:
+                    id: abc123
+                    name: my-resource
+                    description: A description of this resource.
+                    createdDate: '2025-03-15T14:30:00Z'
+                    version: '1.0'
+                    endpointConfiguration:
+                      types:
+                      - EDGE
+        '404':
+          $ref: '#/components/responses/NotFound'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    delete:
+      operationId: deleteRestApi
+      summary: Amazon API Gateway Delete a REST API
+      description: Deletes the specified RestApi resource.
+      tags:
+      - RestApis
+      responses:
+        '202':
+          description: Accepted
+        '404':
+          $ref: '#/components/responses/NotFound'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    RestApi:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Identifier of the RestApi.
+          example: abc123
+        name:
+          type: string
+          description: Name of the RestApi.
+          example: my-resource
+        description:
+          type: string
+          description: Description of the RestApi.
+          example: A description of this resource.
+        createdDate:
+          type: string
+          format: date-time
+          description: Timestamp when the RestApi was created.
+          example: '2025-03-15T14:30:00Z'
+        version:
+          type: string
+          description: Version identifier of the API.
+          example: '1.0'
+        endpointConfiguration:
+          $ref: '#/components/schemas/EndpointConfiguration'
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Human-readable error message.
+          example: example-value
+        code:
+          type: string
+          description: Error code.
+          example: example-value
+    CreateRestApiRequest:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          description: Name of the new RestApi.
+          example: my-resource
+        description:
+          type: string
+          description: Optional description.
+          example: A description of this resource.
+        version:
+          type: string
+          description: Version identifier.
+          example: '1.0'
+        endpointConfiguration:
+          $ref: '#/components/schemas/EndpointConfiguration'
+    RestApis:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/RestApi'
+          example:
+          - example-value
+    EndpointConfiguration:
+      type: object
+      properties:
+        types:
+          type: array
+          description: List of endpoint types (EDGE, REGIONAL, PRIVATE).
+          items:
+            type: string
+            enum:
+            - EDGE
+            - REGIONAL
+            - PRIVATE
+          example:
+          - EDGE
+  responses:
+    Unauthorized:
+      description: The request was not authenticated.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request was malformed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    RestApiId:
+      name: restapi_id
+      in: path
+      required: true
+      description: Identifier of the RestApi resource.
+      schema:
+        type: string
+  securitySchemes:
+    sigv4:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: AWS Signature Version 4 signed request.
+externalDocs:
+  description: Amazon API Gateway Management API Reference
+  url: https://docs.aws.amazon.com/apigatewaymanagementapi/latest/reference/Welcome.html

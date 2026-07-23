@@ -1,0 +1,259 @@
+openapi: 3.1.0
+info:
+  title: Amazon API Gateway Management ApiKeys Deployments API
+  description: The API Gateway Management API allows backend services to send messages to connected clients of a deployed WebSocket API and to disconnect clients. Requests are made against the deployed stage's callback URL.
+  version: '2018-11-29'
+  contact:
+    name: AWS Support
+    url: https://aws.amazon.com/premiumsupport/
+  termsOfService: https://aws.amazon.com/service-terms/
+servers:
+- url: https://{api_id}.execute-api.{region}.amazonaws.com/{stage}
+  description: WebSocket API callback endpoint
+  variables:
+    api_id:
+      default: example
+      description: WebSocket API identifier
+    region:
+      default: us-east-1
+      description: AWS region
+    stage:
+      default: prod
+      description: Deployment stage name
+security:
+- sigv4: []
+tags:
+- name: Deployments
+  description: Manage API deployments
+paths:
+  /restapis/{restapi_id}/deployments:
+    parameters:
+    - $ref: '#/components/parameters/RestApiId'
+    get:
+      operationId: getDeployments
+      summary: Amazon API Gateway List Deployments
+      description: Lists deployments for a RestApi.
+      tags:
+      - Deployments
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Deployments'
+              examples:
+                getDeployments200Example:
+                  summary: Default getDeployments 200 response
+                  x-microcks-default: true
+                  value:
+                    items:
+                    - example-value
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    post:
+      operationId: createDeployment
+      summary: Amazon API Gateway Create a Deployment
+      description: Creates a deployment for a RestApi.
+      tags:
+      - Deployments
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateDeploymentRequest'
+            examples:
+              createDeploymentRequestExample:
+                summary: Default createDeployment request
+                x-microcks-default: true
+                value:
+                  stageName: my-resource
+                  description: A description of this resource.
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Deployment'
+              examples:
+                createDeployment201Example:
+                  summary: Default createDeployment 201 response
+                  x-microcks-default: true
+                  value:
+                    id: abc123
+                    description: A description of this resource.
+                    createdDate: '2025-03-15T14:30:00Z'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /v2/apis/{api_id}/deployments:
+    parameters:
+    - $ref: '#/components/parameters/ApiId'
+    get:
+      operationId: getDeployments
+      summary: Amazon API Gateway List Deployments
+      description: Gets a collection of deployments for an API.
+      tags:
+      - Deployments
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Deployments_2'
+              examples:
+                getDeployments200Example:
+                  summary: Default getDeployments 200 response
+                  x-microcks-default: true
+                  value:
+                    Items:
+                    - example-value
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    post:
+      operationId: createDeployment
+      summary: Amazon API Gateway Create a Deployment
+      description: Creates a deployment for an API.
+      tags:
+      - Deployments
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateDeploymentRequest_2'
+            examples:
+              createDeploymentRequestExample:
+                summary: Default createDeployment request
+                x-microcks-default: true
+                value:
+                  StageName: my-resource
+                  Description: A description of this resource.
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Deployment_2'
+              examples:
+                createDeployment201Example:
+                  summary: Default createDeployment 201 response
+                  x-microcks-default: true
+                  value:
+                    DeploymentId: abc123
+                    Description: A description of this resource.
+                    DeploymentStatus: ACTIVE
+                    CreatedDate: '2025-03-15T14:30:00Z'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    Deployments:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Deployment'
+          example:
+          - example-value
+    Deployment_2:
+      type: object
+      properties:
+        DeploymentId:
+          type: string
+          description: Deployment identifier.
+          example: abc123
+        Description:
+          type: string
+          description: Description of the deployment.
+          example: A description of this resource.
+        DeploymentStatus:
+          type: string
+          description: Status of the deployment (PENDING, FAILED, DEPLOYED).
+          example: ACTIVE
+        CreatedDate:
+          type: string
+          format: date-time
+          description: Timestamp when the deployment was created.
+          example: '2025-03-15T14:30:00Z'
+    CreateDeploymentRequest_2:
+      type: object
+      properties:
+        StageName:
+          type: string
+          description: Stage to deploy to.
+          example: my-resource
+        Description:
+          type: string
+          description: Description of the deployment.
+          example: A description of this resource.
+    Deployments_2:
+      type: object
+      properties:
+        Items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Deployment_2'
+          example:
+          - example-value
+    Deployment:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Deployment identifier.
+          example: abc123
+        description:
+          type: string
+          description: Description of the deployment.
+          example: A description of this resource.
+        createdDate:
+          type: string
+          format: date-time
+          description: Timestamp when the deployment was created.
+          example: '2025-03-15T14:30:00Z'
+    CreateDeploymentRequest:
+      type: object
+      required:
+      - stageName
+      properties:
+        stageName:
+          type: string
+          description: Name of the stage to deploy to.
+          example: my-resource
+        description:
+          type: string
+          description: Description of the deployment.
+          example: A description of this resource.
+  parameters:
+    ApiId:
+      name: api_id
+      in: path
+      required: true
+      description: API identifier.
+      schema:
+        type: string
+    RestApiId:
+      name: restapi_id
+      in: path
+      required: true
+      description: Identifier of the RestApi resource.
+      schema:
+        type: string
+  securitySchemes:
+    sigv4:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: AWS Signature Version 4 signed request.
+externalDocs:
+  description: Amazon API Gateway Management API Reference
+  url: https://docs.aws.amazon.com/apigatewaymanagementapi/latest/reference/Welcome.html
