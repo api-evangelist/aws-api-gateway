@@ -588,6 +588,14 @@ apis:
   - type: APIReference
     url: https://docs.aws.amazon.com/apigatewaymanagementapi/latest/reference/Welcome.html
 common:
+- type: APIReference
+  url: https://docs.aws.amazon.com/apigateway/api-reference/
+- type: Security
+  url: https://aws.amazon.com/security/?nc1=f_cc
+- type: Compliance
+  url: https://aws.amazon.com/compliance/?nc2=h_dsc_aa_cmp
+- type: SignUp
+  url: https://signin.aws.amazon.com/signup?request_type=register
 - type: AgenticAccess
   url: agentic-access/aws-api-gateway-agentic-access.yml
 - type: TrustCenter
