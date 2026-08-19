@@ -1,0 +1,345 @@
+{
+  "item": [
+    {
+      "id": "e45709d4-869b-4988-b1df-da37b7915377",
+      "name": "Routes",
+      "description": {
+        "content": "Manage routes within an API",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "6611bd0f-78a8-43e7-bc7b-19880c61e1f1",
+          "name": "Amazon API Gateway List Routes",
+          "request": {
+            "name": "Amazon API Gateway List Routes",
+            "description": {
+              "content": "Gets a collection of routes for an API.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "apis",
+                ":api_id",
+                "routes"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "{{api_id}}",
+                  "key": "api_id",
+                  "description": "WebSocket API identifier"
+                },
+                {
+                  "description": "AWS region",
+                  "type": "any",
+                  "value": "{{region}}",
+                  "key": "region"
+                },
+                {
+                  "description": "Deployment stage name",
+                  "type": "any",
+                  "value": "{{stage}}",
+                  "key": "stage"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "bdfb1fb9-8690-401b-aee8-acb65b9b4f05",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "apis",
+                    ":api_id",
+                    "routes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "{{api_id}}",
+                      "key": "api_id",
+                      "description": "WebSocket API identifier"
+                    },
+                    {
+                      "description": "AWS region",
+                      "type": "any",
+                      "value": "{{region}}",
+                      "key": "region"
+                    },
+                    {
+                      "description": "Deployment stage name",
+                      "type": "any",
+                      "value": "{{stage}}",
+                      "key": "stage"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Items\": [\n    \"example-value\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d38ff230-85b3-4247-b8ed-e921940ae74a",
+          "name": "Amazon API Gateway Create a Route",
+          "request": {
+            "name": "Amazon API Gateway Create a Route",
+            "description": {
+              "content": "Creates a route for an API.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "apis",
+                ":api_id",
+                "routes"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "{{api_id}}",
+                  "key": "api_id",
+                  "description": "WebSocket API identifier"
+                },
+                {
+                  "description": "AWS region",
+                  "type": "any",
+                  "value": "{{region}}",
+                  "key": "region"
+                },
+                {
+                  "description": "Deployment stage name",
+                  "type": "any",
+                  "value": "{{stage}}",
+                  "key": "stage"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"RouteKey\": \"<string>\",\n  \"Target\": \"<string>\",\n  \"AuthorizationType\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "56c52720-dec7-4964-a6e5-2e7aaaabf638",
+              "name": "Created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "apis",
+                    ":api_id",
+                    "routes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "{{api_id}}",
+                      "key": "api_id",
+                      "description": "WebSocket API identifier"
+                    },
+                    {
+                      "description": "AWS region",
+                      "type": "any",
+                      "value": "{{region}}",
+                      "key": "region"
+                    },
+                    {
+                      "description": "Deployment stage name",
+                      "type": "any",
+                      "value": "{{stage}}",
+                      "key": "stage"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"RouteKey\": \"example-value\",\n  \"Target\": \"example-value\",\n  \"AuthorizationType\": \"example-value\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"RouteId\": \"abc123\",\n  \"RouteKey\": \"example-value\",\n  \"Target\": \"example-value\",\n  \"AuthorizationType\": \"example-value\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "WebSocket API identifier",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "example",
+      "key": "api_id"
+    },
+    {
+      "description": {
+        "content": "AWS region",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "us-east-1",
+      "key": "region"
+    },
+    {
+      "description": {
+        "content": "Deployment stage name",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "prod",
+      "key": "stage"
+    },
+    {
+      "type": "string",
+      "value": "https://{{api_id}}.execute-api.{{region}}.amazonaws.com/{{stage}}",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "241c384c-340a-4b3e-9173-6b45fcb95c22",
+    "name": "Amazon API Gateway Management ApiKeys Routes API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The API Gateway Management API allows backend services to send messages to connected clients of a deployed WebSocket API and to disconnect clients. Requests are made against the deployed stage's callback URL.\n\nContact Support:\n Name: AWS Support",
+      "type": "text/plain"
+    }
+  }
+}

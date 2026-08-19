@@ -1,0 +1,90 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Amazon API Gateway Management ApiKeys RestApis API",
+    "version": "2018-11-29"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "RestApis",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Amazon API Gateway List REST APIs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{api_id}.execute-api.{region}.amazonaws.com/{stage}/restapis"
+          },
+          "docs": "Lists the RestApi resources for the caller's account."
+        },
+        {
+          "info": {
+            "name": "Amazon API Gateway Create a REST API",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{api_id}.execute-api.{region}.amazonaws.com/{stage}/restapis",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new RestApi resource."
+        },
+        {
+          "info": {
+            "name": "Amazon API Gateway Get a REST API",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{api_id}.execute-api.{region}.amazonaws.com/{stage}/restapis/:restapi_id",
+            "params": [
+              {
+                "name": "restapi_id",
+                "value": "",
+                "type": "path",
+                "description": "Identifier of the RestApi resource."
+              }
+            ]
+          },
+          "docs": "Retrieves a single RestApi resource."
+        },
+        {
+          "info": {
+            "name": "Amazon API Gateway Delete a REST API",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{api_id}.execute-api.{region}.amazonaws.com/{stage}/restapis/:restapi_id",
+            "params": [
+              {
+                "name": "restapi_id",
+                "value": "",
+                "type": "path",
+                "description": "Identifier of the RestApi resource."
+              }
+            ]
+          },
+          "docs": "Deletes the specified RestApi resource."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

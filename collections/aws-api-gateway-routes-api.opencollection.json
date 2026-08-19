@@ -1,0 +1,68 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Amazon API Gateway Management ApiKeys Routes API",
+    "version": "2018-11-29"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Routes",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Amazon API Gateway List Routes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{api_id}.execute-api.{region}.amazonaws.com/{stage}/v2/apis/:api_id/routes",
+            "params": [
+              {
+                "name": "api_id",
+                "value": "",
+                "type": "path",
+                "description": "API identifier."
+              }
+            ]
+          },
+          "docs": "Gets a collection of routes for an API."
+        },
+        {
+          "info": {
+            "name": "Amazon API Gateway Create a Route",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{api_id}.execute-api.{region}.amazonaws.com/{stage}/v2/apis/:api_id/routes",
+            "params": [
+              {
+                "name": "api_id",
+                "value": "",
+                "type": "path",
+                "description": "API identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a route for an API."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

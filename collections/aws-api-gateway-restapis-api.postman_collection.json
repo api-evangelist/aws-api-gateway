@@ -1,0 +1,861 @@
+{
+  "item": [
+    {
+      "id": "461fb9ca-80e4-4527-9120-12e73f6e0fda",
+      "name": "RestApis",
+      "description": {
+        "content": "Manage REST API definitions",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "1945923a-77b9-4a2e-9bc6-83a670dac144",
+          "name": "Amazon API Gateway List REST APIs",
+          "request": {
+            "name": "Amazon API Gateway List REST APIs",
+            "description": {
+              "content": "Lists the RestApi resources for the caller's account.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "restapis"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "WebSocket API identifier",
+                  "type": "any",
+                  "value": "{{api_id}}",
+                  "key": "api_id"
+                },
+                {
+                  "description": "AWS region",
+                  "type": "any",
+                  "value": "{{region}}",
+                  "key": "region"
+                },
+                {
+                  "description": "Deployment stage name",
+                  "type": "any",
+                  "value": "{{stage}}",
+                  "key": "stage"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "41807a32-b43b-42d9-90a1-381bc8696817",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "restapis"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "WebSocket API identifier",
+                      "type": "any",
+                      "value": "{{api_id}}",
+                      "key": "api_id"
+                    },
+                    {
+                      "description": "AWS region",
+                      "type": "any",
+                      "value": "{{region}}",
+                      "key": "region"
+                    },
+                    {
+                      "description": "Deployment stage name",
+                      "type": "any",
+                      "value": "{{stage}}",
+                      "key": "stage"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"items\": [\n    \"example-value\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "246315b3-ceb6-419b-9c48-01f7c27fdbe7",
+              "name": "The request was not authenticated.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "restapis"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "WebSocket API identifier",
+                      "type": "any",
+                      "value": "{{api_id}}",
+                      "key": "api_id"
+                    },
+                    {
+                      "description": "AWS region",
+                      "type": "any",
+                      "value": "{{region}}",
+                      "key": "region"
+                    },
+                    {
+                      "description": "Deployment stage name",
+                      "type": "any",
+                      "value": "{{stage}}",
+                      "key": "stage"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"example-value\",\n  \"code\": \"example-value\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b14d235d-9818-4451-9953-c5eae46379d7",
+          "name": "Amazon API Gateway Create a REST API",
+          "request": {
+            "name": "Amazon API Gateway Create a REST API",
+            "description": {
+              "content": "Creates a new RestApi resource.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "restapis"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "WebSocket API identifier",
+                  "type": "any",
+                  "value": "{{api_id}}",
+                  "key": "api_id"
+                },
+                {
+                  "description": "AWS region",
+                  "type": "any",
+                  "value": "{{region}}",
+                  "key": "region"
+                },
+                {
+                  "description": "Deployment stage name",
+                  "type": "any",
+                  "value": "{{stage}}",
+                  "key": "stage"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"version\": \"<string>\",\n  \"endpointConfiguration\": {\n    \"types\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9ade07b6-f891-442d-a38d-118fa4e0fa50",
+              "name": "Created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "restapis"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "WebSocket API identifier",
+                      "type": "any",
+                      "value": "{{api_id}}",
+                      "key": "api_id"
+                    },
+                    {
+                      "description": "AWS region",
+                      "type": "any",
+                      "value": "{{region}}",
+                      "key": "region"
+                    },
+                    {
+                      "description": "Deployment stage name",
+                      "type": "any",
+                      "value": "{{stage}}",
+                      "key": "stage"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"my-resource\",\n  \"description\": \"A description of this resource.\",\n  \"version\": \"1.0\",\n  \"endpointConfiguration\": {\n    \"types\": [\n      \"EDGE\"\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"abc123\",\n  \"name\": \"my-resource\",\n  \"description\": \"A description of this resource.\",\n  \"createdDate\": \"2025-03-15T14:30:00Z\",\n  \"version\": \"1.0\",\n  \"endpointConfiguration\": {\n    \"types\": [\n      \"EDGE\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3a54f875-98fc-448b-ac78-08bdd98d508a",
+              "name": "The request was malformed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "restapis"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "WebSocket API identifier",
+                      "type": "any",
+                      "value": "{{api_id}}",
+                      "key": "api_id"
+                    },
+                    {
+                      "description": "AWS region",
+                      "type": "any",
+                      "value": "{{region}}",
+                      "key": "region"
+                    },
+                    {
+                      "description": "Deployment stage name",
+                      "type": "any",
+                      "value": "{{stage}}",
+                      "key": "stage"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"my-resource\",\n  \"description\": \"A description of this resource.\",\n  \"version\": \"1.0\",\n  \"endpointConfiguration\": {\n    \"types\": [\n      \"EDGE\"\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"example-value\",\n  \"code\": \"example-value\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5a481c83-087a-4fa3-8f8a-466b14b51851",
+          "name": "Amazon API Gateway Get a REST API",
+          "request": {
+            "name": "Amazon API Gateway Get a REST API",
+            "description": {
+              "content": "Retrieves a single RestApi resource.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "restapis",
+                ":restapi_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "restapi_id",
+                  "description": "(Required) Identifier of the RestApi resource."
+                },
+                {
+                  "description": "WebSocket API identifier",
+                  "type": "any",
+                  "value": "{{api_id}}",
+                  "key": "api_id"
+                },
+                {
+                  "description": "AWS region",
+                  "type": "any",
+                  "value": "{{region}}",
+                  "key": "region"
+                },
+                {
+                  "description": "Deployment stage name",
+                  "type": "any",
+                  "value": "{{stage}}",
+                  "key": "stage"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "3bfda992-7333-4c15-a785-5a23d322c3fc",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "restapis",
+                    ":restapi_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "restapi_id",
+                      "description": "(Required) Identifier of the RestApi resource."
+                    },
+                    {
+                      "description": "WebSocket API identifier",
+                      "type": "any",
+                      "value": "{{api_id}}",
+                      "key": "api_id"
+                    },
+                    {
+                      "description": "AWS region",
+                      "type": "any",
+                      "value": "{{region}}",
+                      "key": "region"
+                    },
+                    {
+                      "description": "Deployment stage name",
+                      "type": "any",
+                      "value": "{{stage}}",
+                      "key": "stage"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"abc123\",\n  \"name\": \"my-resource\",\n  \"description\": \"A description of this resource.\",\n  \"createdDate\": \"2025-03-15T14:30:00Z\",\n  \"version\": \"1.0\",\n  \"endpointConfiguration\": {\n    \"types\": [\n      \"EDGE\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "99fb1e7b-e066-4143-9189-fc0cc0c085c3",
+              "name": "The requested resource was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "restapis",
+                    ":restapi_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "restapi_id",
+                      "description": "(Required) Identifier of the RestApi resource."
+                    },
+                    {
+                      "description": "WebSocket API identifier",
+                      "type": "any",
+                      "value": "{{api_id}}",
+                      "key": "api_id"
+                    },
+                    {
+                      "description": "AWS region",
+                      "type": "any",
+                      "value": "{{region}}",
+                      "key": "region"
+                    },
+                    {
+                      "description": "Deployment stage name",
+                      "type": "any",
+                      "value": "{{stage}}",
+                      "key": "stage"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"example-value\",\n  \"code\": \"example-value\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f8cb0b92-b6c1-4cb5-8f8f-3a9561d77623",
+          "name": "Amazon API Gateway Delete a REST API",
+          "request": {
+            "name": "Amazon API Gateway Delete a REST API",
+            "description": {
+              "content": "Deletes the specified RestApi resource.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "restapis",
+                ":restapi_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "restapi_id",
+                  "description": "(Required) Identifier of the RestApi resource."
+                },
+                {
+                  "description": "WebSocket API identifier",
+                  "type": "any",
+                  "value": "{{api_id}}",
+                  "key": "api_id"
+                },
+                {
+                  "description": "AWS region",
+                  "type": "any",
+                  "value": "{{region}}",
+                  "key": "region"
+                },
+                {
+                  "description": "Deployment stage name",
+                  "type": "any",
+                  "value": "{{stage}}",
+                  "key": "stage"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "24db419c-9e20-49d5-836b-3acc6a843aca",
+              "name": "Accepted",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "restapis",
+                    ":restapi_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "restapi_id",
+                      "description": "(Required) Identifier of the RestApi resource."
+                    },
+                    {
+                      "description": "WebSocket API identifier",
+                      "type": "any",
+                      "value": "{{api_id}}",
+                      "key": "api_id"
+                    },
+                    {
+                      "description": "AWS region",
+                      "type": "any",
+                      "value": "{{region}}",
+                      "key": "region"
+                    },
+                    {
+                      "description": "Deployment stage name",
+                      "type": "any",
+                      "value": "{{stage}}",
+                      "key": "stage"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "a1a0e1b0-8e6a-4d52-b318-59c506f6dbe9",
+              "name": "The requested resource was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "restapis",
+                    ":restapi_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "restapi_id",
+                      "description": "(Required) Identifier of the RestApi resource."
+                    },
+                    {
+                      "description": "WebSocket API identifier",
+                      "type": "any",
+                      "value": "{{api_id}}",
+                      "key": "api_id"
+                    },
+                    {
+                      "description": "AWS region",
+                      "type": "any",
+                      "value": "{{region}}",
+                      "key": "region"
+                    },
+                    {
+                      "description": "Deployment stage name",
+                      "type": "any",
+                      "value": "{{stage}}",
+                      "key": "stage"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"example-value\",\n  \"code\": \"example-value\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "WebSocket API identifier",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "example",
+      "key": "api_id"
+    },
+    {
+      "description": {
+        "content": "AWS region",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "us-east-1",
+      "key": "region"
+    },
+    {
+      "description": {
+        "content": "Deployment stage name",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "prod",
+      "key": "stage"
+    },
+    {
+      "type": "string",
+      "value": "https://{{api_id}}.execute-api.{{region}}.amazonaws.com/{{stage}}",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "dd15e88d-8953-4a2b-9740-fb7b57cbb651",
+    "name": "Amazon API Gateway Management ApiKeys RestApis API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The API Gateway Management API allows backend services to send messages to connected clients of a deployed WebSocket API and to disconnect clients. Requests are made against the deployed stage's callback URL.\n\nContact Support:\n Name: AWS Support",
+      "type": "text/plain"
+    }
+  }
+}

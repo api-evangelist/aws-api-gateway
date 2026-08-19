@@ -1,0 +1,123 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Amazon API Gateway Management ApiKeys Methods API",
+    "version": "2018-11-29"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Methods",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Amazon API Gateway Get a Method",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{api_id}.execute-api.{region}.amazonaws.com/{stage}/restapis/:restapi_id/resources/:resource_id/methods/:http_method",
+            "params": [
+              {
+                "name": "restapi_id",
+                "value": "",
+                "type": "path",
+                "description": "Identifier of the RestApi resource."
+              },
+              {
+                "name": "resource_id",
+                "value": "",
+                "type": "path",
+                "description": "Identifier of the Resource."
+              },
+              {
+                "name": "http_method",
+                "value": "",
+                "type": "path",
+                "description": "HTTP verb of the Method."
+              }
+            ]
+          },
+          "docs": "Retrieves the Method resource for a given HTTP verb on a Resource."
+        },
+        {
+          "info": {
+            "name": "Amazon API Gateway Put a Method",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://{api_id}.execute-api.{region}.amazonaws.com/{stage}/restapis/:restapi_id/resources/:resource_id/methods/:http_method",
+            "params": [
+              {
+                "name": "restapi_id",
+                "value": "",
+                "type": "path",
+                "description": "Identifier of the RestApi resource."
+              },
+              {
+                "name": "resource_id",
+                "value": "",
+                "type": "path",
+                "description": "Identifier of the Resource."
+              },
+              {
+                "name": "http_method",
+                "value": "",
+                "type": "path",
+                "description": "HTTP verb of the Method."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Adds an HTTP method to a Resource."
+        },
+        {
+          "info": {
+            "name": "Amazon API Gateway Delete a Method",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{api_id}.execute-api.{region}.amazonaws.com/{stage}/restapis/:restapi_id/resources/:resource_id/methods/:http_method",
+            "params": [
+              {
+                "name": "restapi_id",
+                "value": "",
+                "type": "path",
+                "description": "Identifier of the RestApi resource."
+              },
+              {
+                "name": "resource_id",
+                "value": "",
+                "type": "path",
+                "description": "Identifier of the Resource."
+              },
+              {
+                "name": "http_method",
+                "value": "",
+                "type": "path",
+                "description": "HTTP verb of the Method."
+              }
+            ]
+          },
+          "docs": "Deletes a Method resource."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
