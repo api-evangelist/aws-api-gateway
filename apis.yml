@@ -77,6 +77,8 @@ apis:
   humanURL: https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html
   baseURL: https://apigateway.{region}.amazonaws.com
   tags:
+  - APIKeys
+  tags_raw:
   - ApiKeys
   properties:
   - type: OpenAPI
@@ -120,7 +122,8 @@ apis:
   description: The Apis API from Amazon API Gateway — 2 operation(s) for apis.
   humanURL: https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html
   baseURL: https://apigateway.{region}.amazonaws.com
-  tags:
+  tags: []
+  tags_raw:
   - Apis
   properties:
   - type: OpenAPI
@@ -253,6 +256,8 @@ apis:
   humanURL: https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html
   baseURL: https://apigateway.{region}.amazonaws.com
   tags:
+  - Deployment
+  tags_raw:
   - Deployments
   properties:
   - type: OpenAPI
@@ -297,6 +302,8 @@ apis:
   humanURL: https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html
   baseURL: https://apigateway.{region}.amazonaws.com
   tags:
+  - Integration
+  tags_raw:
   - Integrations
   properties:
   - type: OpenAPI
@@ -340,7 +347,8 @@ apis:
   description: Manage HTTP methods on resources
   humanURL: https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html
   baseURL: https://apigateway.{region}.amazonaws.com
-  tags:
+  tags: []
+  tags_raw:
   - Methods
   properties:
   - type: OpenAPI
@@ -429,6 +437,8 @@ apis:
   humanURL: https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html
   baseURL: https://apigateway.{region}.amazonaws.com
   tags:
+  - REST APIs
+  tags_raw:
   - RestApis
   properties:
   - type: OpenAPI
@@ -561,6 +571,8 @@ apis:
   humanURL: https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html
   baseURL: https://apigateway.{region}.amazonaws.com
   tags:
+  - Usage Plans
+  tags_raw:
   - UsagePlans
   properties:
   - type: OpenAPI
