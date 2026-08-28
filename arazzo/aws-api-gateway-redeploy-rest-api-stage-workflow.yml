@@ -11,8 +11,11 @@ info:
     description.
   version: 1.0.0
 sourceDescriptions:
-- name: apiGatewayV1
-  url: ../openapi/aws-api-gateway-v1-openapi.yml
+- name: deploymentsApi
+  url: ../openapi/aws-api-gateway-deployments-api-openapi.yml
+  type: openapi
+- name: restapisApi
+  url: ../openapi/aws-api-gateway-restapis-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: redeploy-rest-api-stage

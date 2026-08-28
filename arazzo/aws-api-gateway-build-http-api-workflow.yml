@@ -12,8 +12,17 @@ info:
     underlying OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: apiGatewayV2
-  url: ../openapi/aws-api-gateway-v2-openapi.yml
+- name: apisApi
+  url: ../openapi/aws-api-gateway-apis-api-openapi.yml
+  type: openapi
+- name: integrationsApi
+  url: ../openapi/aws-api-gateway-integrations-api-openapi.yml
+  type: openapi
+- name: routesApi
+  url: ../openapi/aws-api-gateway-routes-api-openapi.yml
+  type: openapi
+- name: stagesApi
+  url: ../openapi/aws-api-gateway-stages-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: build-http-api
@@ -53,7 +62,7 @@ workflows:
   steps:
   - stepId: createApi
     description: Create the HTTP API container.
-    operationId: $sourceDescriptions.apiGatewayV2.createApi
+    operationId: $sourceDescriptions.apisApi.createApi
     requestBody:
       contentType: application/json
       payload:

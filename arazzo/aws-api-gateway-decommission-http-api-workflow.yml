@@ -12,8 +12,11 @@ info:
     description.
   version: 1.0.0
 sourceDescriptions:
-- name: apiGatewayV2
-  url: ../openapi/aws-api-gateway-v2-openapi.yml
+- name: apisApi
+  url: ../openapi/aws-api-gateway-apis-api-openapi.yml
+  type: openapi
+- name: stagesApi
+  url: ../openapi/aws-api-gateway-stages-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: decommission-http-api
@@ -43,7 +46,7 @@ workflows:
       apiName: $response.body#/Name
   - stepId: listStages
     description: List stages to decide whether the API is safe to delete.
-    operationId: $sourceDescriptions.apiGatewayV2.getStages
+    operationId: $sourceDescriptions.stagesApi.getStages
     parameters:
     - name: api_id
       in: path

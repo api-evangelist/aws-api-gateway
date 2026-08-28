@@ -13,8 +13,11 @@ info:
     OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: apiGatewayV1
-  url: ../openapi/aws-api-gateway-v1-openapi.yml
+- name: apikeysApi
+  url: ../openapi/aws-api-gateway-apikeys-api-openapi.yml
+  type: openapi
+- name: usageplansApi
+  url: ../openapi/aws-api-gateway-usageplans-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: create-api-key-and-usage-plan

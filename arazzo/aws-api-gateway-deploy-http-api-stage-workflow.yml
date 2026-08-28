@@ -11,8 +11,14 @@ info:
     opening the underlying OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: apiGatewayV2
-  url: ../openapi/aws-api-gateway-v2-openapi.yml
+- name: apisApi
+  url: ../openapi/aws-api-gateway-apis-api-openapi.yml
+  type: openapi
+- name: deploymentsApi
+  url: ../openapi/aws-api-gateway-deployments-api-openapi.yml
+  type: openapi
+- name: stagesApi
+  url: ../openapi/aws-api-gateway-stages-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: deploy-http-api-stage
@@ -49,7 +55,7 @@ workflows:
       apiName: $response.body#/Name
   - stepId: createDeployment
     description: Create a deployment snapshot of the current API configuration.
-    operationId: $sourceDescriptions.apiGatewayV2.createDeployment
+    operationId: $sourceDescriptions.deploymentsApi.createDeployment
     parameters:
     - name: api_id
       in: path
