@@ -1,25 +1,19 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Amazon API Gateway Management ApiKeys UsagePlans API
-  description: The API Gateway Management API allows backend services to send messages to connected clients of a deployed WebSocket API and to disconnect clients. Requests are made against the deployed stage's callback URL.
-  version: '2018-11-29'
+  title: Amazon API Gateway V1 (REST) Usage Plans API
+  description: The API Gateway V1 control plane API is used to create, deploy, and manage REST APIs in Amazon API Gateway.
+  version: '2015-07-09'
   contact:
     name: AWS Support
     url: https://aws.amazon.com/premiumsupport/
   termsOfService: https://aws.amazon.com/service-terms/
 servers:
-- url: https://{api_id}.execute-api.{region}.amazonaws.com/{stage}
-  description: WebSocket API callback endpoint
+- url: https://apigateway.{region}.amazonaws.com
+  description: Amazon API Gateway regional endpoint
   variables:
-    api_id:
-      default: example
-      description: WebSocket API identifier
     region:
       default: us-east-1
       description: AWS region
-    stage:
-      default: prod
-      description: Deployment stage name
 security:
 - sigv4: []
 tags:
@@ -100,21 +94,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    UsagePlan:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Usage plan identifier.
-          example: abc123
-        name:
-          type: string
-          description: Usage plan name.
-          example: my-resource
-        throttle:
-          $ref: '#/components/schemas/ThrottleSettings'
-        quota:
-          $ref: '#/components/schemas/QuotaSettings'
     QuotaSettings:
       type: object
       properties:
@@ -167,6 +146,21 @@ components:
             $ref: '#/components/schemas/UsagePlan'
           example:
           - example-value
+    UsagePlan:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Usage plan identifier.
+          example: abc123
+        name:
+          type: string
+          description: Usage plan name.
+          example: my-resource
+        throttle:
+          $ref: '#/components/schemas/ThrottleSettings'
+        quota:
+          $ref: '#/components/schemas/QuotaSettings'
   securitySchemes:
     sigv4:
       type: apiKey
@@ -174,5 +168,5 @@ components:
       name: Authorization
       description: AWS Signature Version 4 signed request.
 externalDocs:
-  description: Amazon API Gateway Management API Reference
-  url: https://docs.aws.amazon.com/apigatewaymanagementapi/latest/reference/Welcome.html
+  description: Amazon API Gateway V1 API Reference
+  url: https://docs.aws.amazon.com/apigateway/latest/api/Welcome.html

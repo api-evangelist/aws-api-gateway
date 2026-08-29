@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Amazon API Gateway Management ApiKeys Connections API
+  title: Amazon API Gateway Management Connections API
   description: The API Gateway Management API allows backend services to send messages to connected clients of a deployed WebSocket API and to disconnect clients. Requests are made against the deployed stage's callback URL.
   version: '2018-11-29'
   contact:

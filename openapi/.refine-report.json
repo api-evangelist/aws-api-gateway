@@ -1,36 +1,52 @@
 {
   "provider": "aws-api-gateway",
   "sources": [
-    "aws-api-gateway-apikeys-api-openapi.yml",
-    "aws-api-gateway-apis-api-openapi.yml",
-    "aws-api-gateway-authorizers-api-openapi.yml",
-    "aws-api-gateway-connections-api-openapi.yml",
-    "aws-api-gateway-deployments-api-openapi.yml",
-    "aws-api-gateway-integrations-api-openapi.yml",
-    "aws-api-gateway-methods-api-openapi.yml",
-    "aws-api-gateway-resources-api-openapi.yml",
-    "aws-api-gateway-restapis-api-openapi.yml",
-    "aws-api-gateway-routes-api-openapi.yml",
-    "aws-api-gateway-stages-api-openapi.yml",
-    "aws-api-gateway-usageplans-api-openapi.yml"
+    "_original/aws-api-gateway-management-openapi.yml",
+    "_original/aws-api-gateway-v1-openapi.yml",
+    "_original/aws-api-gateway-v2-openapi.yml"
   ],
   "outputs": [
-    "aws-api-gateway-apikeys-api-openapi.yml",
-    "aws-api-gateway-apis-api-openapi.yml",
-    "aws-api-gateway-authorizers-api-openapi.yml",
     "aws-api-gateway-connections-api-openapi.yml",
+    "aws-api-gateway-apikeys-api-openapi.yml",
     "aws-api-gateway-deployments-api-openapi.yml",
-    "aws-api-gateway-integrations-api-openapi.yml",
     "aws-api-gateway-methods-api-openapi.yml",
     "aws-api-gateway-resources-api-openapi.yml",
     "aws-api-gateway-restapis-api-openapi.yml",
-    "aws-api-gateway-routes-api-openapi.yml",
     "aws-api-gateway-stages-api-openapi.yml",
-    "aws-api-gateway-usageplans-api-openapi.yml"
+    "aws-api-gateway-usageplans-api-openapi.yml",
+    "aws-api-gateway-apis-api-openapi.yml",
+    "aws-api-gateway-authorizers-api-openapi.yml",
+    "aws-api-gateway-integrations-api-openapi.yml",
+    "aws-api-gateway-routes-api-openapi.yml"
   ],
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (3 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "aws-api-gateway-management-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "aws-api-gateway-v1-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "aws-api-gateway-v2-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "aws-api-gateway-v2-openapi.yml: tagged paths GET /v2/apis -> Apis",
+    "aws-api-gateway-v2-openapi.yml: tagged paths POST /v2/apis -> Apis",
+    "aws-api-gateway-v2-openapi.yml: tagged paths GET /v2/apis/{api_id} -> Apis",
+    "aws-api-gateway-v2-openapi.yml: tagged paths DELETE /v2/apis/{api_id} -> Apis",
+    "aws-api-gateway-v2-openapi.yml: declared missing tag: Apis",
+    "tag 'Deployments' spans 2 source specs (aws-api-gateway-v1-openapi.yml, aws-api-gateway-v2-openapi.yml): per-path servers applied",
+    "tag 'Stages' spans 2 source specs (aws-api-gateway-v1-openapi.yml, aws-api-gateway-v2-openapi.yml): per-path servers applied"
+  ],
+  "skipped": [
+    "aws-api-gateway-apikeys-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "aws-api-gateway-apis-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "aws-api-gateway-authorizers-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "aws-api-gateway-connections-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "aws-api-gateway-deployments-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "aws-api-gateway-integrations-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "aws-api-gateway-methods-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "aws-api-gateway-resources-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "aws-api-gateway-restapis-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "aws-api-gateway-routes-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "aws-api-gateway-stages-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "aws-api-gateway-usageplans-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

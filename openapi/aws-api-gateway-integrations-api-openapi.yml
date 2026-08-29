@@ -1,25 +1,19 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Amazon API Gateway Management ApiKeys Integrations API
-  description: The API Gateway Management API allows backend services to send messages to connected clients of a deployed WebSocket API and to disconnect clients. Requests are made against the deployed stage's callback URL.
+  title: Amazon API Gateway V2 (HTTP and WebSocket) Integrations API
+  description: The API Gateway V2 control plane API is used to create, deploy, and manage HTTP APIs and WebSocket APIs in Amazon API Gateway.
   version: '2018-11-29'
   contact:
     name: AWS Support
     url: https://aws.amazon.com/premiumsupport/
   termsOfService: https://aws.amazon.com/service-terms/
 servers:
-- url: https://{api_id}.execute-api.{region}.amazonaws.com/{stage}
-  description: WebSocket API callback endpoint
+- url: https://apigateway.{region}.amazonaws.com
+  description: Amazon API Gateway regional endpoint
   variables:
-    api_id:
-      default: example
-      description: WebSocket API identifier
     region:
       default: us-east-1
       description: AWS region
-    stage:
-      default: prod
-      description: Deployment stage name
 security:
 - sigv4: []
 tags:
@@ -92,38 +86,7 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
-  parameters:
-    ApiId:
-      name: api_id
-      in: path
-      required: true
-      description: API identifier.
-      schema:
-        type: string
   schemas:
-    CreateIntegrationRequest:
-      type: object
-      required:
-      - IntegrationType
-      properties:
-        IntegrationType:
-          type: string
-          description: Type of integration.
-          enum:
-          - AWS
-          - AWS_PROXY
-          - HTTP
-          - HTTP_PROXY
-          - MOCK
-          example: AWS
-        IntegrationUri:
-          type: string
-          description: Integration target URI.
-          example: https://example.com/resource/123
-        PayloadFormatVersion:
-          type: string
-          description: Payload format version.
-          example: '1.0'
     Integration:
       type: object
       properties:
@@ -152,6 +115,37 @@ components:
             $ref: '#/components/schemas/Integration'
           example:
           - example-value
+    CreateIntegrationRequest:
+      type: object
+      required:
+      - IntegrationType
+      properties:
+        IntegrationType:
+          type: string
+          description: Type of integration.
+          enum:
+          - AWS
+          - AWS_PROXY
+          - HTTP
+          - HTTP_PROXY
+          - MOCK
+          example: AWS
+        IntegrationUri:
+          type: string
+          description: Integration target URI.
+          example: https://example.com/resource/123
+        PayloadFormatVersion:
+          type: string
+          description: Payload format version.
+          example: '1.0'
+  parameters:
+    ApiId:
+      name: api_id
+      in: path
+      required: true
+      description: API identifier.
+      schema:
+        type: string
   securitySchemes:
     sigv4:
       type: apiKey
@@ -159,5 +153,5 @@ components:
       name: Authorization
       description: AWS Signature Version 4 signed request.
 externalDocs:
-  description: Amazon API Gateway Management API Reference
-  url: https://docs.aws.amazon.com/apigatewaymanagementapi/latest/reference/Welcome.html
+  description: Amazon API Gateway V2 API Reference
+  url: https://docs.aws.amazon.com/apigatewayv2/latest/api-reference/Welcome.html
