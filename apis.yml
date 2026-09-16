@@ -52,10 +52,11 @@ specificationVersion: '0.23'
 apis:
 - aid: aws-api-gateway:aws-api-gateway-portals
   name: Amazon API Gateway Portals
-  description: The API Gateway Portals control plane (introduced November 19, 2025) lets you create branded
-    developer portals that catalog REST APIs. A portal contains PortalProducts (logical groupings of REST
-    APIs) and Product REST Endpoint Pages that publish path/method/stage-level documentation. Portals
-    are Region-scoped, shareable across AWS accounts, and access-controlled via Amazon Cognito user pools.
+  description: >-
+    The API Gateway Portals control plane (introduced November 19, 2025) lets you create branded developer
+    portals that catalog REST APIs. A portal contains PortalProducts (logical groupings of REST APIs)
+    and Product REST Endpoint Pages that publish path/method/stage-level documentation. Portals are Region-scoped,
+    shareable across AWS accounts, and access-controlled via Amazon Cognito user pools.
   image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   humanURL: https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-portals.html
   baseURL: https://apigateway.{region}.amazonaws.com
@@ -108,11 +109,13 @@ apis:
   - type: GettingStarted
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop.html
   - type: Documentation
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api.html
+    url: >-
+      https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api.html
   - type: AsyncAPI
     url: asyncapi/aws-api-gateway-asyncapi.yml
   - type: Documentation
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-how-to-call-websocket-api-connections.html
+    url: >-
+      https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-how-to-call-websocket-api-connections.html
   - type: APIReference
     url: https://docs.aws.amazon.com/apigatewaymanagementapi/latest/reference/Welcome.html
 - aid: aws-api-gateway:aws-api-gateway-apis-api
@@ -151,11 +154,13 @@ apis:
   - type: GettingStarted
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop.html
   - type: Documentation
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api.html
+    url: >-
+      https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api.html
   - type: AsyncAPI
     url: asyncapi/aws-api-gateway-asyncapi.yml
   - type: Documentation
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-how-to-call-websocket-api-connections.html
+    url: >-
+      https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-how-to-call-websocket-api-connections.html
   - type: APIReference
     url: https://docs.aws.amazon.com/apigatewaymanagementapi/latest/reference/Welcome.html
 - aid: aws-api-gateway:aws-api-gateway-authorizers-api
@@ -193,11 +198,13 @@ apis:
   - type: GettingStarted
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop.html
   - type: Documentation
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api.html
+    url: >-
+      https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api.html
   - type: AsyncAPI
     url: asyncapi/aws-api-gateway-asyncapi.yml
   - type: Documentation
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-how-to-call-websocket-api-connections.html
+    url: >-
+      https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-how-to-call-websocket-api-connections.html
   - type: APIReference
     url: https://docs.aws.amazon.com/apigatewaymanagementapi/latest/reference/Welcome.html
 - aid: aws-api-gateway:aws-api-gateway-connections-api
@@ -235,11 +242,13 @@ apis:
   - type: GettingStarted
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop.html
   - type: Documentation
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api.html
+    url: >-
+      https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api.html
   - type: AsyncAPI
     url: asyncapi/aws-api-gateway-asyncapi.yml
   - type: Documentation
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-how-to-call-websocket-api-connections.html
+    url: >-
+      https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-how-to-call-websocket-api-connections.html
   - type: APIReference
     url: https://docs.aws.amazon.com/apigatewaymanagementapi/latest/reference/Welcome.html
 - aid: aws-api-gateway:aws-api-gateway-deployments-api
@@ -279,11 +288,13 @@ apis:
   - type: GettingStarted
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop.html
   - type: Documentation
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api.html
+    url: >-
+      https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api.html
   - type: AsyncAPI
     url: asyncapi/aws-api-gateway-asyncapi.yml
   - type: Documentation
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-how-to-call-websocket-api-connections.html
+    url: >-
+      https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-how-to-call-websocket-api-connections.html
   - type: APIReference
     url: https://docs.aws.amazon.com/apigatewaymanagementapi/latest/reference/Welcome.html
 - aid: aws-api-gateway:aws-api-gateway-integrations-api
@@ -323,11 +334,13 @@ apis:
   - type: GettingStarted
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop.html
   - type: Documentation
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api.html
+    url: >-
+      https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api.html
   - type: AsyncAPI
     url: asyncapi/aws-api-gateway-asyncapi.yml
   - type: Documentation
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-how-to-call-websocket-api-connections.html
+    url: >-
+      https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-how-to-call-websocket-api-connections.html
   - type: APIReference
     url: https://docs.aws.amazon.com/apigatewaymanagementapi/latest/reference/Welcome.html
 - aid: aws-api-gateway:aws-api-gateway-methods-api
@@ -366,11 +379,13 @@ apis:
   - type: GettingStarted
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop.html
   - type: Documentation
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api.html
+    url: >-
+      https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api.html
   - type: AsyncAPI
     url: asyncapi/aws-api-gateway-asyncapi.yml
   - type: Documentation
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-how-to-call-websocket-api-connections.html
+    url: >-
+      https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-how-to-call-websocket-api-connections.html
   - type: APIReference
     url: https://docs.aws.amazon.com/apigatewaymanagementapi/latest/reference/Welcome.html
 - aid: aws-api-gateway:aws-api-gateway-resources-api
@@ -408,11 +423,13 @@ apis:
   - type: GettingStarted
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop.html
   - type: Documentation
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api.html
+    url: >-
+      https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api.html
   - type: AsyncAPI
     url: asyncapi/aws-api-gateway-asyncapi.yml
   - type: Documentation
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-how-to-call-websocket-api-connections.html
+    url: >-
+      https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-how-to-call-websocket-api-connections.html
   - type: APIReference
     url: https://docs.aws.amazon.com/apigatewaymanagementapi/latest/reference/Welcome.html
 - aid: aws-api-gateway:aws-api-gateway-restapis-api
@@ -452,11 +469,13 @@ apis:
   - type: GettingStarted
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop.html
   - type: Documentation
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api.html
+    url: >-
+      https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api.html
   - type: AsyncAPI
     url: asyncapi/aws-api-gateway-asyncapi.yml
   - type: Documentation
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-how-to-call-websocket-api-connections.html
+    url: >-
+      https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-how-to-call-websocket-api-connections.html
   - type: APIReference
     url: https://docs.aws.amazon.com/apigatewaymanagementapi/latest/reference/Welcome.html
 - aid: aws-api-gateway:aws-api-gateway-routes-api
@@ -494,11 +513,13 @@ apis:
   - type: GettingStarted
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop.html
   - type: Documentation
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api.html
+    url: >-
+      https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api.html
   - type: AsyncAPI
     url: asyncapi/aws-api-gateway-asyncapi.yml
   - type: Documentation
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-how-to-call-websocket-api-connections.html
+    url: >-
+      https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-how-to-call-websocket-api-connections.html
   - type: APIReference
     url: https://docs.aws.amazon.com/apigatewaymanagementapi/latest/reference/Welcome.html
 - aid: aws-api-gateway:aws-api-gateway-stages-api
@@ -536,11 +557,13 @@ apis:
   - type: GettingStarted
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop.html
   - type: Documentation
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api.html
+    url: >-
+      https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api.html
   - type: AsyncAPI
     url: asyncapi/aws-api-gateway-asyncapi.yml
   - type: Documentation
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-how-to-call-websocket-api-connections.html
+    url: >-
+      https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-how-to-call-websocket-api-connections.html
   - type: APIReference
     url: https://docs.aws.amazon.com/apigatewaymanagementapi/latest/reference/Welcome.html
 - aid: aws-api-gateway:aws-api-gateway-usageplans-api
@@ -580,11 +603,13 @@ apis:
   - type: GettingStarted
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop.html
   - type: Documentation
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api.html
+    url: >-
+      https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api.html
   - type: AsyncAPI
     url: asyncapi/aws-api-gateway-asyncapi.yml
   - type: Documentation
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-how-to-call-websocket-api-connections.html
+    url: >-
+      https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-how-to-call-websocket-api-connections.html
   - type: APIReference
     url: https://docs.aws.amazon.com/apigatewaymanagementapi/latest/reference/Welcome.html
 - name: Amazon API Gateway WebSocket API
@@ -602,17 +627,20 @@ apis:
   - WebSocket
   properties:
   - type: Documentation
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api.html
+    url: >-
+      https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api.html
   - type: Getting Started
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api-overview.html
+    url: >-
+      https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api-overview.html
   - type: AsyncAPI
     url: asyncapi/amazon-api-gateway-websocket-asyncapi.yml
   - type: JSON-LD
     url: json-ld/amazon-api-gateway-context.jsonld
   aid: aws-api-gateway:websocket-api
 - name: Amazon API Gateway HTTP API
-  description: Lower latency and lower cost alternative to REST APIs with essential features for building
-    HTTP-based APIs.
+  description: >-
+    Lower latency and lower cost alternative to REST APIs with essential features for building HTTP-based
+    APIs.
   image: https://a0.awsstatic.com/libra-css/images/logos/aws_logo_smile_1200x630.png
   humanURL: https://aws.amazon.com/api-gateway/
   baseURL: https://apigateway.{region}.amazonaws.com
@@ -627,10 +655,12 @@ apis:
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-vs-rest.html
   aid: aws-api-gateway:http-api
 - name: Amazon API Gateway Management API
-  description: API for directly managing runtime aspects of deployed APIs, including sending data to connected
-    WebSocket clients via the @connections endpoint and managing connection state.
+  description: >-
+    API for directly managing runtime aspects of deployed APIs, including sending data to connected WebSocket
+    clients via the @connections endpoint and managing connection state.
   image: https://a0.awsstatic.com/libra-css/images/logos/aws_logo_smile_1200x630.png
-  humanURL: https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-how-to-call-websocket-api-connections.html
+  humanURL: >-
+    https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-how-to-call-websocket-api-connections.html
   baseURL: https://{api-id}.execute-api.{region}.amazonaws.com/{stage}
   tags:
   - Connections
@@ -639,20 +669,19 @@ apis:
   - WebSocket
   properties:
   - type: Documentation
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-how-to-call-websocket-api-connections.html
+    url: >-
+      https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-how-to-call-websocket-api-connections.html
   aid: aws-api-gateway:management-api
-- aid: aws-api-gateway:amazon-api-gateway-api-keys-api
+- aid: aws-api-gateway:aws-api-gateway-api-keys-api
   name: Amazon API Gateway API Keys API
   description: Operations for managing API keys
-  humanURL: https://aws.amazon.com/api-gateway/
+  humanURL: https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-portals.html
   baseURL: https://apigateway.{region}.amazonaws.com
   tags:
-  - APIKeys
-  tags_raw:
   - API Keys
   properties:
   - type: OpenAPI
-    url: openapi/amazon-api-gateway-api-keys-api-openapi.yml
+    url: openapi/aws-api-gateway-api-keys-api-openapi.yml
   - type: Documentation
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html
   - type: Pricing
@@ -687,16 +716,16 @@ apis:
     url: json-structure/amazon-api-gateway-apikeys-structure.json
   - type: JSONLD
     url: json-ld/amazon-api-gateway-context.jsonld
-- aid: aws-api-gateway:amazon-api-gateway-base-path-mappings-api
+- aid: aws-api-gateway:aws-api-gateway-base-path-mappings-api
   name: Amazon API Gateway Base Path Mappings API
   description: Operations for managing base path mappings
-  humanURL: https://aws.amazon.com/api-gateway/
+  humanURL: https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-portals.html
   baseURL: https://apigateway.{region}.amazonaws.com
   tags:
   - Base Path Mappings
   properties:
   - type: OpenAPI
-    url: openapi/amazon-api-gateway-base-path-mappings-api-openapi.yml
+    url: openapi/aws-api-gateway-base-path-mappings-api-openapi.yml
   - type: Documentation
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html
   - type: Pricing
@@ -731,16 +760,16 @@ apis:
     url: json-structure/amazon-api-gateway-apikeys-structure.json
   - type: JSONLD
     url: json-ld/amazon-api-gateway-context.jsonld
-- aid: aws-api-gateway:amazon-api-gateway-documentation-api
+- aid: aws-api-gateway:aws-api-gateway-documentation-api
   name: Amazon API Gateway Documentation API
   description: Operations for managing API documentation
-  humanURL: https://aws.amazon.com/api-gateway/
+  humanURL: https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-portals.html
   baseURL: https://apigateway.{region}.amazonaws.com
   tags:
   - Documentation
   properties:
   - type: OpenAPI
-    url: openapi/amazon-api-gateway-documentation-api-openapi.yml
+    url: openapi/aws-api-gateway-documentation-api-openapi.yml
   - type: Documentation
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html
   - type: Pricing
@@ -775,16 +804,16 @@ apis:
     url: json-structure/amazon-api-gateway-apikeys-structure.json
   - type: JSONLD
     url: json-ld/amazon-api-gateway-context.jsonld
-- aid: aws-api-gateway:amazon-api-gateway-domain-names-api
+- aid: aws-api-gateway:aws-api-gateway-domain-names-api
   name: Amazon API Gateway Domain Names API
   description: Operations for managing custom domain names
-  humanURL: https://aws.amazon.com/api-gateway/
+  humanURL: https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-portals.html
   baseURL: https://apigateway.{region}.amazonaws.com
   tags:
   - Domain Names
   properties:
   - type: OpenAPI
-    url: openapi/amazon-api-gateway-domain-names-api-openapi.yml
+    url: openapi/aws-api-gateway-domain-names-api-openapi.yml
   - type: Documentation
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html
   - type: Pricing
@@ -819,16 +848,16 @@ apis:
     url: json-structure/amazon-api-gateway-apikeys-structure.json
   - type: JSONLD
     url: json-ld/amazon-api-gateway-context.jsonld
-- aid: aws-api-gateway:amazon-api-gateway-gateway-responses-api
-  name: Amazon API Gateway Responses API
+- aid: aws-api-gateway:aws-api-gateway-gateway-responses-api
+  name: Amazon API Gateway Gateway Responses API
   description: Operations for managing gateway responses
-  humanURL: https://aws.amazon.com/api-gateway/
+  humanURL: https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-portals.html
   baseURL: https://apigateway.{region}.amazonaws.com
   tags:
   - Gateway Responses
   properties:
   - type: OpenAPI
-    url: openapi/amazon-api-gateway-gateway-responses-api-openapi.yml
+    url: openapi/aws-api-gateway-gateway-responses-api-openapi.yml
   - type: Documentation
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html
   - type: Pricing
@@ -863,16 +892,16 @@ apis:
     url: json-structure/amazon-api-gateway-apikeys-structure.json
   - type: JSONLD
     url: json-ld/amazon-api-gateway-context.jsonld
-- aid: aws-api-gateway:amazon-api-gateway-models-api
+- aid: aws-api-gateway:aws-api-gateway-models-api
   name: Amazon API Gateway Models API
   description: Operations for managing API data models
-  humanURL: https://aws.amazon.com/api-gateway/
+  humanURL: https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-portals.html
   baseURL: https://apigateway.{region}.amazonaws.com
   tags:
   - Models
   properties:
   - type: OpenAPI
-    url: openapi/amazon-api-gateway-models-api-openapi.yml
+    url: openapi/aws-api-gateway-models-api-openapi.yml
   - type: Documentation
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html
   - type: Pricing
@@ -907,16 +936,16 @@ apis:
     url: json-structure/amazon-api-gateway-apikeys-structure.json
   - type: JSONLD
     url: json-ld/amazon-api-gateway-context.jsonld
-- aid: aws-api-gateway:amazon-api-gateway-request-validators-api
+- aid: aws-api-gateway:aws-api-gateway-request-validators-api
   name: Amazon API Gateway Request Validators API
   description: Operations for managing request validators
-  humanURL: https://aws.amazon.com/api-gateway/
+  humanURL: https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-portals.html
   baseURL: https://apigateway.{region}.amazonaws.com
   tags:
   - Request Validators
   properties:
   - type: OpenAPI
-    url: openapi/amazon-api-gateway-request-validators-api-openapi.yml
+    url: openapi/aws-api-gateway-request-validators-api-openapi.yml
   - type: Documentation
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html
   - type: Pricing
@@ -951,16 +980,16 @@ apis:
     url: json-structure/amazon-api-gateway-apikeys-structure.json
   - type: JSONLD
     url: json-ld/amazon-api-gateway-context.jsonld
-- aid: aws-api-gateway:amazon-api-gateway-rest-apis-api
+- aid: aws-api-gateway:aws-api-gateway-rest-apis-api
   name: Amazon API Gateway REST APIs API
   description: Operations for creating and managing REST APIs
-  humanURL: https://aws.amazon.com/api-gateway/
+  humanURL: https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-portals.html
   baseURL: https://apigateway.{region}.amazonaws.com
   tags:
   - REST APIs
   properties:
   - type: OpenAPI
-    url: openapi/amazon-api-gateway-rest-apis-api-openapi.yml
+    url: openapi/aws-api-gateway-rest-apis-api-openapi.yml
   - type: Documentation
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html
   - type: Pricing
@@ -995,16 +1024,16 @@ apis:
     url: json-structure/amazon-api-gateway-apikeys-structure.json
   - type: JSONLD
     url: json-ld/amazon-api-gateway-context.jsonld
-- aid: aws-api-gateway:amazon-api-gateway-usage-plans-api
+- aid: aws-api-gateway:aws-api-gateway-usage-plans-api
   name: Amazon API Gateway Usage Plans API
   description: Operations for managing usage plans and throttling
-  humanURL: https://aws.amazon.com/api-gateway/
+  humanURL: https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-portals.html
   baseURL: https://apigateway.{region}.amazonaws.com
   tags:
   - Usage Plans
   properties:
   - type: OpenAPI
-    url: openapi/amazon-api-gateway-usage-plans-api-openapi.yml
+    url: openapi/aws-api-gateway-usage-plans-api-openapi.yml
   - type: Documentation
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html
   - type: Pricing
@@ -1039,18 +1068,16 @@ apis:
     url: json-structure/amazon-api-gateway-apikeys-structure.json
   - type: JSONLD
     url: json-ld/amazon-api-gateway-context.jsonld
-- aid: aws-api-gateway:amazon-api-gateway-vpc-links-api
+- aid: aws-api-gateway:aws-api-gateway-vpc-links-api
   name: Amazon API Gateway VPC Links API
   description: Operations for managing VPC links
-  humanURL: https://aws.amazon.com/api-gateway/
+  humanURL: https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-portals.html
   baseURL: https://apigateway.{region}.amazonaws.com
   tags:
-  - Vpclinks
-  tags_raw:
   - VPC Links
   properties:
   - type: OpenAPI
-    url: openapi/amazon-api-gateway-vpc-links-api-openapi.yml
+    url: openapi/aws-api-gateway-vpc-links-api-openapi.yml
   - type: Documentation
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html
   - type: Pricing
