@@ -72,97 +72,6 @@ apis:
     url: https://docs.aws.amazon.com/apigateway/latest/api/Welcome.html
   - type: RateLimits
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/limits.html
-- aid: aws-api-gateway:aws-api-gateway-apikeys-api
-  name: Amazon API Gateway ApiKeys API
-  description: Manage API keys
-  humanURL: https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html
-  baseURL: https://apigateway.{region}.amazonaws.com
-  tags:
-  - APIKeys
-  tags_raw:
-  - ApiKeys
-  properties:
-  - type: OpenAPI
-    url: openapi/aws-api-gateway-apikeys-api-openapi.yml
-  - type: Documentation
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/
-  - type: APIReference
-    url: https://docs.aws.amazon.com/apigateway/latest/api/Welcome.html
-  - type: GettingStarted
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/getting-started.html
-  - type: Authentication
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/permissions.html
-  - type: Documentation
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-portals.html
-  - type: Documentation
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/mcp-server.html
-  - type: Documentation
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/response-transfer-mode.html
-  - type: Documentation
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/private-integration.html
-  - type: GraphQL
-    url: graphql/aws-api-gateway-graphql.md
-  - type: Documentation
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api.html
-  - type: APIReference
-    url: https://docs.aws.amazon.com/apigatewayv2/latest/api-reference/Welcome.html
-  - type: GettingStarted
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop.html
-  - type: Documentation
-    url: >-
-      https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api.html
-  - type: AsyncAPI
-    url: asyncapi/aws-api-gateway-asyncapi.yml
-  - type: Documentation
-    url: >-
-      https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-how-to-call-websocket-api-connections.html
-  - type: APIReference
-    url: https://docs.aws.amazon.com/apigatewaymanagementapi/latest/reference/Welcome.html
-- aid: aws-api-gateway:aws-api-gateway-apis-api
-  name: Amazon API Gateway Apis API
-  description: The Apis API from Amazon API Gateway — 2 operation(s) for apis.
-  humanURL: https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html
-  baseURL: https://apigateway.{region}.amazonaws.com
-  tags: []
-  tags_raw:
-  - Apis
-  properties:
-  - type: OpenAPI
-    url: openapi/aws-api-gateway-apis-api-openapi.yml
-  - type: Documentation
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/
-  - type: APIReference
-    url: https://docs.aws.amazon.com/apigateway/latest/api/Welcome.html
-  - type: GettingStarted
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/getting-started.html
-  - type: Authentication
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/permissions.html
-  - type: Documentation
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-portals.html
-  - type: Documentation
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/mcp-server.html
-  - type: Documentation
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/response-transfer-mode.html
-  - type: Documentation
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/private-integration.html
-  - type: GraphQL
-    url: graphql/aws-api-gateway-graphql.md
-  - type: Documentation
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api.html
-  - type: APIReference
-    url: https://docs.aws.amazon.com/apigatewayv2/latest/api-reference/Welcome.html
-  - type: GettingStarted
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop.html
-  - type: Documentation
-    url: >-
-      https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api.html
-  - type: AsyncAPI
-    url: asyncapi/aws-api-gateway-asyncapi.yml
-  - type: Documentation
-    url: >-
-      https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-how-to-call-websocket-api-connections.html
-  - type: APIReference
-    url: https://docs.aws.amazon.com/apigatewaymanagementapi/latest/reference/Welcome.html
 - aid: aws-api-gateway:aws-api-gateway-authorizers-api
   name: Amazon API Gateway Authorizers API
   description: Manage authorizers
@@ -432,52 +341,6 @@ apis:
       https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-how-to-call-websocket-api-connections.html
   - type: APIReference
     url: https://docs.aws.amazon.com/apigatewaymanagementapi/latest/reference/Welcome.html
-- aid: aws-api-gateway:aws-api-gateway-restapis-api
-  name: Amazon API Gateway RestApis API
-  description: Manage REST API definitions
-  humanURL: https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html
-  baseURL: https://apigateway.{region}.amazonaws.com
-  tags:
-  - REST APIs
-  tags_raw:
-  - RestApis
-  properties:
-  - type: OpenAPI
-    url: openapi/aws-api-gateway-restapis-api-openapi.yml
-  - type: Documentation
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/
-  - type: APIReference
-    url: https://docs.aws.amazon.com/apigateway/latest/api/Welcome.html
-  - type: GettingStarted
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/getting-started.html
-  - type: Authentication
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/permissions.html
-  - type: Documentation
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-portals.html
-  - type: Documentation
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/mcp-server.html
-  - type: Documentation
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/response-transfer-mode.html
-  - type: Documentation
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/private-integration.html
-  - type: GraphQL
-    url: graphql/aws-api-gateway-graphql.md
-  - type: Documentation
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api.html
-  - type: APIReference
-    url: https://docs.aws.amazon.com/apigatewayv2/latest/api-reference/Welcome.html
-  - type: GettingStarted
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop.html
-  - type: Documentation
-    url: >-
-      https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api.html
-  - type: AsyncAPI
-    url: asyncapi/aws-api-gateway-asyncapi.yml
-  - type: Documentation
-    url: >-
-      https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-how-to-call-websocket-api-connections.html
-  - type: APIReference
-    url: https://docs.aws.amazon.com/apigatewaymanagementapi/latest/reference/Welcome.html
 - aid: aws-api-gateway:aws-api-gateway-routes-api
   name: Amazon API Gateway Routes API
   description: Manage routes within an API
@@ -532,52 +395,6 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/aws-api-gateway-stages-api-openapi.yml
-  - type: Documentation
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/
-  - type: APIReference
-    url: https://docs.aws.amazon.com/apigateway/latest/api/Welcome.html
-  - type: GettingStarted
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/getting-started.html
-  - type: Authentication
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/permissions.html
-  - type: Documentation
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-portals.html
-  - type: Documentation
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/mcp-server.html
-  - type: Documentation
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/response-transfer-mode.html
-  - type: Documentation
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/private-integration.html
-  - type: GraphQL
-    url: graphql/aws-api-gateway-graphql.md
-  - type: Documentation
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api.html
-  - type: APIReference
-    url: https://docs.aws.amazon.com/apigatewayv2/latest/api-reference/Welcome.html
-  - type: GettingStarted
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop.html
-  - type: Documentation
-    url: >-
-      https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api.html
-  - type: AsyncAPI
-    url: asyncapi/aws-api-gateway-asyncapi.yml
-  - type: Documentation
-    url: >-
-      https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-how-to-call-websocket-api-connections.html
-  - type: APIReference
-    url: https://docs.aws.amazon.com/apigatewaymanagementapi/latest/reference/Welcome.html
-- aid: aws-api-gateway:aws-api-gateway-usageplans-api
-  name: Amazon API Gateway UsagePlans API
-  description: Manage usage plans
-  humanURL: https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html
-  baseURL: https://apigateway.{region}.amazonaws.com
-  tags:
-  - Usage Plans
-  tags_raw:
-  - UsagePlans
-  properties:
-  - type: OpenAPI
-    url: openapi/aws-api-gateway-usageplans-api-openapi.yml
   - type: Documentation
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/
   - type: APIReference
@@ -980,50 +797,6 @@ apis:
     url: json-structure/amazon-api-gateway-apikeys-structure.json
   - type: JSONLD
     url: json-ld/amazon-api-gateway-context.jsonld
-- aid: aws-api-gateway:aws-api-gateway-rest-apis-api
-  name: Amazon API Gateway REST APIs API
-  description: Operations for creating and managing REST APIs
-  humanURL: https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-portals.html
-  baseURL: https://apigateway.{region}.amazonaws.com
-  tags:
-  - REST APIs
-  properties:
-  - type: OpenAPI
-    url: openapi/aws-api-gateway-rest-apis-api-openapi.yml
-  - type: Documentation
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html
-  - type: Pricing
-    url: https://aws.amazon.com/api-gateway/pricing/
-  - type: Getting Started
-    url: https://aws.amazon.com/api-gateway/getting-started/
-  - type: FAQ
-    url: https://aws.amazon.com/api-gateway/faqs/
-  - type: Features
-    url: https://aws.amazon.com/api-gateway/features/
-  - type: Developer Guide
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html
-  - type: API Reference
-    url: https://docs.aws.amazon.com/apigateway/latest/api/API_Operations.html
-  - type: Quotas
-    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/limits.html
-  - type: JSONSchema
-    url: json-schema/amazon-api-gateway-accesslogsettings-schema.json
-  - type: JSONSchema
-    url: json-schema/amazon-api-gateway-api-schema.json
-  - type: JSONSchema
-    url: json-schema/amazon-api-gateway-apikey-schema.json
-  - type: JSONSchema
-    url: json-schema/amazon-api-gateway-apikeys-schema.json
-  - type: JSONSchema
-    url: json-schema/amazon-api-gateway-apistage-schema.json
-  - type: JSONStructure
-    url: json-structure/amazon-api-gateway-accesslogsettings-structure.json
-  - type: JSONStructure
-    url: json-structure/amazon-api-gateway-apikey-structure.json
-  - type: JSONStructure
-    url: json-structure/amazon-api-gateway-apikeys-structure.json
-  - type: JSONLD
-    url: json-ld/amazon-api-gateway-context.jsonld
 - aid: aws-api-gateway:aws-api-gateway-usage-plans-api
   name: Amazon API Gateway Usage Plans API
   description: Operations for managing usage plans and throttling
@@ -1068,16 +841,206 @@ apis:
     url: json-structure/amazon-api-gateway-apikeys-structure.json
   - type: JSONLD
     url: json-ld/amazon-api-gateway-context.jsonld
-- aid: aws-api-gateway:aws-api-gateway-vpc-links-api
-  name: Amazon API Gateway VPC Links API
+- aid: aws-api-gateway:aws-api-gateway-apis-api
+  name: Amazon API Gateway APIS API
+  description: The Apis API from Amazon API Gateway — 2 operation(s) for apis.
+  humanURL: https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-portals.html
+  baseURL: https://apigateway.{region}.amazonaws.com
+  tags:
+  - Apis
+  properties:
+  - type: OpenAPI
+    url: openapi/aws-api-gateway-apis-api-openapi.yml
+  - type: Documentation
+    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/
+  - type: APIReference
+    url: https://docs.aws.amazon.com/apigateway/latest/api/Welcome.html
+  - type: GettingStarted
+    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/getting-started.html
+  - type: Authentication
+    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/permissions.html
+  - type: Documentation
+    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-portals.html
+  - type: Documentation
+    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/mcp-server.html
+  - type: Documentation
+    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/response-transfer-mode.html
+  - type: Documentation
+    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/private-integration.html
+  - type: GraphQL
+    url: graphql/aws-api-gateway-graphql.md
+  - type: Documentation
+    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api.html
+  - type: APIReference
+    url: https://docs.aws.amazon.com/apigatewayv2/latest/api-reference/Welcome.html
+  - type: GettingStarted
+    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop.html
+  - type: Documentation
+    url: >-
+      https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api.html
+  - type: AsyncAPI
+    url: asyncapi/aws-api-gateway-asyncapi.yml
+  - type: Documentation
+    url: >-
+      https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-how-to-call-websocket-api-connections.html
+  - type: APIReference
+    url: https://docs.aws.amazon.com/apigatewaymanagementapi/latest/reference/Welcome.html
+  - type: Documentation
+    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html
+  - type: Pricing
+    url: https://aws.amazon.com/api-gateway/pricing/
+  - type: Getting Started
+    url: https://aws.amazon.com/api-gateway/getting-started/
+  - type: FAQ
+    url: https://aws.amazon.com/api-gateway/faqs/
+  - type: Features
+    url: https://aws.amazon.com/api-gateway/features/
+  - type: Developer Guide
+    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html
+  - type: API Reference
+    url: https://docs.aws.amazon.com/apigateway/latest/api/API_Operations.html
+  - type: Quotas
+    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/limits.html
+  - type: JSONSchema
+    url: json-schema/amazon-api-gateway-accesslogsettings-schema.json
+  - type: JSONSchema
+    url: json-schema/amazon-api-gateway-api-schema.json
+  - type: JSONSchema
+    url: json-schema/amazon-api-gateway-apikey-schema.json
+  - type: JSONSchema
+    url: json-schema/amazon-api-gateway-apikeys-schema.json
+  - type: JSONSchema
+    url: json-schema/amazon-api-gateway-apistage-schema.json
+  - type: JSONStructure
+    url: json-structure/amazon-api-gateway-accesslogsettings-structure.json
+  - type: JSONStructure
+    url: json-structure/amazon-api-gateway-apikey-structure.json
+  - type: JSONStructure
+    url: json-structure/amazon-api-gateway-apikeys-structure.json
+  - type: JSONLD
+    url: json-ld/amazon-api-gateway-context.jsonld
+- aid: aws-api-gateway:aws-api-gateway-rest-apis-api
+  name: Amazon API Gateway REST APIs API
+  description: Operations for creating and managing REST APIs
+  humanURL: https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-portals.html
+  baseURL: https://apigateway.{region}.amazonaws.com
+  tags:
+  - REST APIs
+  properties:
+  - type: OpenAPI
+    url: openapi/aws-api-gateway-rest-apis-api-openapi.yml
+  - type: Documentation
+    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/
+  - type: APIReference
+    url: https://docs.aws.amazon.com/apigateway/latest/api/Welcome.html
+  - type: GettingStarted
+    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/getting-started.html
+  - type: Authentication
+    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/permissions.html
+  - type: Documentation
+    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-portals.html
+  - type: Documentation
+    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/mcp-server.html
+  - type: Documentation
+    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/response-transfer-mode.html
+  - type: Documentation
+    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/private-integration.html
+  - type: GraphQL
+    url: graphql/aws-api-gateway-graphql.md
+  - type: Documentation
+    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api.html
+  - type: APIReference
+    url: https://docs.aws.amazon.com/apigatewayv2/latest/api-reference/Welcome.html
+  - type: GettingStarted
+    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop.html
+  - type: Documentation
+    url: >-
+      https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api.html
+  - type: AsyncAPI
+    url: asyncapi/aws-api-gateway-asyncapi.yml
+  - type: Documentation
+    url: >-
+      https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-how-to-call-websocket-api-connections.html
+  - type: APIReference
+    url: https://docs.aws.amazon.com/apigatewaymanagementapi/latest/reference/Welcome.html
+  - type: Documentation
+    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html
+  - type: Pricing
+    url: https://aws.amazon.com/api-gateway/pricing/
+  - type: Getting Started
+    url: https://aws.amazon.com/api-gateway/getting-started/
+  - type: FAQ
+    url: https://aws.amazon.com/api-gateway/faqs/
+  - type: Features
+    url: https://aws.amazon.com/api-gateway/features/
+  - type: Developer Guide
+    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html
+  - type: API Reference
+    url: https://docs.aws.amazon.com/apigateway/latest/api/API_Operations.html
+  - type: Quotas
+    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/limits.html
+  - type: JSONSchema
+    url: json-schema/amazon-api-gateway-accesslogsettings-schema.json
+  - type: JSONSchema
+    url: json-schema/amazon-api-gateway-api-schema.json
+  - type: JSONSchema
+    url: json-schema/amazon-api-gateway-apikey-schema.json
+  - type: JSONSchema
+    url: json-schema/amazon-api-gateway-apikeys-schema.json
+  - type: JSONSchema
+    url: json-schema/amazon-api-gateway-apistage-schema.json
+  - type: JSONStructure
+    url: json-structure/amazon-api-gateway-accesslogsettings-structure.json
+  - type: JSONStructure
+    url: json-structure/amazon-api-gateway-apikey-structure.json
+  - type: JSONStructure
+    url: json-structure/amazon-api-gateway-apikeys-structure.json
+  - type: JSONLD
+    url: json-ld/amazon-api-gateway-context.jsonld
+- aid: aws-api-gateway:aws-api-gateway-vpclinks-api
+  name: Amazon API Gateway Vpclinks API
   description: Operations for managing VPC links
   humanURL: https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-portals.html
   baseURL: https://apigateway.{region}.amazonaws.com
   tags:
-  - VPC Links
+  - Vpclinks
   properties:
   - type: OpenAPI
-    url: openapi/aws-api-gateway-vpc-links-api-openapi.yml
+    url: openapi/aws-api-gateway-vpclinks-api-openapi.yml
+  - type: Documentation
+    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/
+  - type: APIReference
+    url: https://docs.aws.amazon.com/apigateway/latest/api/Welcome.html
+  - type: GettingStarted
+    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/getting-started.html
+  - type: Authentication
+    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/permissions.html
+  - type: Documentation
+    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-portals.html
+  - type: Documentation
+    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/mcp-server.html
+  - type: Documentation
+    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/response-transfer-mode.html
+  - type: Documentation
+    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/private-integration.html
+  - type: GraphQL
+    url: graphql/aws-api-gateway-graphql.md
+  - type: Documentation
+    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api.html
+  - type: APIReference
+    url: https://docs.aws.amazon.com/apigatewayv2/latest/api-reference/Welcome.html
+  - type: GettingStarted
+    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop.html
+  - type: Documentation
+    url: >-
+      https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api.html
+  - type: AsyncAPI
+    url: asyncapi/aws-api-gateway-asyncapi.yml
+  - type: Documentation
+    url: >-
+      https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-how-to-call-websocket-api-connections.html
+  - type: APIReference
+    url: https://docs.aws.amazon.com/apigatewaymanagementapi/latest/reference/Welcome.html
   - type: Documentation
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html
   - type: Pricing
