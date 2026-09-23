@@ -1,0 +1,367 @@
+openapi: 3.2.0
+info:
+  title: Amazon API Gateway REST API Keys Domain Names API
+  description: The Amazon API Gateway REST API enables programmatic management of API Gateway resources. You can create, configure, and manage REST APIs, stages, deployments, authorizers, models, resources, methods, and integrations through this management interface.
+  version: '2015-07-09'
+  contact:
+    name: AWS Support
+    url: https://aws.amazon.com/premiumsupport/
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  x-logo:
+    url: https://a0.awsstatic.com/libra-css/images/logos/aws_logo_smile_1200x630.png
+servers:
+- url: https://apigateway.{region}.amazonaws.com
+  description: Amazon API Gateway regional endpoint
+  variables:
+    region:
+      default: us-east-1
+      description: AWS region
+      enum:
+      - us-east-1
+      - us-east-2
+      - us-west-1
+      - us-west-2
+      - eu-west-1
+      - eu-west-2
+      - eu-west-3
+      - eu-central-1
+      - ap-northeast-1
+      - ap-northeast-2
+      - ap-southeast-1
+      - ap-southeast-2
+      - ap-south-1
+      - sa-east-1
+      - ca-central-1
+security:
+- sigv4: []
+tags:
+- name: Domain Names
+  description: Operations for managing custom domain names
+paths:
+  /domainnames:
+    get:
+      operationId: GetDomainNames
+      summary: Amazon API Gateway List Custom Domain Names
+      description: Returns information about all custom domain names.
+      tags:
+      - Domain Names
+      parameters:
+      - $ref: '#/components/parameters/Position'
+      - $ref: '#/components/parameters/Limit'
+      responses:
+        '200':
+          description: Successful response with list of domain names
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DomainNames'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    post:
+      operationId: CreateDomainName
+      summary: Amazon API Gateway Create a Custom Domain Name
+      description: Creates a new custom domain name.
+      tags:
+      - Domain Names
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateDomainNameRequest'
+      responses:
+        '201':
+          description: Domain name created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DomainName'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+  /domainnames/{domain_name}:
+    get:
+      operationId: GetDomainName
+      summary: Amazon API Gateway Get a Custom Domain Name
+      description: Returns information about a specific custom domain name.
+      tags:
+      - Domain Names
+      parameters:
+      - $ref: '#/components/parameters/DomainNameParam'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DomainName'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    patch:
+      operationId: UpdateDomainName
+      summary: Amazon API Gateway Update a Custom Domain Name
+      description: Updates an existing custom domain name.
+      tags:
+      - Domain Names
+      parameters:
+      - $ref: '#/components/parameters/DomainNameParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchOperations'
+      responses:
+        '200':
+          description: Domain name updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DomainName'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    delete:
+      operationId: DeleteDomainName
+      summary: Amazon API Gateway Delete a Custom Domain Name
+      description: Deletes the specified custom domain name.
+      tags:
+      - Domain Names
+      parameters:
+      - $ref: '#/components/parameters/DomainNameParam'
+      responses:
+        '202':
+          description: Domain name deletion accepted
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+components:
+  schemas:
+    CreateDomainNameRequest:
+      type: object
+      required:
+      - domainName
+      properties:
+        domainName:
+          type: string
+        certificateName:
+          type: string
+        certificateBody:
+          type: string
+        certificatePrivateKey:
+          type: string
+        certificateChain:
+          type: string
+        certificateArn:
+          type: string
+        regionalCertificateName:
+          type: string
+        regionalCertificateArn:
+          type: string
+        endpointConfiguration:
+          $ref: '#/components/schemas/EndpointConfiguration'
+        tags:
+          type: object
+          additionalProperties:
+            type: string
+        securityPolicy:
+          type: string
+          enum:
+          - TLS_1_0
+          - TLS_1_2
+        mutualTlsAuthentication:
+          type: object
+          properties:
+            truststoreUri:
+              type: string
+            truststoreVersion:
+              type: string
+    PatchOperations:
+      type: object
+      properties:
+        patchOperations:
+          type: array
+          items:
+            $ref: '#/components/schemas/PatchOperation'
+    DomainName:
+      type: object
+      properties:
+        domainName:
+          type: string
+        certificateName:
+          type: string
+        certificateArn:
+          type: string
+        certificateUploadDate:
+          type: string
+          format: date-time
+        regionalDomainName:
+          type: string
+        regionalHostedZoneId:
+          type: string
+        regionalCertificateName:
+          type: string
+        regionalCertificateArn:
+          type: string
+        distributionDomainName:
+          type: string
+        distributionHostedZoneId:
+          type: string
+        endpointConfiguration:
+          $ref: '#/components/schemas/EndpointConfiguration'
+        domainNameStatus:
+          type: string
+          enum:
+          - AVAILABLE
+          - UPDATING
+          - PENDING
+          - PENDING_CERTIFICATE_REIMPORT
+          - PENDING_OWNERSHIP_VERIFICATION
+        domainNameStatusMessage:
+          type: string
+        securityPolicy:
+          type: string
+          enum:
+          - TLS_1_0
+          - TLS_1_2
+        tags:
+          type: object
+          additionalProperties:
+            type: string
+        mutualTlsAuthentication:
+          type: object
+          properties:
+            truststoreUri:
+              type: string
+            truststoreVersion:
+              type: string
+            truststoreWarnings:
+              type: array
+              items:
+                type: string
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          description: A human-readable error message.
+        code:
+          type: string
+          description: The error code.
+    DomainNames:
+      type: object
+      properties:
+        position:
+          type: string
+        item:
+          type: array
+          items:
+            $ref: '#/components/schemas/DomainName'
+    EndpointConfiguration:
+      type: object
+      properties:
+        types:
+          type: array
+          items:
+            type: string
+            enum:
+            - REGIONAL
+            - EDGE
+            - PRIVATE
+          description: A list of endpoint types of an API or its custom domain name.
+        vpcEndpointIds:
+          type: array
+          items:
+            type: string
+          description: A list of VPC endpoint IDs of an API against which to create Route53 ALIASes.
+    PatchOperation:
+      type: object
+      properties:
+        op:
+          type: string
+          enum:
+          - add
+          - remove
+          - replace
+          - move
+          - copy
+          - test
+          description: The operation type.
+        path:
+          type: string
+          description: The op operation's target, as identified by a JSON Pointer value.
+        value:
+          type: string
+          description: The new target value of the update operation. It is applicable for the add or replace operation.
+        from:
+          type: string
+          description: The copy update operation's source as identified by a JSON Pointer value.
+  responses:
+    Conflict:
+      description: The request conflicts with the current state of the resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    TooManyRequests:
+      description: The request rate has exceeded the allowed limit.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The specified resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request is invalid or malformed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    Limit:
+      name: limit
+      in: query
+      description: The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 500
+        default: 25
+    Position:
+      name: position
+      in: query
+      description: The current pagination position in the paged result set. Used for cursor-based pagination.
+      schema:
+        type: string
+    DomainNameParam:
+      name: domain_name
+      in: path
+      required: true
+      description: The custom domain name.
+      schema:
+        type: string
+  securitySchemes:
+    sigv4:
+      type: apiKey
+      name: Authorization
+      in: header
+      description: AWS Signature Version 4 authentication

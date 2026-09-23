@@ -87,6 +87,15 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    Integrations:
+      type: object
+      properties:
+        Items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Integration'
+          example:
+          - example-value
     Integration:
       type: object
       properties:
@@ -106,15 +115,6 @@ components:
           type: string
           description: Payload format version.
           example: '1.0'
-    Integrations:
-      type: object
-      properties:
-        Items:
-          type: array
-          items:
-            $ref: '#/components/schemas/Integration'
-          example:
-          - example-value
     CreateIntegrationRequest:
       type: object
       required:

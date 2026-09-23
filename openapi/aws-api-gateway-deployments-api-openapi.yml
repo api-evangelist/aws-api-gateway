@@ -163,6 +163,15 @@ paths:
           description: AWS region
 components:
   schemas:
+    Deployments:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Deployment'
+          example:
+          - example-value
     Deployment:
       type: object
       properties:
@@ -192,13 +201,13 @@ components:
           type: string
           description: Description of the deployment.
           example: A description of this resource.
-    Deployments:
+    Deployments_2:
       type: object
       properties:
-        items:
+        Items:
           type: array
           items:
-            $ref: '#/components/schemas/Deployment'
+            $ref: '#/components/schemas/Deployment_2'
           example:
           - example-value
     Deployment_2:
@@ -232,15 +241,6 @@ components:
           type: string
           description: Description of the deployment.
           example: A description of this resource.
-    Deployments_2:
-      type: object
-      properties:
-        Items:
-          type: array
-          items:
-            $ref: '#/components/schemas/Deployment_2'
-          example:
-          - example-value
   parameters:
     RestApiId:
       name: restapi_id

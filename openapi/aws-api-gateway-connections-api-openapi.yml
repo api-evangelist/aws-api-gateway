@@ -102,6 +102,21 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    Connection:
+      type: object
+      properties:
+        ConnectedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the client connected.
+          example: '2025-03-15T14:30:00Z'
+        LastActiveAt:
+          type: string
+          format: date-time
+          description: Timestamp of the most recent activity on the connection.
+          example: '2025-03-15T14:30:00Z'
+        Identity:
+          $ref: '#/components/schemas/Identity'
     Error:
       type: object
       properties:
@@ -120,30 +135,15 @@ components:
           type: string
           description: User agent string from the client.
           example: example-value
-    Connection:
-      type: object
-      properties:
-        ConnectedAt:
-          type: string
-          format: date-time
-          description: Timestamp when the client connected.
-          example: '2025-03-15T14:30:00Z'
-        LastActiveAt:
-          type: string
-          format: date-time
-          description: Timestamp of the most recent activity on the connection.
-          example: '2025-03-15T14:30:00Z'
-        Identity:
-          $ref: '#/components/schemas/Identity'
   responses:
-    NotFound:
-      description: The specified connection does not exist.
+    Gone:
+      description: The connection is no longer available.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Gone:
-      description: The connection is no longer available.
+    NotFound:
+      description: The specified connection does not exist.
       content:
         application/json:
           schema:

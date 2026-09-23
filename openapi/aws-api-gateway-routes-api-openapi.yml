@@ -87,6 +87,15 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    Routes:
+      type: object
+      properties:
+        Items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Route'
+          example:
+          - example-value
     CreateRouteRequest:
       type: object
       required:
@@ -123,15 +132,6 @@ components:
           type: string
           description: Authorization type for the route.
           example: example-value
-    Routes:
-      type: object
-      properties:
-        Items:
-          type: array
-          items:
-            $ref: '#/components/schemas/Route'
-          example:
-          - example-value
   parameters:
     ApiId:
       name: api_id

@@ -100,19 +100,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    PutMethodRequest:
-      type: object
-      required:
-      - authorizationType
-      properties:
-        authorizationType:
-          type: string
-          description: Authorization type (NONE, AWS_IAM, CUSTOM, COGNITO_USER_POOLS).
-          example: example-value
-        apiKeyRequired:
-          type: boolean
-          description: Whether to require an API key.
-          example: true
     Method:
       type: object
       properties:
@@ -128,12 +115,25 @@ components:
           type: boolean
           description: Whether the method requires an API key.
           example: true
+    PutMethodRequest:
+      type: object
+      required:
+      - authorizationType
+      properties:
+        authorizationType:
+          type: string
+          description: Authorization type (NONE, AWS_IAM, CUSTOM, COGNITO_USER_POOLS).
+          example: example-value
+        apiKeyRequired:
+          type: boolean
+          description: Whether to require an API key.
+          example: true
   parameters:
-    ResourceId:
-      name: resource_id
+    RestApiId:
+      name: restapi_id
       in: path
       required: true
-      description: Identifier of the Resource.
+      description: Identifier of the RestApi resource.
       schema:
         type: string
     HttpMethod:
@@ -152,11 +152,11 @@ components:
         - HEAD
         - OPTIONS
         - ANY
-    RestApiId:
-      name: restapi_id
+    ResourceId:
+      name: resource_id
       in: path
       required: true
-      description: Identifier of the RestApi resource.
+      description: Identifier of the Resource.
       schema:
         type: string
   securitySchemes:

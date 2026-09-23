@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-structure.org/meta/extended/v0/#",
+  "name": "ApiKey",
+  "type": "record",
+  "fields": [
+    {
+      "name": "id",
+      "type": "string"
+    },
+    {
+      "name": "value",
+      "type": "string"
+    },
+    {
+      "name": "name",
+      "type": "string"
+    },
+    {
+      "name": "customerId",
+      "type": "string"
+    },
+    {
+      "name": "description",
+      "type": "string"
+    },
+    {
+      "name": "enabled",
+      "type": "boolean"
+    },
+    {
+      "name": "createdDate",
+      "type": "datetime"
+    },
+    {
+      "name": "lastUpdatedDate",
+      "type": "datetime"
+    },
+    {
+      "name": "stageKeys",
+      "type": "array"
+    },
+    {
+      "name": "tags",
+      "type": "object"
+    }
+  ]
+}

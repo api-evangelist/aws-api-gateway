@@ -1,0 +1,626 @@
+asyncapi: 3.0.0
+info:
+  title: Amazon API Gateway WebSocket API
+  version: '2018-11-29'
+  description: >-
+    Amazon API Gateway WebSocket APIs enable real-time two-way communication
+    between clients and backend services. Clients connect via WebSocket
+    protocol and exchange messages through routes that map to Lambda functions,
+    HTTP endpoints, or other AWS services. The gateway manages connection
+    lifecycle including $connect, $disconnect, and $default routes, plus
+    custom routes based on message content.
+  contact:
+    name: AWS Support
+    url: https://aws.amazon.com/premiumsupport/
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  tags:
+    - name: WebSocket
+      description: WebSocket-based real-time communication
+    - name: API Gateway
+      description: AWS API Gateway managed service
+    - name: Serverless
+      description: Serverless WebSocket connections
+  externalDocs:
+    description: Amazon API Gateway WebSocket API documentation
+    url: https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api.html
+
+servers:
+  websocketEndpoint:
+    host: '{api-id}.execute-api.{region}.amazonaws.com'
+    pathname: '/{stage}'
+    protocol: wss
+    description: >-
+      WebSocket API endpoint. Clients establish persistent connections to
+      this endpoint for real-time bidirectional communication.
+    variables:
+      api-id:
+        description: The unique identifier for the WebSocket API.
+      region:
+        default: us-east-1
+        description: The AWS region where the API is deployed.
+        enum:
+          - us-east-1
+          - us-east-2
+          - us-west-1
+          - us-west-2
+          - eu-west-1
+          - eu-west-2
+          - eu-west-3
+          - eu-central-1
+          - ap-northeast-1
+          - ap-northeast-2
+          - ap-southeast-1
+          - ap-southeast-2
+          - ap-south-1
+          - sa-east-1
+          - ca-central-1
+      stage:
+        default: production
+        description: The deployment stage name.
+    security:
+      - $ref: '#/components/securitySchemes/apiKey'
+      - $ref: '#/components/securitySchemes/iamAuth'
+
+  managementEndpoint:
+    host: '{api-id}.execute-api.{region}.amazonaws.com'
+    pathname: '/{stage}/@connections'
+    protocol: https
+    description: >-
+      The @connections management endpoint for sending messages to
+      connected WebSocket clients and managing connection state from
+      backend services.
+    variables:
+      api-id:
+        description: The unique identifier for the WebSocket API.
+      region:
+        default: us-east-1
+        description: The AWS region where the API is deployed.
+      stage:
+        default: production
+        description: The deployment stage name.
+
+defaultContentType: application/json
+
+channels:
+  connect:
+    address: $connect
+    title: Connection Established
+    description: >-
+      The $connect route is invoked when a client first connects to the
+      WebSocket API. This is where authentication and authorization
+      occur. The connection is established only if the integration
+      returns a successful response. Query string parameters and headers
+      from the initial HTTP upgrade request are available to the
+      integration.
+    messages:
+      connectionRequest:
+        $ref: '#/components/messages/ConnectionRequest'
+
+  disconnect:
+    address: $disconnect
+    title: Connection Closed
+    description: >-
+      The $disconnect route is invoked after a client disconnects from
+      the WebSocket API. This route is best-effort and may not be invoked
+      in all cases (e.g., network interruptions). Use this route for
+      cleanup operations such as removing connection records from a
+      database.
+    messages:
+      disconnectionNotice:
+        $ref: '#/components/messages/DisconnectionNotice'
+
+  default:
+    address: $default
+    title: Default Route
+    description: >-
+      The $default route is invoked when no other route matches the
+      incoming message. This serves as a fallback handler for messages
+      that do not match any custom route selection expression. It is
+      also used when the route selection expression evaluates to a
+      value that does not match any defined route key.
+    messages:
+      defaultMessage:
+        $ref: '#/components/messages/DefaultMessage'
+
+  customRoute:
+    address: '{routeKey}'
+    title: Custom Message Route
+    description: >-
+      Custom routes are defined by route keys that match values derived
+      from the route selection expression applied to incoming messages.
+      The default route selection expression is $request.body.action,
+      which extracts the action property from the JSON message body to
+      determine routing.
+    parameters:
+      routeKey:
+        description: >-
+          The route key value extracted from the incoming message by the
+          route selection expression. For example, if the route selection
+          expression is $request.body.action and the message body
+          contains {"action": "sendMessage"}, the route key is
+          "sendMessage".
+    messages:
+      customMessage:
+        $ref: '#/components/messages/CustomRouteMessage'
+
+  connectionManagement:
+    address: '@connections/{connectionId}'
+    title: Connection Management
+    description: >-
+      The @connections endpoint allows backend services to send messages
+      to specific connected clients, retrieve connection information, or
+      disconnect clients. This is accessed via HTTPS POST, GET, or
+      DELETE from the backend.
+    parameters:
+      connectionId:
+        description: The unique identifier for the WebSocket connection.
+    messages:
+      postToConnection:
+        $ref: '#/components/messages/PostToConnectionMessage'
+      connectionStatus:
+        $ref: '#/components/messages/ConnectionStatusResponse'
+
+operations:
+  onConnect:
+    action: receive
+    channel:
+      $ref: '#/channels/connect'
+    title: Handle Client Connection
+    summary: >-
+      Receives the initial WebSocket connection request from a client.
+      The $connect route integration can validate credentials, register
+      the connection ID, and decide whether to accept the connection.
+    messages:
+      - $ref: '#/channels/connect/messages/connectionRequest'
+
+  onDisconnect:
+    action: receive
+    channel:
+      $ref: '#/channels/disconnect'
+    title: Handle Client Disconnection
+    summary: >-
+      Receives notification when a client disconnects. Use this to
+      perform cleanup such as removing the connection ID from storage.
+    messages:
+      - $ref: '#/channels/disconnect/messages/disconnectionNotice'
+
+  onDefaultMessage:
+    action: receive
+    channel:
+      $ref: '#/channels/default'
+    title: Handle Unmatched Messages
+    summary: >-
+      Receives messages that do not match any custom route key. Useful
+      as a catch-all handler or for APIs that use a single route for
+      all messages.
+    messages:
+      - $ref: '#/channels/default/messages/defaultMessage'
+
+  onCustomRoute:
+    action: receive
+    channel:
+      $ref: '#/channels/customRoute'
+    title: Handle Custom Route Messages
+    summary: >-
+      Receives messages that match a custom route key defined in the API.
+      The route is determined by evaluating the route selection expression
+      against the incoming message.
+    messages:
+      - $ref: '#/channels/customRoute/messages/customMessage'
+
+  sendToClient:
+    action: send
+    channel:
+      $ref: '#/channels/connectionManagement'
+    title: Send Message to Connected Client
+    summary: >-
+      Sends a message to a specific connected WebSocket client using
+      the @connections management API. The backend service posts the
+      message payload to the connection-specific URL.
+    messages:
+      - $ref: '#/channels/connectionManagement/messages/postToConnection'
+
+  getConnectionStatus:
+    action: receive
+    channel:
+      $ref: '#/channels/connectionManagement'
+    title: Get Connection Information
+    summary: >-
+      Retrieves information about a specific WebSocket connection
+      including the connected date, identity, and last active date.
+    messages:
+      - $ref: '#/channels/connectionManagement/messages/connectionStatus'
+
+components:
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: query
+      description: >-
+        API key passed as a query string parameter during the WebSocket
+        handshake for API key-based authorization.
+    iamAuth:
+      type: httpApiKey
+      name: Authorization
+      in: header
+      description: AWS IAM Signature Version 4 authentication.
+    lambdaAuthorizer:
+      type: httpApiKey
+      name: Authorization
+      in: header
+      description: >-
+        Custom Lambda authorizer that validates tokens or request
+        parameters during the $connect route to authorize the
+        WebSocket connection.
+
+  messages:
+    ConnectionRequest:
+      name: ConnectionRequest
+      title: WebSocket Connection Request
+      summary: >-
+        The initial connection request sent when a client establishes a
+        WebSocket connection. Includes headers, query parameters, and
+        request context from the HTTP upgrade request.
+      contentType: application/json
+      headers:
+        type: object
+        properties:
+          Sec-WebSocket-Key:
+            type: string
+            description: The WebSocket security key from the client handshake.
+          Sec-WebSocket-Version:
+            type: string
+            description: The WebSocket protocol version.
+          Connection:
+            type: string
+            description: Must be "Upgrade" for WebSocket connections.
+          Upgrade:
+            type: string
+            description: Must be "websocket" for WebSocket connections.
+      payload:
+        $ref: '#/components/schemas/ConnectionRequestContext'
+
+    DisconnectionNotice:
+      name: DisconnectionNotice
+      title: WebSocket Disconnection Notice
+      summary: >-
+        Notification sent when a client disconnects from the WebSocket
+        API, either through a clean close or due to a timeout or error.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/DisconnectEventContext'
+
+    DefaultMessage:
+      name: DefaultMessage
+      title: Default Route Message
+      summary: >-
+        A message received on the $default route when no custom route
+        matches the incoming message content.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/WebSocketMessage'
+
+    CustomRouteMessage:
+      name: CustomRouteMessage
+      title: Custom Route Message
+      summary: >-
+        A message matched to a custom route based on the route selection
+        expression. The message body is passed to the route's integration.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/CustomRoutePayload'
+
+    PostToConnectionMessage:
+      name: PostToConnectionMessage
+      title: Post to Connection
+      summary: >-
+        A message sent from the backend to a specific connected WebSocket
+        client via the @connections management API.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/BackendMessage'
+
+    ConnectionStatusResponse:
+      name: ConnectionStatusResponse
+      title: Connection Status
+      summary: >-
+        Connection information returned when querying the @connections
+        management endpoint for a specific connection ID.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/ConnectionInfo'
+
+  schemas:
+    ConnectionRequestContext:
+      type: object
+      description: >-
+        The event context provided to the $connect route integration,
+        including request metadata and identity information.
+      properties:
+        requestContext:
+          type: object
+          properties:
+            routeKey:
+              type: string
+              description: Always "$connect" for connection requests.
+              const: $connect
+            eventType:
+              type: string
+              description: The type of event.
+              const: CONNECT
+            extendedRequestId:
+              type: string
+              description: An automatically generated ID for the API request.
+            requestTime:
+              type: string
+              description: The request time in CLF format.
+            messageDirection:
+              type: string
+              description: The direction of the message.
+              const: IN
+            stage:
+              type: string
+              description: The deployment stage.
+            connectedAt:
+              type: integer
+              format: int64
+              description: The epoch time of connection establishment.
+            requestTimeEpoch:
+              type: integer
+              format: int64
+              description: The request time in epoch milliseconds.
+            identity:
+              $ref: '#/components/schemas/RequestIdentity'
+            requestId:
+              type: string
+              description: The unique request identifier.
+            domainName:
+              type: string
+              description: The domain name of the WebSocket API.
+            connectionId:
+              type: string
+              description: >-
+                A unique identifier for the WebSocket connection. Use
+                this to send messages back to the client.
+            apiId:
+              type: string
+              description: The API Gateway API ID.
+        headers:
+          type: object
+          additionalProperties:
+            type: string
+          description: HTTP headers from the connection request.
+        multiValueHeaders:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+        queryStringParameters:
+          type: object
+          additionalProperties:
+            type: string
+          description: Query string parameters from the connection URL.
+        multiValueQueryStringParameters:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+        isBase64Encoded:
+          type: boolean
+
+    DisconnectEventContext:
+      type: object
+      description: >-
+        The event context provided to the $disconnect route integration
+        when a client disconnects.
+      properties:
+        requestContext:
+          type: object
+          properties:
+            routeKey:
+              type: string
+              const: $disconnect
+            eventType:
+              type: string
+              const: DISCONNECT
+            extendedRequestId:
+              type: string
+            requestTime:
+              type: string
+            messageDirection:
+              type: string
+              const: IN
+            stage:
+              type: string
+            connectedAt:
+              type: integer
+              format: int64
+            requestTimeEpoch:
+              type: integer
+              format: int64
+            identity:
+              $ref: '#/components/schemas/RequestIdentity'
+            requestId:
+              type: string
+            domainName:
+              type: string
+            connectionId:
+              type: string
+            apiId:
+              type: string
+            disconnectStatusCode:
+              type: integer
+              description: The status code for the disconnection.
+            disconnectReason:
+              type: string
+              description: The reason for disconnection.
+
+    WebSocketMessage:
+      type: object
+      description: >-
+        A generic WebSocket message received on the $default route.
+        The structure is defined by the application.
+      properties:
+        requestContext:
+          type: object
+          properties:
+            routeKey:
+              type: string
+              const: $default
+            eventType:
+              type: string
+              const: MESSAGE
+            extendedRequestId:
+              type: string
+            requestTime:
+              type: string
+            messageDirection:
+              type: string
+              const: IN
+            stage:
+              type: string
+            connectedAt:
+              type: integer
+              format: int64
+            requestTimeEpoch:
+              type: integer
+              format: int64
+            identity:
+              $ref: '#/components/schemas/RequestIdentity'
+            requestId:
+              type: string
+            domainName:
+              type: string
+            connectionId:
+              type: string
+            apiId:
+              type: string
+            messageId:
+              type: string
+              description: The unique message identifier.
+        body:
+          type: string
+          description: The message body as a string.
+        isBase64Encoded:
+          type: boolean
+
+    CustomRoutePayload:
+      type: object
+      description: >-
+        A message routed to a custom route. Includes an action field
+        (or whatever the route selection expression evaluates) along
+        with application-defined data.
+      properties:
+        requestContext:
+          type: object
+          properties:
+            routeKey:
+              type: string
+              description: The matched custom route key.
+            eventType:
+              type: string
+              const: MESSAGE
+            extendedRequestId:
+              type: string
+            requestTime:
+              type: string
+            messageDirection:
+              type: string
+              const: IN
+            stage:
+              type: string
+            connectedAt:
+              type: integer
+              format: int64
+            requestTimeEpoch:
+              type: integer
+              format: int64
+            identity:
+              $ref: '#/components/schemas/RequestIdentity'
+            requestId:
+              type: string
+            domainName:
+              type: string
+            connectionId:
+              type: string
+            apiId:
+              type: string
+            messageId:
+              type: string
+        body:
+          type: string
+          description: The raw message body.
+        isBase64Encoded:
+          type: boolean
+
+    BackendMessage:
+      type: object
+      description: >-
+        A message payload sent from the backend service to a connected
+        WebSocket client via the @connections API.
+      properties:
+        data:
+          description: >-
+            The data payload to send to the connected client. Can be
+            any valid JSON value or a binary payload.
+        action:
+          type: string
+          description: >-
+            An optional action identifier for the client to process the
+            message.
+        timestamp:
+          type: string
+          format: date-time
+          description: The time the message was sent.
+
+    ConnectionInfo:
+      type: object
+      description: >-
+        Information about a WebSocket connection returned by the
+        @connections management API GET request.
+      properties:
+        connectedAt:
+          type: string
+          format: date-time
+          description: The time the connection was established.
+        identity:
+          $ref: '#/components/schemas/RequestIdentity'
+        lastActiveAt:
+          type: string
+          format: date-time
+          description: The time the connection was last active.
+
+    RequestIdentity:
+      type: object
+      description: Identity information from the request context.
+      properties:
+        accountId:
+          type: string
+          description: The AWS account ID associated with the request.
+        cognitoIdentityPoolId:
+          type: string
+        cognitoIdentityId:
+          type: string
+        cognitoAuthenticationType:
+          type: string
+        cognitoAuthenticationProvider:
+          type: string
+        userArn:
+          type: string
+          description: The ARN of the IAM user making the request.
+        userAgent:
+          type: string
+          description: The user agent of the client.
+        user:
+          type: string
+        sourceIp:
+          type: string
+          description: The source IP address of the request.
+        caller:
+          type: string
+        accessKey:
+          type: string

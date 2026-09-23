@@ -1,11 +1,31 @@
 {
   "provider": "aws-api-gateway",
   "sources": [
+    "_original/amazon-api-gateway-api-keys-api-openapi.yml",
+    "_original/amazon-api-gateway-base-path-mappings-api-openapi.yml",
+    "_original/amazon-api-gateway-documentation-api-openapi.yml",
+    "_original/amazon-api-gateway-domain-names-api-openapi.yml",
+    "_original/amazon-api-gateway-gateway-responses-api-openapi.yml",
+    "_original/amazon-api-gateway-models-api-openapi.yml",
+    "_original/amazon-api-gateway-request-validators-api-openapi.yml",
+    "_original/amazon-api-gateway-rest-apis-api-openapi.yml",
+    "_original/amazon-api-gateway-usage-plans-api-openapi.yml",
+    "_original/amazon-api-gateway-vpc-links-api-openapi.yml",
     "_original/aws-api-gateway-management-openapi.yml",
     "_original/aws-api-gateway-v1-openapi.yml",
     "_original/aws-api-gateway-v2-openapi.yml"
   ],
   "outputs": [
+    "aws-api-gateway-api-keys-api-openapi.yml",
+    "aws-api-gateway-base-path-mappings-api-openapi.yml",
+    "aws-api-gateway-documentation-api-openapi.yml",
+    "aws-api-gateway-domain-names-api-openapi.yml",
+    "aws-api-gateway-gateway-responses-api-openapi.yml",
+    "aws-api-gateway-models-api-openapi.yml",
+    "aws-api-gateway-request-validators-api-openapi.yml",
+    "aws-api-gateway-rest-apis-api-openapi.yml",
+    "aws-api-gateway-usage-plans-api-openapi.yml",
+    "aws-api-gateway-vpc-links-api-openapi.yml",
     "aws-api-gateway-connections-api-openapi.yml",
     "aws-api-gateway-apikeys-api-openapi.yml",
     "aws-api-gateway-deployments-api-openapi.yml",
@@ -19,11 +39,13 @@
     "aws-api-gateway-integrations-api-openapi.yml",
     "aws-api-gateway-routes-api-openapi.yml"
   ],
-  "archived": [],
+  "archived": [
+    "deleted 2 superseded output(s) from the previous generation"
+  ],
   "errors": [],
   "warnings": [],
   "notes": [
-    "sourced from openapi/_original/ (3 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "sourced from openapi/_original/ (13 archived document(s)); previously refined output at the top level was skipped rather than re-split",
     "aws-api-gateway-management-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
     "aws-api-gateway-v1-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
     "aws-api-gateway-v2-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
@@ -33,20 +55,29 @@
     "aws-api-gateway-v2-openapi.yml: tagged paths DELETE /v2/apis/{api_id} -> Apis",
     "aws-api-gateway-v2-openapi.yml: declared missing tag: Apis",
     "tag 'Deployments' spans 2 source specs (aws-api-gateway-v1-openapi.yml, aws-api-gateway-v2-openapi.yml): per-path servers applied",
-    "tag 'Stages' spans 2 source specs (aws-api-gateway-v1-openapi.yml, aws-api-gateway-v2-openapi.yml): per-path servers applied"
+    "tag 'Stages' spans 2 source specs (aws-api-gateway-v1-openapi.yml, aws-api-gateway-v2-openapi.yml): per-path servers applied",
+    "superseded outputs removed: aws-api-gateway-ap-is-api-openapi.yml, aws-api-gateway-vpclinks-api-openapi.yml",
+    "apis.yml register: written (+5 apis, 26 total)"
   ],
   "skipped": [
-    "aws-api-gateway-apikeys-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "aws-api-gateway-apis-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "aws-api-gateway-ap-is-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "aws-api-gateway-api-keys-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "aws-api-gateway-authorizers-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "aws-api-gateway-base-path-mappings-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "aws-api-gateway-connections-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "aws-api-gateway-deployments-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "aws-api-gateway-documentation-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "aws-api-gateway-domain-names-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "aws-api-gateway-gateway-responses-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "aws-api-gateway-integrations-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "aws-api-gateway-methods-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "aws-api-gateway-models-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "aws-api-gateway-request-validators-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "aws-api-gateway-resources-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "aws-api-gateway-restapis-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "aws-api-gateway-routes-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "aws-api-gateway-stages-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "aws-api-gateway-usageplans-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+    "aws-api-gateway-usage-plans-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "aws-api-gateway-vpclinks-api-openapi.yml: previously refined output, superseded by openapi/_original/"
   ]
 }

@@ -1,0 +1,47 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ApiKey",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The identifier of the API key."
+    },
+    "value": {
+      "type": "string",
+      "description": "The value of the API key."
+    },
+    "name": {
+      "type": "string",
+      "description": "The name of the API key."
+    },
+    "customerId": {
+      "type": "string",
+      "description": "An AWS Marketplace customer identifier."
+    },
+    "description": {
+      "type": "string"
+    },
+    "enabled": {
+      "type": "boolean",
+      "description": "Whether the API key can be used by callers."
+    },
+    "createdDate": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "lastUpdatedDate": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "stageKeys": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "tags": {
+      "type": "object"
+    }
+  }
+}

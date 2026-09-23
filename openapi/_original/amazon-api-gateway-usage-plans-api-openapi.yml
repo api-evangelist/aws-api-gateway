@@ -1,0 +1,344 @@
+# x-archived-from: amazon-api-gateway-usage-plans-api-openapi.yml
+# x-archived-on: 2026-09-16
+openapi: 3.2.0
+info:
+  title: Amazon API Gateway REST API Keys Usage Plans API
+  description: The Amazon API Gateway REST API enables programmatic management of API Gateway resources. You can create, configure, and manage REST APIs, stages, deployments, authorizers, models, resources, methods, and integrations through this management interface.
+  version: '2015-07-09'
+  contact:
+    name: AWS Support
+    url: https://aws.amazon.com/premiumsupport/
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  x-logo:
+    url: https://a0.awsstatic.com/libra-css/images/logos/aws_logo_smile_1200x630.png
+servers:
+- url: https://apigateway.{region}.amazonaws.com
+  description: Amazon API Gateway regional endpoint
+  variables:
+    region:
+      default: us-east-1
+      description: AWS region
+      enum:
+      - us-east-1
+      - us-east-2
+      - us-west-1
+      - us-west-2
+      - eu-west-1
+      - eu-west-2
+      - eu-west-3
+      - eu-central-1
+      - ap-northeast-1
+      - ap-northeast-2
+      - ap-southeast-1
+      - ap-southeast-2
+      - ap-south-1
+      - sa-east-1
+      - ca-central-1
+security:
+- sigv4: []
+tags:
+- name: Usage Plans
+  description: Operations for managing usage plans and throttling
+paths:
+  /usageplans:
+    get:
+      operationId: GetUsagePlans
+      summary: Amazon API Gateway List Usage Plans
+      description: Returns information about all usage plans.
+      tags:
+      - Usage Plans
+      parameters:
+      - $ref: '#/components/parameters/Position'
+      - $ref: '#/components/parameters/Limit'
+      - name: keyId
+        in: query
+        description: Filter by API key identifier.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response with list of usage plans
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsagePlans'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    post:
+      operationId: CreateUsagePlan
+      summary: Amazon API Gateway Create a Usage Plan
+      description: Creates a new usage plan.
+      tags:
+      - Usage Plans
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUsagePlanRequest'
+      responses:
+        '201':
+          description: Usage plan created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsagePlan'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+  /usageplans/{usageplan_id}:
+    get:
+      operationId: GetUsagePlan
+      summary: Amazon API Gateway Get a Usage Plan
+      description: Returns information about a specific usage plan.
+      tags:
+      - Usage Plans
+      parameters:
+      - $ref: '#/components/parameters/UsagePlanId'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsagePlan'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    patch:
+      operationId: UpdateUsagePlan
+      summary: Amazon API Gateway Update a Usage Plan
+      description: Updates an existing usage plan.
+      tags:
+      - Usage Plans
+      parameters:
+      - $ref: '#/components/parameters/UsagePlanId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchOperations'
+      responses:
+        '200':
+          description: Usage plan updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsagePlan'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    delete:
+      operationId: DeleteUsagePlan
+      summary: Amazon API Gateway Delete a Usage Plan
+      description: Deletes the specified usage plan.
+      tags:
+      - Usage Plans
+      parameters:
+      - $ref: '#/components/parameters/UsagePlanId'
+      responses:
+        '202':
+          description: Usage plan deletion accepted
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+components:
+  schemas:
+    QuotaSettings:
+      type: object
+      properties:
+        limit:
+          type: integer
+          description: The maximum number of requests per time period.
+        offset:
+          type: integer
+          description: The day that a time period starts.
+        period:
+          type: string
+          enum:
+          - DAY
+          - WEEK
+          - MONTH
+          description: The time period for which the maximum limit applies.
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          description: A human-readable error message.
+        code:
+          type: string
+          description: The error code.
+    UsagePlans:
+      type: object
+      properties:
+        position:
+          type: string
+        item:
+          type: array
+          items:
+            $ref: '#/components/schemas/UsagePlan'
+    CreateUsagePlanRequest:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        apiStages:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiStage'
+        throttle:
+          $ref: '#/components/schemas/ThrottleSettings'
+        quota:
+          $ref: '#/components/schemas/QuotaSettings'
+        tags:
+          type: object
+          additionalProperties:
+            type: string
+    ApiStage:
+      type: object
+      properties:
+        apiId:
+          type: string
+        stage:
+          type: string
+        throttle:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ThrottleSettings'
+    PatchOperation:
+      type: object
+      properties:
+        op:
+          type: string
+          enum:
+          - add
+          - remove
+          - replace
+          - move
+          - copy
+          - test
+          description: The operation type.
+        path:
+          type: string
+          description: The op operation's target, as identified by a JSON Pointer value.
+        value:
+          type: string
+          description: The new target value of the update operation. It is applicable for the add or replace operation.
+        from:
+          type: string
+          description: The copy update operation's source as identified by a JSON Pointer value.
+    ThrottleSettings:
+      type: object
+      properties:
+        burstLimit:
+          type: integer
+          description: The API request burst limit per second.
+        rateLimit:
+          type: number
+          description: The API request steady-state rate limit per second.
+    UsagePlan:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The identifier of the usage plan.
+        name:
+          type: string
+          description: The name of the usage plan.
+        description:
+          type: string
+        apiStages:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiStage'
+        throttle:
+          $ref: '#/components/schemas/ThrottleSettings'
+        quota:
+          $ref: '#/components/schemas/QuotaSettings'
+        productCode:
+          type: string
+        tags:
+          type: object
+          additionalProperties:
+            type: string
+    PatchOperations:
+      type: object
+      properties:
+        patchOperations:
+          type: array
+          items:
+            $ref: '#/components/schemas/PatchOperation'
+  responses:
+    BadRequest:
+      description: The request is invalid or malformed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    TooManyRequests:
+      description: The request rate has exceeded the allowed limit.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The specified resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Conflict:
+      description: The request conflicts with the current state of the resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    Limit:
+      name: limit
+      in: query
+      description: The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 500
+        default: 25
+    Position:
+      name: position
+      in: query
+      description: The current pagination position in the paged result set. Used for cursor-based pagination.
+      schema:
+        type: string
+    UsagePlanId:
+      name: usageplan_id
+      in: path
+      required: true
+      description: The identifier of the usage plan.
+      schema:
+        type: string
+  securitySchemes:
+    sigv4:
+      type: apiKey
+      name: Authorization
+      in: header
+      description: AWS Signature Version 4 authentication

@@ -1,0 +1,349 @@
+openapi: 3.2.0
+info:
+  title: Amazon API Gateway REST API Keys Documentation API
+  description: The Amazon API Gateway REST API enables programmatic management of API Gateway resources. You can create, configure, and manage REST APIs, stages, deployments, authorizers, models, resources, methods, and integrations through this management interface.
+  version: '2015-07-09'
+  contact:
+    name: AWS Support
+    url: https://aws.amazon.com/premiumsupport/
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  x-logo:
+    url: https://a0.awsstatic.com/libra-css/images/logos/aws_logo_smile_1200x630.png
+servers:
+- url: https://apigateway.{region}.amazonaws.com
+  description: Amazon API Gateway regional endpoint
+  variables:
+    region:
+      default: us-east-1
+      description: AWS region
+      enum:
+      - us-east-1
+      - us-east-2
+      - us-west-1
+      - us-west-2
+      - eu-west-1
+      - eu-west-2
+      - eu-west-3
+      - eu-central-1
+      - ap-northeast-1
+      - ap-northeast-2
+      - ap-southeast-1
+      - ap-southeast-2
+      - ap-south-1
+      - sa-east-1
+      - ca-central-1
+security:
+- sigv4: []
+tags:
+- name: Documentation
+  description: Operations for managing API documentation
+paths:
+  /restapis/{restapi_id}/documentation/parts:
+    get:
+      operationId: GetDocumentationParts
+      summary: Amazon API Gateway List Documentation Parts
+      description: Returns documentation parts for a REST API.
+      tags:
+      - Documentation
+      parameters:
+      - $ref: '#/components/parameters/RestApiId'
+      - $ref: '#/components/parameters/Position'
+      - $ref: '#/components/parameters/Limit'
+      - name: type
+        in: query
+        description: Filter by documentation part type.
+        schema:
+          type: string
+          enum:
+          - API
+          - AUTHORIZER
+          - MODEL
+          - RESOURCE
+          - METHOD
+          - PATH_PARAMETER
+          - QUERY_PARAMETER
+          - REQUEST_HEADER
+          - REQUEST_BODY
+          - RESPONSE
+          - RESPONSE_HEADER
+          - RESPONSE_BODY
+      - name: nameQuery
+        in: query
+        description: Filter by name.
+        schema:
+          type: string
+      - name: path
+        in: query
+        description: Filter by resource path.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DocumentationParts'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    post:
+      operationId: CreateDocumentationPart
+      summary: Amazon API Gateway Create a Documentation Part
+      description: Creates a documentation part for a REST API.
+      tags:
+      - Documentation
+      parameters:
+      - $ref: '#/components/parameters/RestApiId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateDocumentationPartRequest'
+      responses:
+        '201':
+          description: Documentation part created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DocumentationPart'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+  /restapis/{restapi_id}/documentation/versions:
+    get:
+      operationId: GetDocumentationVersions
+      summary: Amazon API Gateway List Documentation Versions
+      description: Returns documentation versions for a REST API.
+      tags:
+      - Documentation
+      parameters:
+      - $ref: '#/components/parameters/RestApiId'
+      - $ref: '#/components/parameters/Position'
+      - $ref: '#/components/parameters/Limit'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DocumentationVersions'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    post:
+      operationId: CreateDocumentationVersion
+      summary: Amazon API Gateway Create a Documentation Version
+      description: Creates a snapshot of the documentation for a REST API.
+      tags:
+      - Documentation
+      parameters:
+      - $ref: '#/components/parameters/RestApiId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateDocumentationVersionRequest'
+      responses:
+        '201':
+          description: Documentation version created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DocumentationVersion'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+components:
+  schemas:
+    DocumentationVersion:
+      type: object
+      properties:
+        version:
+          type: string
+        createdDate:
+          type: string
+          format: date-time
+        description:
+          type: string
+    CreateDocumentationVersionRequest:
+      type: object
+      required:
+      - documentationVersion
+      properties:
+        documentationVersion:
+          type: string
+        stageName:
+          type: string
+        description:
+          type: string
+    DocumentationParts:
+      type: object
+      properties:
+        position:
+          type: string
+        item:
+          type: array
+          items:
+            $ref: '#/components/schemas/DocumentationPart'
+    CreateDocumentationPartRequest:
+      type: object
+      required:
+      - location
+      - properties
+      properties:
+        location:
+          type: object
+          required:
+          - type
+          properties:
+            type:
+              type: string
+              enum:
+              - API
+              - AUTHORIZER
+              - MODEL
+              - RESOURCE
+              - METHOD
+              - PATH_PARAMETER
+              - QUERY_PARAMETER
+              - REQUEST_HEADER
+              - REQUEST_BODY
+              - RESPONSE
+              - RESPONSE_HEADER
+              - RESPONSE_BODY
+            path:
+              type: string
+            method:
+              type: string
+            statusCode:
+              type: string
+            name:
+              type: string
+        properties:
+          type: string
+    DocumentationPart:
+      type: object
+      properties:
+        id:
+          type: string
+        location:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+              - API
+              - AUTHORIZER
+              - MODEL
+              - RESOURCE
+              - METHOD
+              - PATH_PARAMETER
+              - QUERY_PARAMETER
+              - REQUEST_HEADER
+              - REQUEST_BODY
+              - RESPONSE
+              - RESPONSE_HEADER
+              - RESPONSE_BODY
+            path:
+              type: string
+            method:
+              type: string
+            statusCode:
+              type: string
+            name:
+              type: string
+        properties:
+          type: string
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          description: A human-readable error message.
+        code:
+          type: string
+          description: The error code.
+    DocumentationVersions:
+      type: object
+      properties:
+        position:
+          type: string
+        item:
+          type: array
+          items:
+            $ref: '#/components/schemas/DocumentationVersion'
+  responses:
+    Conflict:
+      description: The request conflicts with the current state of the resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    TooManyRequests:
+      description: The request rate has exceeded the allowed limit.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The specified resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request is invalid or malformed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    Limit:
+      name: limit
+      in: query
+      description: The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 500
+        default: 25
+    RestApiId:
+      name: restapi_id
+      in: path
+      required: true
+      description: The identifier of the REST API.
+      schema:
+        type: string
+    Position:
+      name: position
+      in: query
+      description: The current pagination position in the paged result set. Used for cursor-based pagination.
+      schema:
+        type: string
+  securitySchemes:
+    sigv4:
+      type: apiKey
+      name: Authorization
+      in: header
+      description: AWS Signature Version 4 authentication

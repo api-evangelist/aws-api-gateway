@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AccessLogSettings",
+  "type": "object",
+  "properties": {
+    "format": {
+      "type": "string",
+      "description": "A single line format of the access logs of data using CLF, JSON, XML, or CSV format."
+    },
+    "destinationArn": {
+      "type": "string",
+      "description": "The Amazon Resource Name (ARN) of the CloudWatch Logs log group or Kinesis Data Firehose delivery stream."
+    }
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "schema": "https://schema.org/",
+    "id": {
+      "@id": "@id"
+    },
+    "name": {
+      "@id": "schema:name"
+    },
+    "description": {
+      "@id": "schema:description"
+    },
+    "createdDate": {
+      "@id": "schema:createdDate",
+      "@type": "xsd:dateTime"
+    },
+    "version": {
+      "@id": "schema:version",
+      "@type": "xsd:string"
+    },
+    "warnings": {
+      "@id": "schema:warnings"
+    },
+    "binaryMediaTypes": {
+      "@id": "schema:binaryMediaTypes"
+    },
+    "minimumCompressionSize": {
+      "@id": "schema:minimumCompressionSize",
+      "@type": "xsd:integer"
+    },
+    "apiKeySource": {
+      "@id": "schema:apiKeySource",
+      "@type": "xsd:string"
+    },
+    "endpointConfiguration": {
+      "@id": "schema:endpointConfiguration",
+      "@type": "xsd:string"
+    },
+    "policy": {
+      "@id": "schema:policy",
+      "@type": "xsd:string"
+    },
+    "tags": {
+      "@id": "schema:tags"
+    },
+    "disableExecuteApiEndpoint": {
+      "@id": "schema:disableExecuteApiEndpoint",
+      "@type": "xsd:boolean"
+    }
+  }
+}

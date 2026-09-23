@@ -1,0 +1,242 @@
+openapi: 3.2.0
+info:
+  title: Amazon API Gateway REST API Keys Gateway Responses API
+  description: The Amazon API Gateway REST API enables programmatic management of API Gateway resources. You can create, configure, and manage REST APIs, stages, deployments, authorizers, models, resources, methods, and integrations through this management interface.
+  version: '2015-07-09'
+  contact:
+    name: AWS Support
+    url: https://aws.amazon.com/premiumsupport/
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  x-logo:
+    url: https://a0.awsstatic.com/libra-css/images/logos/aws_logo_smile_1200x630.png
+servers:
+- url: https://apigateway.{region}.amazonaws.com
+  description: Amazon API Gateway regional endpoint
+  variables:
+    region:
+      default: us-east-1
+      description: AWS region
+      enum:
+      - us-east-1
+      - us-east-2
+      - us-west-1
+      - us-west-2
+      - eu-west-1
+      - eu-west-2
+      - eu-west-3
+      - eu-central-1
+      - ap-northeast-1
+      - ap-northeast-2
+      - ap-southeast-1
+      - ap-southeast-2
+      - ap-south-1
+      - sa-east-1
+      - ca-central-1
+security:
+- sigv4: []
+tags:
+- name: Gateway Responses
+  description: Operations for managing gateway responses
+paths:
+  /restapis/{restapi_id}/gatewayresponses:
+    get:
+      operationId: GetGatewayResponses
+      summary: Amazon API Gateway List Gateway Responses
+      description: Returns all gateway responses defined for a REST API.
+      tags:
+      - Gateway Responses
+      parameters:
+      - $ref: '#/components/parameters/RestApiId'
+      - $ref: '#/components/parameters/Position'
+      - $ref: '#/components/parameters/Limit'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GatewayResponses'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+  /restapis/{restapi_id}/gatewayresponses/{response_type}:
+    get:
+      operationId: GetGatewayResponse
+      summary: Amazon API Gateway Get a Gateway Response
+      description: Returns a gateway response of a specified type.
+      tags:
+      - Gateway Responses
+      parameters:
+      - $ref: '#/components/parameters/RestApiId'
+      - $ref: '#/components/parameters/ResponseType'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GatewayResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    put:
+      operationId: PutGatewayResponse
+      summary: Amazon API Gateway Create or Update a Gateway Response
+      description: Creates or updates a gateway response of a specified type.
+      tags:
+      - Gateway Responses
+      parameters:
+      - $ref: '#/components/parameters/RestApiId'
+      - $ref: '#/components/parameters/ResponseType'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PutGatewayResponseRequest'
+      responses:
+        '201':
+          description: Gateway response created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GatewayResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+components:
+  schemas:
+    GatewayResponse:
+      type: object
+      properties:
+        responseType:
+          type: string
+        statusCode:
+          type: string
+        responseParameters:
+          type: object
+          additionalProperties:
+            type: string
+        responseTemplates:
+          type: object
+          additionalProperties:
+            type: string
+        defaultResponse:
+          type: boolean
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          description: A human-readable error message.
+        code:
+          type: string
+          description: The error code.
+    GatewayResponses:
+      type: object
+      properties:
+        position:
+          type: string
+        item:
+          type: array
+          items:
+            $ref: '#/components/schemas/GatewayResponse'
+    PutGatewayResponseRequest:
+      type: object
+      properties:
+        statusCode:
+          type: string
+        responseParameters:
+          type: object
+          additionalProperties:
+            type: string
+        responseTemplates:
+          type: object
+          additionalProperties:
+            type: string
+  parameters:
+    ResponseType:
+      name: response_type
+      in: path
+      required: true
+      description: The response type of the gateway response.
+      schema:
+        type: string
+        enum:
+        - DEFAULT_4XX
+        - DEFAULT_5XX
+        - ACCESS_DENIED
+        - API_CONFIGURATION_ERROR
+        - AUTHORIZER_CONFIGURATION_ERROR
+        - AUTHORIZER_FAILURE
+        - BAD_REQUEST_PARAMETERS
+        - BAD_REQUEST_BODY
+        - EXPIRED_TOKEN
+        - INTEGRATION_FAILURE
+        - INTEGRATION_TIMEOUT
+        - INVALID_API_KEY
+        - INVALID_SIGNATURE
+        - MISSING_AUTHENTICATION_TOKEN
+        - QUOTA_EXCEEDED
+        - REQUEST_TOO_LARGE
+        - RESOURCE_NOT_FOUND
+        - THROTTLED
+        - UNAUTHORIZED
+        - UNSUPPORTED_MEDIA_TYPE
+        - WAF_FILTERED
+    Position:
+      name: position
+      in: query
+      description: The current pagination position in the paged result set. Used for cursor-based pagination.
+      schema:
+        type: string
+    Limit:
+      name: limit
+      in: query
+      description: The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 500
+        default: 25
+    RestApiId:
+      name: restapi_id
+      in: path
+      required: true
+      description: The identifier of the REST API.
+      schema:
+        type: string
+  responses:
+    TooManyRequests:
+      description: The request rate has exceeded the allowed limit.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The specified resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request is invalid or malformed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    sigv4:
+      type: apiKey
+      name: Authorization
+      in: header
+      description: AWS Signature Version 4 authentication

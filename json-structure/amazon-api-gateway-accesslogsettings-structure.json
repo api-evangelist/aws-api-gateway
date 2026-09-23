@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-structure.org/meta/extended/v0/#",
+  "name": "AccessLogSettings",
+  "type": "record",
+  "fields": [
+    {
+      "name": "format",
+      "type": "string"
+    },
+    {
+      "name": "destinationArn",
+      "type": "string"
+    }
+  ]
+}

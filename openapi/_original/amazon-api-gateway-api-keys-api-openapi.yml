@@ -1,0 +1,345 @@
+# x-archived-from: amazon-api-gateway-api-keys-api-openapi.yml
+# x-archived-on: 2026-09-16
+openapi: 3.2.0
+info:
+  title: Amazon API Gateway REST API Keys API
+  description: The Amazon API Gateway REST API enables programmatic management of API Gateway resources. You can create, configure, and manage REST APIs, stages, deployments, authorizers, models, resources, methods, and integrations through this management interface.
+  version: '2015-07-09'
+  contact:
+    name: AWS Support
+    url: https://aws.amazon.com/premiumsupport/
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  x-logo:
+    url: https://a0.awsstatic.com/libra-css/images/logos/aws_logo_smile_1200x630.png
+servers:
+- url: https://apigateway.{region}.amazonaws.com
+  description: Amazon API Gateway regional endpoint
+  variables:
+    region:
+      default: us-east-1
+      description: AWS region
+      enum:
+      - us-east-1
+      - us-east-2
+      - us-west-1
+      - us-west-2
+      - eu-west-1
+      - eu-west-2
+      - eu-west-3
+      - eu-central-1
+      - ap-northeast-1
+      - ap-northeast-2
+      - ap-southeast-1
+      - ap-southeast-2
+      - ap-south-1
+      - sa-east-1
+      - ca-central-1
+security:
+- sigv4: []
+tags:
+- name: API Keys
+  description: Operations for managing API keys
+paths:
+  /apikeys:
+    get:
+      operationId: GetApiKeys
+      summary: Amazon API Gateway List API Keys
+      description: Returns information about all current API keys.
+      tags:
+      - API Keys
+      parameters:
+      - $ref: '#/components/parameters/Position'
+      - $ref: '#/components/parameters/Limit'
+      - name: nameQuery
+        in: query
+        description: Filter API keys by name.
+        schema:
+          type: string
+      - name: customerId
+        in: query
+        description: Filter API keys by customer ID.
+        schema:
+          type: string
+      - name: includeValues
+        in: query
+        description: Include the API key values in the response.
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: Successful response with list of API keys
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKeys'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    post:
+      operationId: CreateApiKey
+      summary: Amazon API Gateway Create an API Key
+      description: Creates a new API key.
+      tags:
+      - API Keys
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateApiKeyRequest'
+      responses:
+        '201':
+          description: API key created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKey'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+  /apikeys/{api_key}:
+    get:
+      operationId: GetApiKey
+      summary: Amazon API Gateway Get an API Key
+      description: Returns information about a specific API key.
+      tags:
+      - API Keys
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyId'
+      - name: includeValue
+        in: query
+        description: Include the API key value in the response.
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKey'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    patch:
+      operationId: UpdateApiKey
+      summary: Amazon API Gateway Update an API Key
+      description: Updates an existing API key.
+      tags:
+      - API Keys
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchOperations'
+      responses:
+        '200':
+          description: API key updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKey'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    delete:
+      operationId: DeleteApiKey
+      summary: Amazon API Gateway Delete an API Key
+      description: Deletes the specified API key.
+      tags:
+      - API Keys
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyId'
+      responses:
+        '202':
+          description: API key deletion accepted
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+components:
+  schemas:
+    ApiKey:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The identifier of the API key.
+        value:
+          type: string
+          description: The value of the API key.
+        name:
+          type: string
+          description: The name of the API key.
+        customerId:
+          type: string
+          description: An AWS Marketplace customer identifier.
+        description:
+          type: string
+        enabled:
+          type: boolean
+          description: Whether the API key can be used by callers.
+        createdDate:
+          type: string
+          format: date-time
+        lastUpdatedDate:
+          type: string
+          format: date-time
+        stageKeys:
+          type: array
+          items:
+            type: string
+        tags:
+          type: object
+          additionalProperties:
+            type: string
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          description: A human-readable error message.
+        code:
+          type: string
+          description: The error code.
+    StageKey:
+      type: object
+      properties:
+        restApiId:
+          type: string
+        stageName:
+          type: string
+    PatchOperation:
+      type: object
+      properties:
+        op:
+          type: string
+          enum:
+          - add
+          - remove
+          - replace
+          - move
+          - copy
+          - test
+          description: The operation type.
+        path:
+          type: string
+          description: The op operation's target, as identified by a JSON Pointer value.
+        value:
+          type: string
+          description: The new target value of the update operation. It is applicable for the add or replace operation.
+        from:
+          type: string
+          description: The copy update operation's source as identified by a JSON Pointer value.
+    CreateApiKeyRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        enabled:
+          type: boolean
+        generateDistinctId:
+          type: boolean
+        value:
+          type: string
+        stageKeys:
+          type: array
+          items:
+            $ref: '#/components/schemas/StageKey'
+        customerId:
+          type: string
+        tags:
+          type: object
+          additionalProperties:
+            type: string
+    ApiKeys:
+      type: object
+      properties:
+        position:
+          type: string
+        warnings:
+          type: array
+          items:
+            type: string
+        item:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiKey'
+    PatchOperations:
+      type: object
+      properties:
+        patchOperations:
+          type: array
+          items:
+            $ref: '#/components/schemas/PatchOperation'
+  responses:
+    BadRequest:
+      description: The request is invalid or malformed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    TooManyRequests:
+      description: The request rate has exceeded the allowed limit.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The specified resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Conflict:
+      description: The request conflicts with the current state of the resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    Limit:
+      name: limit
+      in: query
+      description: The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 500
+        default: 25
+    ApiKeyId:
+      name: api_key
+      in: path
+      required: true
+      description: The identifier of the API key.
+      schema:
+        type: string
+    Position:
+      name: position
+      in: query
+      description: The current pagination position in the paged result set. Used for cursor-based pagination.
+      schema:
+        type: string
+  securitySchemes:
+    sigv4:
+      type: apiKey
+      name: Authorization
+      in: header
+      description: AWS Signature Version 4 authentication

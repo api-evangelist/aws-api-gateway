@@ -17,7 +17,7 @@ servers:
 security:
 - sigv4: []
 tags:
-- name: Apis
+- name: APIs
 paths:
   /v2/apis:
     get:
@@ -25,7 +25,7 @@ paths:
       summary: Amazon API Gateway List APIs
       description: Gets a collection of HTTP and WebSocket APIs.
       tags:
-      - Apis
+      - APIs
       responses:
         '200':
           description: Successful response
@@ -50,7 +50,7 @@ paths:
       summary: Amazon API Gateway Create an API
       description: Creates an HTTP or WebSocket API.
       tags:
-      - Apis
+      - APIs
       requestBody:
         required: true
         content:
@@ -98,7 +98,7 @@ paths:
       summary: Amazon API Gateway Get an API
       description: Retrieves a single HTTP or WebSocket API.
       tags:
-      - Apis
+      - APIs
       responses:
         '200':
           description: Successful response
@@ -127,7 +127,7 @@ paths:
       summary: Amazon API Gateway Delete an API
       description: Deletes the specified API.
       tags:
-      - Apis
+      - APIs
       responses:
         '204':
           description: No Content
@@ -135,42 +135,44 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
-  responses:
-    BadRequest:
-      description: The request was malformed.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: The request was not authenticated.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+  parameters:
+    ApiId:
+      name: api_id
+      in: path
+      required: true
+      description: API identifier.
+      schema:
+        type: string
   schemas:
-    Error:
+    CreateApiRequest:
       type: object
+      required:
+      - Name
+      - ProtocolType
       properties:
-        Message:
+        Name:
           type: string
-          description: Human-readable error message.
+          description: Name of the API.
+          example: my-resource
+        ProtocolType:
+          type: string
+          description: Protocol type for the API.
+          enum:
+          - HTTP
+          - WEBSOCKET
+          example: HTTP
+        RouteSelectionExpression:
+          type: string
+          description: Route selection expression (required for WebSocket APIs).
           example: example-value
-    Apis:
-      type: object
-      properties:
-        Items:
-          type: array
-          items:
-            $ref: '#/components/schemas/Api'
-          example:
-          - example-value
+        Description:
+          type: string
+          description: Description of the API.
+          example: A description of this resource.
+        Target:
+          type: string
+          description: Quick-create target Lambda or HTTP endpoint URI.
+          example: example-value
     Api:
       type: object
       properties:
@@ -202,43 +204,41 @@ components:
           format: date-time
           description: Timestamp when the API was created.
           example: '2025-03-15T14:30:00Z'
-    CreateApiRequest:
+    Error:
       type: object
-      required:
-      - Name
-      - ProtocolType
       properties:
-        Name:
+        Message:
           type: string
-          description: Name of the API.
-          example: my-resource
-        ProtocolType:
-          type: string
-          description: Protocol type for the API.
-          enum:
-          - HTTP
-          - WEBSOCKET
-          example: HTTP
-        RouteSelectionExpression:
-          type: string
-          description: Route selection expression (required for WebSocket APIs).
+          description: Human-readable error message.
           example: example-value
-        Description:
-          type: string
-          description: Description of the API.
-          example: A description of this resource.
-        Target:
-          type: string
-          description: Quick-create target Lambda or HTTP endpoint URI.
-          example: example-value
-  parameters:
-    ApiId:
-      name: api_id
-      in: path
-      required: true
-      description: API identifier.
-      schema:
-        type: string
+    Apis:
+      type: object
+      properties:
+        Items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Api'
+          example:
+          - example-value
+  responses:
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: The request was not authenticated.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request was malformed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     sigv4:
       type: apiKey

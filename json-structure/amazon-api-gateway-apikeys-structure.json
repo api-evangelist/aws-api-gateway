@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-structure.org/meta/extended/v0/#",
+  "name": "ApiKeys",
+  "type": "record",
+  "fields": [
+    {
+      "name": "position",
+      "type": "string"
+    },
+    {
+      "name": "warnings",
+      "type": "array"
+    },
+    {
+      "name": "item",
+      "type": "array"
+    }
+  ]
+}

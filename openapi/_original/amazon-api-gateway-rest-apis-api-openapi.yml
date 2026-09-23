@@ -1,0 +1,385 @@
+# x-archived-from: amazon-api-gateway-rest-apis-api-openapi.yml
+# x-archived-on: 2026-09-16
+openapi: 3.2.0
+info:
+  title: Amazon API Gateway REST API Keys REST APIs API
+  description: The Amazon API Gateway REST API enables programmatic management of API Gateway resources. You can create, configure, and manage REST APIs, stages, deployments, authorizers, models, resources, methods, and integrations through this management interface.
+  version: '2015-07-09'
+  contact:
+    name: AWS Support
+    url: https://aws.amazon.com/premiumsupport/
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  x-logo:
+    url: https://a0.awsstatic.com/libra-css/images/logos/aws_logo_smile_1200x630.png
+servers:
+- url: https://apigateway.{region}.amazonaws.com
+  description: Amazon API Gateway regional endpoint
+  variables:
+    region:
+      default: us-east-1
+      description: AWS region
+      enum:
+      - us-east-1
+      - us-east-2
+      - us-west-1
+      - us-west-2
+      - eu-west-1
+      - eu-west-2
+      - eu-west-3
+      - eu-central-1
+      - ap-northeast-1
+      - ap-northeast-2
+      - ap-southeast-1
+      - ap-southeast-2
+      - ap-south-1
+      - sa-east-1
+      - ca-central-1
+security:
+- sigv4: []
+tags:
+- name: REST APIs
+  description: Operations for creating and managing REST APIs
+paths:
+  /restapis:
+    get:
+      operationId: GetRestApis
+      summary: Amazon API Gateway List REST APIs
+      description: Lists the collection of REST APIs in your account.
+      tags:
+      - REST APIs
+      parameters:
+      - $ref: '#/components/parameters/Position'
+      - $ref: '#/components/parameters/Limit'
+      responses:
+        '200':
+          description: Successful response with list of REST APIs
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestApis'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalError'
+    post:
+      operationId: CreateRestApi
+      summary: Amazon API Gateway Create a REST API
+      description: Creates a new REST API.
+      tags:
+      - REST APIs
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateRestApiRequest'
+      responses:
+        '201':
+          description: REST API created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestApi'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalError'
+  /restapis/{restapi_id}:
+    get:
+      operationId: GetRestApi
+      summary: Amazon API Gateway Get a REST API
+      description: Returns information about a specific REST API.
+      tags:
+      - REST APIs
+      parameters:
+      - $ref: '#/components/parameters/RestApiId'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestApi'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    patch:
+      operationId: UpdateRestApi
+      summary: Amazon API Gateway Update a REST API
+      description: Updates an existing REST API.
+      tags:
+      - REST APIs
+      parameters:
+      - $ref: '#/components/parameters/RestApiId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchOperations'
+      responses:
+        '200':
+          description: REST API updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestApi'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    delete:
+      operationId: DeleteRestApi
+      summary: Amazon API Gateway Delete a REST API
+      description: Deletes the specified REST API.
+      tags:
+      - REST APIs
+      parameters:
+      - $ref: '#/components/parameters/RestApiId'
+      responses:
+        '202':
+          description: REST API deletion accepted
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          description: A human-readable error message.
+        code:
+          type: string
+          description: The error code.
+    EndpointConfiguration:
+      type: object
+      properties:
+        types:
+          type: array
+          items:
+            type: string
+            enum:
+            - REGIONAL
+            - EDGE
+            - PRIVATE
+          description: A list of endpoint types of an API or its custom domain name.
+        vpcEndpointIds:
+          type: array
+          items:
+            type: string
+          description: A list of VPC endpoint IDs of an API against which to create Route53 ALIASes.
+    CreateRestApiRequest:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          description: The name of the REST API.
+        description:
+          type: string
+          description: The description of the REST API.
+        version:
+          type: string
+          description: A version identifier for the API.
+        cloneFrom:
+          type: string
+          description: The ID of the REST API to clone from.
+        binaryMediaTypes:
+          type: array
+          items:
+            type: string
+          description: The list of binary media types to support.
+        minimumCompressionSize:
+          type: integer
+          description: Minimum payload compression size in bytes.
+        apiKeySource:
+          type: string
+          enum:
+          - HEADER
+          - AUTHORIZER
+        endpointConfiguration:
+          $ref: '#/components/schemas/EndpointConfiguration'
+        policy:
+          type: string
+        tags:
+          type: object
+          additionalProperties:
+            type: string
+        disableExecuteApiEndpoint:
+          type: boolean
+    PatchOperation:
+      type: object
+      properties:
+        op:
+          type: string
+          enum:
+          - add
+          - remove
+          - replace
+          - move
+          - copy
+          - test
+          description: The operation type.
+        path:
+          type: string
+          description: The op operation's target, as identified by a JSON Pointer value.
+        value:
+          type: string
+          description: The new target value of the update operation. It is applicable for the add or replace operation.
+        from:
+          type: string
+          description: The copy update operation's source as identified by a JSON Pointer value.
+    RestApi:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The API's identifier.
+        name:
+          type: string
+          description: The API's name.
+        description:
+          type: string
+          description: The API's description.
+        createdDate:
+          type: string
+          format: date-time
+          description: The timestamp when the API was created.
+        version:
+          type: string
+          description: A version identifier for the API.
+        warnings:
+          type: array
+          items:
+            type: string
+          description: The warning messages reported when failonwarnings is on.
+        binaryMediaTypes:
+          type: array
+          items:
+            type: string
+          description: The list of binary media types supported by the REST API.
+        minimumCompressionSize:
+          type: integer
+          description: A nullable integer for the minimum payload size in bytes to compress.
+        apiKeySource:
+          type: string
+          enum:
+          - HEADER
+          - AUTHORIZER
+          description: The source of the API key for metering requests.
+        endpointConfiguration:
+          $ref: '#/components/schemas/EndpointConfiguration'
+        policy:
+          type: string
+          description: A stringified JSON policy document that applies to this REST API.
+        tags:
+          type: object
+          additionalProperties:
+            type: string
+          description: Tags attached to the REST API.
+        disableExecuteApiEndpoint:
+          type: boolean
+          description: Specifies whether clients can invoke your API by using the default execute-api endpoint.
+    PatchOperations:
+      type: object
+      properties:
+        patchOperations:
+          type: array
+          items:
+            $ref: '#/components/schemas/PatchOperation'
+    RestApis:
+      type: object
+      properties:
+        position:
+          type: string
+        item:
+          type: array
+          items:
+            $ref: '#/components/schemas/RestApi'
+  parameters:
+    RestApiId:
+      name: restapi_id
+      in: path
+      required: true
+      description: The identifier of the REST API.
+      schema:
+        type: string
+    Limit:
+      name: limit
+      in: query
+      description: The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 500
+        default: 25
+    Position:
+      name: position
+      in: query
+      description: The current pagination position in the paged result set. Used for cursor-based pagination.
+      schema:
+        type: string
+  responses:
+    BadRequest:
+      description: The request is invalid or malformed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    TooManyRequests:
+      description: The request rate has exceeded the allowed limit.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The specified resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalError:
+      description: An internal server error occurred.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Conflict:
+      description: The request conflicts with the current state of the resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: The request lacks valid authentication credentials.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    sigv4:
+      type: apiKey
+      name: Authorization
+      in: header
+      description: AWS Signature Version 4 authentication

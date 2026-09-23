@@ -89,16 +89,15 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
+  parameters:
+    ApiId:
+      name: api_id
+      in: path
+      required: true
+      description: API identifier.
+      schema:
+        type: string
   schemas:
-    Authorizers:
-      type: object
-      properties:
-        Items:
-          type: array
-          items:
-            $ref: '#/components/schemas/Authorizer'
-          example:
-          - example-value
     Authorizer:
       type: object
       properties:
@@ -119,6 +118,15 @@ components:
           description: Identity sources for the authorizer.
           items:
             type: string
+          example:
+          - example-value
+    Authorizers:
+      type: object
+      properties:
+        Items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Authorizer'
           example:
           - example-value
     CreateAuthorizerRequest:
@@ -150,14 +158,6 @@ components:
           type: string
           description: URI of the Lambda authorizer (REQUEST type).
           example: https://example.com/resource/123
-  parameters:
-    ApiId:
-      name: api_id
-      in: path
-      required: true
-      description: API identifier.
-      schema:
-        type: string
   securitySchemes:
     sigv4:
       type: apiKey

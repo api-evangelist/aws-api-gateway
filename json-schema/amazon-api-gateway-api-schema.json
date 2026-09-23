@@ -1,0 +1,980 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.apievangelist.com/amazon-api-gateway/rest-api-definition",
+  "title": "Amazon API Gateway REST API Definition",
+  "description": "Schema defining the structure of an Amazon API Gateway REST API resource, including its configuration for resources, methods, integrations, stages, deployments, authorizers, models, and associated settings.",
+  "type": "object",
+  "required": [
+    "name"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The unique identifier of the REST API assigned by API Gateway."
+    },
+    "name": {
+      "type": "string",
+      "description": "The name of the REST API.",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "description": {
+      "type": "string",
+      "description": "A human-readable description of the REST API."
+    },
+    "version": {
+      "type": "string",
+      "description": "A version identifier for the API."
+    },
+    "createdDate": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The timestamp when the REST API was created."
+    },
+    "apiKeySource": {
+      "type": "string",
+      "enum": [
+        "HEADER",
+        "AUTHORIZER"
+      ],
+      "description": "The source of the API key for metering requests according to a usage plan. HEADER reads the key from the X-API-Key header. AUTHORIZER reads it from the UsageIdentifierKey from a custom authorizer."
+    },
+    "binaryMediaTypes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "The list of binary media types supported by the REST API, such as image/png or application/octet-stream."
+    },
+    "minimumCompressionSize": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 10485760,
+      "description": "A nullable integer that is used to enable or disable compression on an API. When compression is enabled, compression or decompression is not applied on the payload if the payload size is smaller than this value. Setting it to zero allows compression for any payload size."
+    },
+    "endpointConfiguration": {
+      "$ref": "#/$defs/EndpointConfiguration"
+    },
+    "policy": {
+      "type": "string",
+      "description": "A stringified JSON policy document that applies to this REST API regardless of the caller and method configuration."
+    },
+    "tags": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      },
+      "description": "The collection of tags associated with the REST API. Each tag is a key-value pair."
+    },
+    "disableExecuteApiEndpoint": {
+      "type": "boolean",
+      "description": "Specifies whether clients can invoke your API by using the default execute-api endpoint. When true, clients must use a custom domain name to invoke the API."
+    },
+    "resources": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Resource"
+      },
+      "description": "The collection of API resources defining the URL structure."
+    },
+    "stages": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Stage"
+      },
+      "description": "The named stages of the API deployment lifecycle."
+    },
+    "deployments": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Deployment"
+      },
+      "description": "Snapshots of the API configuration that are deployed to stages."
+    },
+    "authorizers": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Authorizer"
+      },
+      "description": "Authorization mechanisms configured for the API."
+    },
+    "models": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Model"
+      },
+      "description": "Data models that define the structure of request and response payloads."
+    },
+    "requestValidators": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/RequestValidator"
+      },
+      "description": "Request validators that check incoming requests before passing them to integrations."
+    },
+    "gatewayResponses": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/GatewayResponse"
+      },
+      "description": "Customized gateway responses for various error types."
+    },
+    "documentationParts": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/DocumentationPart"
+      },
+      "description": "Documentation content associated with API entities."
+    }
+  },
+  "$defs": {
+    "EndpointConfiguration": {
+      "type": "object",
+      "description": "The endpoint configuration for the REST API, specifying the endpoint type and VPC endpoint IDs.",
+      "properties": {
+        "types": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "REGIONAL",
+              "EDGE",
+              "PRIVATE"
+            ]
+          },
+          "description": "A list of endpoint types. An API can be EDGE (CloudFront-optimized), REGIONAL, or PRIVATE (VPC only)."
+        },
+        "vpcEndpointIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "A list of VPC endpoint IDs for a PRIVATE API."
+        }
+      }
+    },
+    "Resource": {
+      "type": "object",
+      "description": "A REST API resource representing a URL path segment.",
+      "required": [
+        "pathPart"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The unique identifier of the resource."
+        },
+        "parentId": {
+          "type": "string",
+          "description": "The identifier of the parent resource."
+        },
+        "pathPart": {
+          "type": "string",
+          "description": "The last URL path segment for this resource. Can include path parameters in curly braces, e.g., {id}."
+        },
+        "path": {
+          "type": "string",
+          "description": "The full resource path from the root, e.g., /items/{id}."
+        },
+        "methods": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/Method"
+          },
+          "description": "A map of HTTP method configurations keyed by HTTP verb (GET, POST, PUT, DELETE, PATCH, OPTIONS, ANY)."
+        }
+      }
+    },
+    "Method": {
+      "type": "object",
+      "description": "An HTTP method configuration on a resource defining how client requests are accepted and processed.",
+      "required": [
+        "httpMethod",
+        "authorizationType"
+      ],
+      "properties": {
+        "httpMethod": {
+          "type": "string",
+          "enum": [
+            "GET",
+            "POST",
+            "PUT",
+            "DELETE",
+            "PATCH",
+            "HEAD",
+            "OPTIONS",
+            "ANY"
+          ],
+          "description": "The HTTP verb for this method."
+        },
+        "authorizationType": {
+          "type": "string",
+          "enum": [
+            "NONE",
+            "AWS_IAM",
+            "CUSTOM",
+            "COGNITO_USER_POOLS"
+          ],
+          "description": "The type of authorization used for the method."
+        },
+        "authorizerId": {
+          "type": "string",
+          "description": "The identifier of the authorizer to use, if authorizationType is CUSTOM or COGNITO_USER_POOLS."
+        },
+        "apiKeyRequired": {
+          "type": "boolean",
+          "description": "Whether the method requires a valid API key."
+        },
+        "operationName": {
+          "type": "string",
+          "description": "A human-friendly operation identifier for the method."
+        },
+        "requestValidatorId": {
+          "type": "string",
+          "description": "The identifier of the request validator applied to this method."
+        },
+        "requestParameters": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "boolean"
+          },
+          "description": "A map of request parameters, where keys follow the format method.request.{location}.{name} and boolean values indicate whether the parameter is required."
+        },
+        "requestModels": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "A map of content types to model names specifying the request payload structure."
+        },
+        "methodResponses": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/MethodResponse"
+          },
+          "description": "A map of method responses keyed by HTTP status code."
+        },
+        "integration": {
+          "$ref": "#/$defs/Integration"
+        }
+      }
+    },
+    "MethodResponse": {
+      "type": "object",
+      "description": "A method response configuration defining what the client receives.",
+      "properties": {
+        "statusCode": {
+          "type": "string",
+          "description": "The HTTP status code of the response.",
+          "pattern": "^[1-5][0-9]{2}$"
+        },
+        "responseParameters": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "boolean"
+          },
+          "description": "Response parameters that can be sent to the client, keyed by method.response.header.{name}."
+        },
+        "responseModels": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "A map of content types to model names for the response body."
+        }
+      }
+    },
+    "Integration": {
+      "type": "object",
+      "description": "The integration configuration connecting the API method to a backend service.",
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "HTTP",
+            "HTTP_PROXY",
+            "AWS",
+            "AWS_PROXY",
+            "MOCK"
+          ],
+          "description": "The integration type. AWS_PROXY is used for Lambda proxy integration. HTTP_PROXY passes the request through. MOCK returns a response without a backend."
+        },
+        "httpMethod": {
+          "type": "string",
+          "description": "The HTTP method used for the integration request to the backend."
+        },
+        "uri": {
+          "type": "string",
+          "format": "uri",
+          "description": "The URI of the backend. For Lambda, this is the invocation ARN. For HTTP, this is the endpoint URL."
+        },
+        "connectionType": {
+          "type": "string",
+          "enum": [
+            "INTERNET",
+            "VPC_LINK"
+          ],
+          "description": "The type of network connection. VPC_LINK for private integrations."
+        },
+        "connectionId": {
+          "type": "string",
+          "description": "The ID of the VPC link for VPC_LINK connection type."
+        },
+        "credentials": {
+          "type": "string",
+          "description": "The IAM role ARN that API Gateway assumes to invoke the backend."
+        },
+        "requestParameters": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "A map of integration request parameters to method request parameters or static values."
+        },
+        "requestTemplates": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "A map of Velocity templates for transforming the method request body, keyed by content type."
+        },
+        "passthroughBehavior": {
+          "type": "string",
+          "enum": [
+            "WHEN_NO_MATCH",
+            "WHEN_NO_TEMPLATES",
+            "NEVER"
+          ],
+          "description": "How the method request body passes through when the content type does not match a defined template."
+        },
+        "contentHandling": {
+          "type": "string",
+          "enum": [
+            "CONVERT_TO_BINARY",
+            "CONVERT_TO_TEXT"
+          ],
+          "description": "How to handle request payload content type conversions."
+        },
+        "timeoutInMillis": {
+          "type": "integer",
+          "minimum": 50,
+          "maximum": 29000,
+          "description": "Integration timeout in milliseconds (50ms to 29 seconds)."
+        },
+        "cacheNamespace": {
+          "type": "string",
+          "description": "An API-specific tag group of related cached parameters."
+        },
+        "cacheKeyParameters": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "A list of request parameters whose values API Gateway caches."
+        },
+        "integrationResponses": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/IntegrationResponse"
+          },
+          "description": "A map of integration responses keyed by selection pattern or status code."
+        },
+        "tlsConfig": {
+          "type": "object",
+          "properties": {
+            "insecureSkipVerification": {
+              "type": "boolean",
+              "description": "Whether to skip TLS certificate verification for the integration endpoint."
+            }
+          }
+        }
+      }
+    },
+    "IntegrationResponse": {
+      "type": "object",
+      "description": "Configuration for transforming the backend response before returning it to the client.",
+      "properties": {
+        "statusCode": {
+          "type": "string",
+          "description": "The HTTP status code returned to the client.",
+          "pattern": "^[1-5][0-9]{2}$"
+        },
+        "selectionPattern": {
+          "type": "string",
+          "description": "A regex pattern to match the backend response's error message or status code to select this response."
+        },
+        "responseParameters": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "A map of response header mappings."
+        },
+        "responseTemplates": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "A map of Velocity templates for transforming the backend response body, keyed by content type."
+        },
+        "contentHandling": {
+          "type": "string",
+          "enum": [
+            "CONVERT_TO_BINARY",
+            "CONVERT_TO_TEXT"
+          ],
+          "description": "How to handle response payload content type conversions."
+        }
+      }
+    },
+    "Stage": {
+      "type": "object",
+      "description": "A named reference to a deployment, representing a snapshot of the API available for client invocation.",
+      "required": [
+        "stageName",
+        "deploymentId"
+      ],
+      "properties": {
+        "stageName": {
+          "type": "string",
+          "description": "The name of the stage, used as the first path segment in the invoke URL.",
+          "pattern": "^[a-zA-Z0-9_-]+$"
+        },
+        "deploymentId": {
+          "type": "string",
+          "description": "The identifier of the deployment this stage points to."
+        },
+        "description": {
+          "type": "string",
+          "description": "A description of the stage."
+        },
+        "clientCertificateId": {
+          "type": "string",
+          "description": "The identifier of a client certificate for the stage to use for mutual TLS authentication with the backend."
+        },
+        "cacheClusterEnabled": {
+          "type": "boolean",
+          "description": "Whether API caching is enabled for the stage."
+        },
+        "cacheClusterSize": {
+          "type": "string",
+          "enum": [
+            "0.5",
+            "1.6",
+            "6.1",
+            "13.5",
+            "28.4",
+            "58.2",
+            "118",
+            "237"
+          ],
+          "description": "The cache cluster size in GB."
+        },
+        "cacheClusterStatus": {
+          "type": "string",
+          "enum": [
+            "CREATE_IN_PROGRESS",
+            "AVAILABLE",
+            "DELETE_IN_PROGRESS",
+            "NOT_AVAILABLE",
+            "FLUSH_IN_PROGRESS"
+          ],
+          "description": "The current status of the cache cluster."
+        },
+        "methodSettings": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/MethodSetting"
+          },
+          "description": "A map of per-method override settings keyed by resource path and HTTP method (e.g., /items/GET)."
+        },
+        "variables": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "A map of stage variables available in integration request templates and Lambda context."
+        },
+        "documentationVersion": {
+          "type": "string",
+          "description": "The version of the API documentation snapshot associated with this stage."
+        },
+        "accessLogSettings": {
+          "$ref": "#/$defs/AccessLogSettings"
+        },
+        "canarySettings": {
+          "$ref": "#/$defs/CanarySettings"
+        },
+        "tracingEnabled": {
+          "type": "boolean",
+          "description": "Whether AWS X-Ray tracing is enabled for this stage."
+        },
+        "webAclArn": {
+          "type": "string",
+          "description": "The ARN of the AWS WAF WebACL associated with the stage."
+        },
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Tags associated with this stage."
+        },
+        "createdDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The timestamp when the stage was created."
+        },
+        "lastUpdatedDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The timestamp when the stage was last updated."
+        }
+      }
+    },
+    "MethodSetting": {
+      "type": "object",
+      "description": "Per-method override settings for a stage.",
+      "properties": {
+        "metricsEnabled": {
+          "type": "boolean",
+          "description": "Whether Amazon CloudWatch metrics are enabled for this method."
+        },
+        "loggingLevel": {
+          "type": "string",
+          "enum": [
+            "OFF",
+            "ERROR",
+            "INFO"
+          ],
+          "description": "The logging level for this method."
+        },
+        "dataTraceEnabled": {
+          "type": "boolean",
+          "description": "Whether full request/response data logging is enabled."
+        },
+        "throttlingBurstLimit": {
+          "type": "integer",
+          "description": "The throttling burst limit for this method."
+        },
+        "throttlingRateLimit": {
+          "type": "number",
+          "description": "The throttling rate limit for this method."
+        },
+        "cachingEnabled": {
+          "type": "boolean",
+          "description": "Whether response caching is enabled for this method."
+        },
+        "cacheTtlInSeconds": {
+          "type": "integer",
+          "description": "The time-to-live in seconds for cached responses."
+        },
+        "cacheDataEncrypted": {
+          "type": "boolean",
+          "description": "Whether the cached response data is encrypted."
+        },
+        "requireAuthorizationForCacheControl": {
+          "type": "boolean",
+          "description": "Whether authorization is required for cache control."
+        },
+        "unauthorizedCacheControlHeaderStrategy": {
+          "type": "string",
+          "enum": [
+            "FAIL_WITH_403",
+            "SUCCEED_WITH_RESPONSE_HEADER",
+            "SUCCEED_WITHOUT_RESPONSE_HEADER"
+          ],
+          "description": "How to handle unauthorized cache-control header requests."
+        }
+      }
+    },
+    "AccessLogSettings": {
+      "type": "object",
+      "description": "Settings for access logging.",
+      "properties": {
+        "format": {
+          "type": "string",
+          "description": "The access log format string using API Gateway variables like $context.requestId."
+        },
+        "destinationArn": {
+          "type": "string",
+          "description": "The ARN of the CloudWatch Logs log group or Kinesis Data Firehose delivery stream for access logs."
+        }
+      }
+    },
+    "CanarySettings": {
+      "type": "object",
+      "description": "Settings for canary deployment on a stage.",
+      "properties": {
+        "percentTraffic": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "The percentage of traffic directed to the canary deployment."
+        },
+        "deploymentId": {
+          "type": "string",
+          "description": "The deployment identifier for the canary."
+        },
+        "stageVariableOverrides": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Stage variable overrides for the canary deployment."
+        },
+        "useStageCache": {
+          "type": "boolean",
+          "description": "Whether the canary deployment uses the stage cache."
+        }
+      }
+    },
+    "Deployment": {
+      "type": "object",
+      "description": "A snapshot of the API configuration that can be associated with one or more stages.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The unique identifier of the deployment."
+        },
+        "description": {
+          "type": "string",
+          "description": "A description of the deployment."
+        },
+        "createdDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The timestamp when the deployment was created."
+        },
+        "apiSummary": {
+          "type": "object",
+          "description": "A summary of the API at the time of deployment, organized by resource path and HTTP method.",
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "properties": {
+                "authorizationType": {
+                  "type": "string"
+                },
+                "apiKeyRequired": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Authorizer": {
+      "type": "object",
+      "description": "An authorization mechanism for controlling access to API methods.",
+      "required": [
+        "name",
+        "type"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The unique identifier of the authorizer."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the authorizer."
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "TOKEN",
+            "REQUEST",
+            "COGNITO_USER_POOLS"
+          ],
+          "description": "The type of authorizer. TOKEN uses a Lambda function with a custom token. REQUEST uses a Lambda function with request parameters. COGNITO_USER_POOLS uses an Amazon Cognito user pool."
+        },
+        "providerARNs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "A list of Amazon Cognito user pool ARNs for COGNITO_USER_POOLS authorizer type."
+        },
+        "authType": {
+          "type": "string",
+          "description": "An optional customer-defined field for labeling the authorization strategy."
+        },
+        "authorizerUri": {
+          "type": "string",
+          "format": "uri",
+          "description": "The URI of the authorizer Lambda function for TOKEN or REQUEST type."
+        },
+        "authorizerCredentials": {
+          "type": "string",
+          "description": "The IAM role ARN for API Gateway to invoke the authorizer function."
+        },
+        "identitySource": {
+          "type": "string",
+          "description": "The identity source from which the authorization token is extracted. For TOKEN type, typically method.request.header.Authorization."
+        },
+        "identityValidationExpression": {
+          "type": "string",
+          "description": "A regex pattern for validating the incoming identity token before calling the authorizer."
+        },
+        "authorizerResultTtlInSeconds": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3600,
+          "description": "The TTL in seconds for cached authorizer results."
+        }
+      }
+    },
+    "Model": {
+      "type": "object",
+      "description": "A data model defining the structure of a request or response payload.",
+      "required": [
+        "name",
+        "contentType"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The unique identifier of the model."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the model."
+        },
+        "description": {
+          "type": "string",
+          "description": "A description of the model."
+        },
+        "schema": {
+          "type": "string",
+          "description": "The JSON Schema definition of the model in a JSON string."
+        },
+        "contentType": {
+          "type": "string",
+          "description": "The content type for the model, typically application/json."
+        }
+      }
+    },
+    "RequestValidator": {
+      "type": "object",
+      "description": "A validator that checks incoming request parameters and body against the API definition.",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The unique identifier of the request validator."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the request validator."
+        },
+        "validateRequestBody": {
+          "type": "boolean",
+          "description": "Whether to validate the request body against the configured model."
+        },
+        "validateRequestParameters": {
+          "type": "boolean",
+          "description": "Whether to validate request parameters against the method configuration."
+        }
+      }
+    },
+    "GatewayResponse": {
+      "type": "object",
+      "description": "A customized response returned by API Gateway when a request fails before reaching the integration.",
+      "required": [
+        "responseType"
+      ],
+      "properties": {
+        "responseType": {
+          "type": "string",
+          "enum": [
+            "DEFAULT_4XX",
+            "DEFAULT_5XX",
+            "ACCESS_DENIED",
+            "API_CONFIGURATION_ERROR",
+            "AUTHORIZER_CONFIGURATION_ERROR",
+            "AUTHORIZER_FAILURE",
+            "BAD_REQUEST_PARAMETERS",
+            "BAD_REQUEST_BODY",
+            "EXPIRED_TOKEN",
+            "INTEGRATION_FAILURE",
+            "INTEGRATION_TIMEOUT",
+            "INVALID_API_KEY",
+            "INVALID_SIGNATURE",
+            "MISSING_AUTHENTICATION_TOKEN",
+            "QUOTA_EXCEEDED",
+            "REQUEST_TOO_LARGE",
+            "RESOURCE_NOT_FOUND",
+            "THROTTLED",
+            "UNAUTHORIZED",
+            "UNSUPPORTED_MEDIA_TYPE",
+            "WAF_FILTERED"
+          ],
+          "description": "The gateway response type."
+        },
+        "statusCode": {
+          "type": "string",
+          "description": "The HTTP status code of the gateway response.",
+          "pattern": "^[1-5][0-9]{2}$"
+        },
+        "responseParameters": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Response parameters (header mappings) for the gateway response."
+        },
+        "responseTemplates": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Response templates for the gateway response keyed by content type."
+        },
+        "defaultResponse": {
+          "type": "boolean",
+          "description": "Whether this is the default gateway response for the response type."
+        }
+      }
+    },
+    "DocumentationPart": {
+      "type": "object",
+      "description": "A documentation item associated with a specific API entity.",
+      "required": [
+        "location",
+        "properties"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The unique identifier of the documentation part."
+        },
+        "location": {
+          "type": "object",
+          "required": [
+            "type"
+          ],
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "API",
+                "AUTHORIZER",
+                "MODEL",
+                "RESOURCE",
+                "METHOD",
+                "PATH_PARAMETER",
+                "QUERY_PARAMETER",
+                "REQUEST_HEADER",
+                "REQUEST_BODY",
+                "RESPONSE",
+                "RESPONSE_HEADER",
+                "RESPONSE_BODY"
+              ],
+              "description": "The type of API entity to which the documentation part applies."
+            },
+            "path": {
+              "type": "string",
+              "description": "The URL path of the target."
+            },
+            "method": {
+              "type": "string",
+              "description": "The HTTP method of the target."
+            },
+            "statusCode": {
+              "type": "string",
+              "description": "The HTTP status code of a response."
+            },
+            "name": {
+              "type": "string",
+              "description": "The name of the targeted query parameter, header, or path parameter."
+            }
+          },
+          "description": "The location of the API entity to which the documentation part applies."
+        },
+        "properties": {
+          "type": "string",
+          "description": "The content of the documentation part as a JSON string."
+        }
+      }
+    }
+  },
+  "examples": [
+    {
+      "name": "PetStore",
+      "description": "A sample PetStore REST API",
+      "version": "1.0.0",
+      "apiKeySource": "HEADER",
+      "endpointConfiguration": {
+        "types": [
+          "REGIONAL"
+        ]
+      },
+      "resources": [
+        {
+          "pathPart": "/",
+          "path": "/"
+        },
+        {
+          "pathPart": "pets",
+          "path": "/pets",
+          "methods": {
+            "GET": {
+              "httpMethod": "GET",
+              "authorizationType": "NONE",
+              "apiKeyRequired": false,
+              "operationName": "ListPets",
+              "integration": {
+                "type": "AWS_PROXY",
+                "httpMethod": "POST",
+                "uri": "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:123456789012:function:ListPets/invocations",
+                "timeoutInMillis": 29000
+              }
+            },
+            "POST": {
+              "httpMethod": "POST",
+              "authorizationType": "AWS_IAM",
+              "apiKeyRequired": true,
+              "operationName": "CreatePet",
+              "integration": {
+                "type": "AWS_PROXY",
+                "httpMethod": "POST",
+                "uri": "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:123456789012:function:CreatePet/invocations",
+                "timeoutInMillis": 29000
+              }
+            }
+          }
+        }
+      ],
+      "authorizers": [
+        {
+          "name": "CognitoAuth",
+          "type": "COGNITO_USER_POOLS",
+          "providerARNs": [
+            "arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_ExamplePool"
+          ],
+          "identitySource": "method.request.header.Authorization",
+          "authorizerResultTtlInSeconds": 300
+        }
+      ],
+      "stages": [
+        {
+          "stageName": "prod",
+          "deploymentId": "abc123",
+          "description": "Production stage",
+          "tracingEnabled": true,
+          "variables": {
+            "environment": "production"
+          }
+        }
+      ]
+    }
+  ]
+}

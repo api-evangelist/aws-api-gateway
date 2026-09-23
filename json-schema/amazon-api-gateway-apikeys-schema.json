@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ApiKeys",
+  "type": "object",
+  "properties": {
+    "position": {
+      "type": "string"
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "item": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/ApiKey"
+      }
+    }
+  }
+}
