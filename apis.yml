@@ -45,6 +45,7 @@ tags:
 - AgentCore
 - Developer Portal
 - Developer Tools
+- Real-Time
 url: https://raw.githubusercontent.com/api-evangelist/aws-api-gateway/refs/heads/main/apis.yml
 created: '2026-03-27'
 modified: '2026-09-16'
@@ -98,8 +99,6 @@ apis:
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/response-transfer-mode.html
   - type: Documentation
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/private-integration.html
-  - type: GraphQL
-    url: graphql/aws-api-gateway-graphql.md
   - type: Documentation
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api.html
   - type: APIReference
@@ -142,8 +141,6 @@ apis:
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/response-transfer-mode.html
   - type: Documentation
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/private-integration.html
-  - type: GraphQL
-    url: graphql/aws-api-gateway-graphql.md
   - type: Documentation
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api.html
   - type: APIReference
@@ -188,8 +185,6 @@ apis:
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/response-transfer-mode.html
   - type: Documentation
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/private-integration.html
-  - type: GraphQL
-    url: graphql/aws-api-gateway-graphql.md
   - type: Documentation
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api.html
   - type: APIReference
@@ -234,8 +229,6 @@ apis:
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/response-transfer-mode.html
   - type: Documentation
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/private-integration.html
-  - type: GraphQL
-    url: graphql/aws-api-gateway-graphql.md
   - type: Documentation
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api.html
   - type: APIReference
@@ -279,8 +272,6 @@ apis:
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/response-transfer-mode.html
   - type: Documentation
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/private-integration.html
-  - type: GraphQL
-    url: graphql/aws-api-gateway-graphql.md
   - type: Documentation
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api.html
   - type: APIReference
@@ -323,8 +314,6 @@ apis:
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/response-transfer-mode.html
   - type: Documentation
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/private-integration.html
-  - type: GraphQL
-    url: graphql/aws-api-gateway-graphql.md
   - type: Documentation
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api.html
   - type: APIReference
@@ -367,8 +356,6 @@ apis:
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/response-transfer-mode.html
   - type: Documentation
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/private-integration.html
-  - type: GraphQL
-    url: graphql/aws-api-gateway-graphql.md
   - type: Documentation
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api.html
   - type: APIReference
@@ -411,8 +398,6 @@ apis:
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/response-transfer-mode.html
   - type: Documentation
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/private-integration.html
-  - type: GraphQL
-    url: graphql/aws-api-gateway-graphql.md
   - type: Documentation
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api.html
   - type: APIReference
@@ -870,8 +855,6 @@ apis:
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/response-transfer-mode.html
   - type: Documentation
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/private-integration.html
-  - type: GraphQL
-    url: graphql/aws-api-gateway-graphql.md
   - type: Documentation
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api.html
   - type: APIReference
@@ -950,8 +933,6 @@ apis:
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/response-transfer-mode.html
   - type: Documentation
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/private-integration.html
-  - type: GraphQL
-    url: graphql/aws-api-gateway-graphql.md
   - type: Documentation
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api.html
   - type: APIReference
@@ -1028,8 +1009,6 @@ apis:
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/response-transfer-mode.html
   - type: Documentation
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/private-integration.html
-  - type: GraphQL
-    url: graphql/aws-api-gateway-graphql.md
   - type: Documentation
     url: https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api.html
   - type: APIReference
@@ -1328,5 +1307,5 @@ integrations:
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
-x-parent: aws
+x-parent: amazon-web-services
 x-relationship: product
