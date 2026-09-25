@@ -42,6 +42,9 @@ artifacts:
   arazzo/aws-api-gateway-secure-http-api-authorizer-workflow.yml:
     method: unknown
     evidence: no authorship recorded
+  asyncapi/amazon-api-gateway-websocket-asyncapi.yml:
+    method: unknown
+    evidence: no authorship recorded
   asyncapi/aws-api-gateway-asyncapi.yml:
     method: unknown
     evidence: no authorship recorded
@@ -49,11 +52,11 @@ artifacts:
     method: derived
     evidence: declared in the artifact
   collections/aws-api-gateway-apikeys-api.opencollection.json:
-    method: derived
-    evidence: openapi/aws-api-gateway-apikeys-api
+    method: unknown
+    evidence: no authorship recorded
   collections/aws-api-gateway-apikeys-api.postman_collection.json:
-    method: derived
-    evidence: openapi/aws-api-gateway-apikeys-api
+    method: unknown
+    evidence: no authorship recorded
   collections/aws-api-gateway-apis-api.opencollection.json:
     method: derived
     evidence: openapi/aws-api-gateway-apis-api
@@ -103,11 +106,11 @@ artifacts:
     method: derived
     evidence: openapi/aws-api-gateway-resources-api
   collections/aws-api-gateway-restapis-api.opencollection.json:
-    method: derived
-    evidence: openapi/aws-api-gateway-restapis-api
+    method: unknown
+    evidence: no authorship recorded
   collections/aws-api-gateway-restapis-api.postman_collection.json:
-    method: derived
-    evidence: openapi/aws-api-gateway-restapis-api
+    method: unknown
+    evidence: no authorship recorded
   collections/aws-api-gateway-routes-api.opencollection.json:
     method: derived
     evidence: openapi/aws-api-gateway-routes-api
@@ -121,11 +124,11 @@ artifacts:
     method: derived
     evidence: openapi/aws-api-gateway-stages-api
   collections/aws-api-gateway-usageplans-api.opencollection.json:
-    method: derived
-    evidence: openapi/aws-api-gateway-usageplans-api
+    method: unknown
+    evidence: no authorship recorded
   collections/aws-api-gateway-usageplans-api.postman_collection.json:
-    method: derived
-    evidence: openapi/aws-api-gateway-usageplans-api
+    method: unknown
+    evidence: no authorship recorded
   collections/aws-api-gateway-v1.opencollection.json:
     method: unknown
     evidence: no authorship recorded
@@ -264,7 +267,10 @@ artifacts:
   finops/aws-api-gateway-finops.yml:
     method: generated
     evidence: declared in the artifact
-  graphql/aws-api-gateway-graphql.md:
+  front-door-ai/2026-09-17.yml:
+    method: unknown
+    evidence: no authorship recorded
+  json-ld/amazon-api-gateway-context.jsonld:
     method: unknown
     evidence: no authorship recorded
   json-ld/aws-api-gateway-management-connection-context.jsonld:
@@ -355,6 +361,21 @@ artifacts:
     method: unknown
     evidence: no authorship recorded
   json-ld/aws-api-gateway-v2-stages-context.jsonld:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/amazon-api-gateway-accesslogsettings-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/amazon-api-gateway-api-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/amazon-api-gateway-apikey-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/amazon-api-gateway-apikeys-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/amazon-api-gateway-apistage-schema.json:
     method: unknown
     evidence: no authorship recorded
   json-schema/management-connection-schema.json:
@@ -480,6 +501,15 @@ artifacts:
   json-schema/v2-stages-schema.json:
     method: unknown
     evidence: no authorship recorded
+  json-structure/amazon-api-gateway-accesslogsettings-structure.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-structure/amazon-api-gateway-apikey-structure.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-structure/amazon-api-gateway-apikeys-structure.json:
+    method: unknown
+    evidence: no authorship recorded
   json-structure/management-connection-structure.json:
     method: unknown
     evidence: no authorship recorded
@@ -603,55 +633,7 @@ artifacts:
   json-structure/v2-stages-structure.json:
     method: unknown
     evidence: no authorship recorded
-  kin/checks-2026-09-05T072335.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-06T210741.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-07T135032.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-10T093022.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-10T111628.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-11T211707.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-12T193225.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-17T064519.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-19T080027.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-19T082702.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-19T114122.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-20T165047.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-20T191845.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-20T205517.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-21T110057.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-24T064859.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-24T171257.yml:
+  kin/checks-2026-09-24T161608.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   kin/score-2026-08-25T125852.yml:
@@ -738,22 +720,182 @@ artifacts:
   kin/score-2026-09-05T072335.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-05T144739.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-05T195450.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-05T211839.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-06T011047.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-06T211804.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-06T224210.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-07T200636.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-07T213054.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-08T214843.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-08T232836.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-10T204815.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-10T222408.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-12T062655.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-12T080032.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-12T204651.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-12T221936.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-13T214537.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-14T064754.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-14T210656.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-14T225847.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-15T211329.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-15T230249.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-16T210549.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-16T225339.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-17T211151.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-17T233623.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-18T205255.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-18T231945.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-19T165737.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-19T193153.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-20T205903.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-20T232958.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-21T211425.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-21T233935.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-22T213221.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-23T000603.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-24T064009.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-24T090406.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-24T161608.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
   llms/aws-api-gateway-llms.txt:
     method: searched
     evidence: 'derive-llms-provenance.py: harvested'
   onboarding/aws-api-gateway-api-auth.mjs:
     method: unknown
     evidence: no authorship recorded
+  openapi/_original/amazon-api-gateway-api-keys-api-openapi.yml:
+    method: harvested
+    evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
+      to the provider's source is unverified
+  openapi/_original/amazon-api-gateway-base-path-mappings-api-openapi.yml:
+    method: harvested
+    evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
+      to the provider's source is unverified
+  openapi/_original/amazon-api-gateway-documentation-api-openapi.yml:
+    method: harvested
+    evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
+      to the provider's source is unverified
+  openapi/_original/amazon-api-gateway-domain-names-api-openapi.yml:
+    method: harvested
+    evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
+      to the provider's source is unverified
+  openapi/_original/amazon-api-gateway-gateway-responses-api-openapi.yml:
+    method: harvested
+    evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
+      to the provider's source is unverified
+  openapi/_original/amazon-api-gateway-models-api-openapi.yml:
+    method: harvested
+    evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
+      to the provider's source is unverified
+  openapi/_original/amazon-api-gateway-request-validators-api-openapi.yml:
+    method: harvested
+    evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
+      to the provider's source is unverified
+  openapi/_original/amazon-api-gateway-rest-apis-api-openapi.yml:
+    method: harvested
+    evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
+      to the provider's source is unverified
+  openapi/_original/amazon-api-gateway-usage-plans-api-openapi.yml:
+    method: harvested
+    evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
+      to the provider's source is unverified
+  openapi/_original/amazon-api-gateway-vpc-links-api-openapi.yml:
+    method: harvested
+    evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
+      to the provider's source is unverified
   openapi/_original/aws-api-gateway-management-openapi.yml:
     method: harvested
-    evidence: fetched from the provider as-is; byte-identical to the source
+    evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
+      to the provider's source is unverified
   openapi/_original/aws-api-gateway-v1-openapi.yml:
     method: harvested
-    evidence: fetched from the provider as-is; byte-identical to the source
+    evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
+      to the provider's source is unverified
   openapi/_original/aws-api-gateway-v2-openapi.yml:
     method: harvested
-    evidence: fetched from the provider as-is; byte-identical to the source
-  openapi/aws-api-gateway-apikeys-api-openapi.yml:
+    evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
+      to the provider's source is unverified
+  openapi/aws-api-gateway-api-keys-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/aws-api-gateway-apis-api-openapi.yml:
@@ -762,10 +904,22 @@ artifacts:
   openapi/aws-api-gateway-authorizers-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/aws-api-gateway-base-path-mappings-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/aws-api-gateway-connections-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/aws-api-gateway-deployments-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/aws-api-gateway-documentation-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/aws-api-gateway-domain-names-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/aws-api-gateway-gateway-responses-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/aws-api-gateway-integrations-api-openapi.yml:
@@ -774,10 +928,16 @@ artifacts:
   openapi/aws-api-gateway-methods-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/aws-api-gateway-models-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/aws-api-gateway-request-validators-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/aws-api-gateway-resources-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
-  openapi/aws-api-gateway-restapis-api-openapi.yml:
+  openapi/aws-api-gateway-rest-apis-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/aws-api-gateway-routes-api-openapi.yml:
@@ -786,7 +946,10 @@ artifacts:
   openapi/aws-api-gateway-stages-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
-  openapi/aws-api-gateway-usageplans-api-openapi.yml:
+  openapi/aws-api-gateway-usage-plans-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/aws-api-gateway-vpclinks-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   plans/aws-api-gateway-plans-pricing.yml:
@@ -822,6 +985,9 @@ artifacts:
   security/aws-api-gateway-vulnerability-disclosure.yml:
     method: searched
     evidence: declared in the artifact
+  vendor-facets/aws-api-gateway-vendor-facets.yml:
+    method: unknown
+    evidence: no authorship recorded
   vocabulary/aws-api-gateway-vocabulary.yaml:
     method: unknown
     evidence: no authorship recorded
