@@ -1060,6 +1060,8 @@ apis:
   - type: JSONLD
     url: json-ld/amazon-api-gateway-context.jsonld
 common:
+- type: VendorFacets
+  url: vendor-facets/aws-api-gateway-vendor-facets.yml
 - type: APIReference
   url: https://docs.aws.amazon.com/apigateway/api-reference/
 - type: Security
