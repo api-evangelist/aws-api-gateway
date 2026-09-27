@@ -40,7 +40,7 @@
     "aws-api-gateway-routes-api-openapi.yml"
   ],
   "archived": [
-    "deleted 2 superseded output(s) from the previous generation"
+    "deleted 1 superseded output(s) from the previous generation"
   ],
   "errors": [],
   "warnings": [],
@@ -56,12 +56,12 @@
     "aws-api-gateway-v2-openapi.yml: declared missing tag: Apis",
     "tag 'Deployments' spans 2 source specs (aws-api-gateway-v1-openapi.yml, aws-api-gateway-v2-openapi.yml): per-path servers applied",
     "tag 'Stages' spans 2 source specs (aws-api-gateway-v1-openapi.yml, aws-api-gateway-v2-openapi.yml): per-path servers applied",
-    "superseded outputs removed: aws-api-gateway-ap-is-api-openapi.yml, aws-api-gateway-vpclinks-api-openapi.yml",
-    "apis.yml register: written (+5 apis, 26 total)"
+    "superseded outputs removed: aws-api-gateway-vpclinks-api-openapi.yml",
+    "apis.yml register: written (+4 apis, 26 total)"
   ],
   "skipped": [
-    "aws-api-gateway-ap-is-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "aws-api-gateway-api-keys-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "aws-api-gateway-apis-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "aws-api-gateway-authorizers-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "aws-api-gateway-base-path-mappings-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "aws-api-gateway-connections-api-openapi.yml: previously refined output, superseded by openapi/_original/",
@@ -74,7 +74,7 @@
     "aws-api-gateway-models-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "aws-api-gateway-request-validators-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "aws-api-gateway-resources-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "aws-api-gateway-restapis-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "aws-api-gateway-rest-apis-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "aws-api-gateway-routes-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "aws-api-gateway-stages-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "aws-api-gateway-usage-plans-api-openapi.yml: previously refined output, superseded by openapi/_original/",

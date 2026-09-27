@@ -175,28 +175,55 @@ paths:
         '429':
           $ref: '#/components/responses/TooManyRequests'
 components:
+  parameters:
+    RestApiId:
+      name: restapi_id
+      in: path
+      required: true
+      description: The identifier of the REST API.
+      schema:
+        type: string
+    Position:
+      name: position
+      in: query
+      description: The current pagination position in the paged result set. Used for cursor-based pagination.
+      schema:
+        type: string
+    Limit:
+      name: limit
+      in: query
+      description: The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 500
+        default: 25
+  responses:
+    BadRequest:
+      description: The request is invalid or malformed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    TooManyRequests:
+      description: The request rate has exceeded the allowed limit.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The specified resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Conflict:
+      description: The request conflicts with the current state of the resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    DocumentationVersion:
-      type: object
-      properties:
-        version:
-          type: string
-        createdDate:
-          type: string
-          format: date-time
-        description:
-          type: string
-    CreateDocumentationVersionRequest:
-      type: object
-      required:
-      - documentationVersion
-      properties:
-        documentationVersion:
-          type: string
-        stageName:
-          type: string
-        description:
-          type: string
     DocumentationParts:
       type: object
       properties:
@@ -206,6 +233,48 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/DocumentationPart'
+    DocumentationVersions:
+      type: object
+      properties:
+        position:
+          type: string
+        item:
+          type: array
+          items:
+            $ref: '#/components/schemas/DocumentationVersion'
+    DocumentationPart:
+      type: object
+      properties:
+        id:
+          type: string
+        location:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+              - API
+              - AUTHORIZER
+              - MODEL
+              - RESOURCE
+              - METHOD
+              - PATH_PARAMETER
+              - QUERY_PARAMETER
+              - REQUEST_HEADER
+              - REQUEST_BODY
+              - RESPONSE
+              - RESPONSE_HEADER
+              - RESPONSE_BODY
+            path:
+              type: string
+            method:
+              type: string
+            statusCode:
+              type: string
+            name:
+              type: string
+        properties:
+          type: string
     CreateDocumentationPartRequest:
       type: object
       required:
@@ -242,38 +311,16 @@ components:
               type: string
         properties:
           type: string
-    DocumentationPart:
+    CreateDocumentationVersionRequest:
       type: object
+      required:
+      - documentationVersion
       properties:
-        id:
+        documentationVersion:
           type: string
-        location:
-          type: object
-          properties:
-            type:
-              type: string
-              enum:
-              - API
-              - AUTHORIZER
-              - MODEL
-              - RESOURCE
-              - METHOD
-              - PATH_PARAMETER
-              - QUERY_PARAMETER
-              - REQUEST_HEADER
-              - REQUEST_BODY
-              - RESPONSE
-              - RESPONSE_HEADER
-              - RESPONSE_BODY
-            path:
-              type: string
-            method:
-              type: string
-            statusCode:
-              type: string
-            name:
-              type: string
-        properties:
+        stageName:
+          type: string
+        description:
           type: string
     Error:
       type: object
@@ -284,63 +331,16 @@ components:
         code:
           type: string
           description: The error code.
-    DocumentationVersions:
+    DocumentationVersion:
       type: object
       properties:
-        position:
+        version:
           type: string
-        item:
-          type: array
-          items:
-            $ref: '#/components/schemas/DocumentationVersion'
-  responses:
-    Conflict:
-      description: The request conflicts with the current state of the resource.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    TooManyRequests:
-      description: The request rate has exceeded the allowed limit.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The specified resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: The request is invalid or malformed.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-  parameters:
-    Limit:
-      name: limit
-      in: query
-      description: The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 500
-        default: 25
-    RestApiId:
-      name: restapi_id
-      in: path
-      required: true
-      description: The identifier of the REST API.
-      schema:
-        type: string
-    Position:
-      name: position
-      in: query
-      description: The current pagination position in the paged result set. Used for cursor-based pagination.
-      schema:
-        type: string
+        createdDate:
+          type: string
+          format: date-time
+        description:
+          type: string
   securitySchemes:
     sigv4:
       type: apiKey

@@ -157,6 +157,56 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
 components:
   schemas:
+    ApiStage:
+      type: object
+      properties:
+        apiId:
+          type: string
+        stage:
+          type: string
+        throttle:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ThrottleSettings'
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          description: A human-readable error message.
+        code:
+          type: string
+          description: The error code.
+    ThrottleSettings:
+      type: object
+      properties:
+        burstLimit:
+          type: integer
+          description: The API request burst limit per second.
+        rateLimit:
+          type: number
+          description: The API request steady-state rate limit per second.
+    CreateUsagePlanRequest:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        apiStages:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiStage'
+        throttle:
+          $ref: '#/components/schemas/ThrottleSettings'
+        quota:
+          $ref: '#/components/schemas/QuotaSettings'
+        tags:
+          type: object
+          additionalProperties:
+            type: string
     QuotaSettings:
       type: object
       properties:
@@ -173,24 +223,28 @@ components:
           - WEEK
           - MONTH
           description: The time period for which the maximum limit applies.
-    ApiStage:
+    PatchOperation:
       type: object
       properties:
-        apiId:
+        op:
           type: string
-        stage:
+          enum:
+          - add
+          - remove
+          - replace
+          - move
+          - copy
+          - test
+          description: The operation type.
+        path:
           type: string
-        throttle:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/ThrottleSettings'
-    PatchOperations:
-      type: object
-      properties:
-        patchOperations:
-          type: array
-          items:
-            $ref: '#/components/schemas/PatchOperation'
+          description: The op operation's target, as identified by a JSON Pointer value.
+        value:
+          type: string
+          description: The new target value of the update operation. It is applicable for the add or replace operation.
+        from:
+          type: string
+          description: The copy update operation's source as identified by a JSON Pointer value.
     UsagePlan:
       type: object
       properties:
@@ -216,67 +270,6 @@ components:
           type: object
           additionalProperties:
             type: string
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
-          description: A human-readable error message.
-        code:
-          type: string
-          description: The error code.
-    CreateUsagePlanRequest:
-      type: object
-      required:
-      - name
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-        apiStages:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiStage'
-        throttle:
-          $ref: '#/components/schemas/ThrottleSettings'
-        quota:
-          $ref: '#/components/schemas/QuotaSettings'
-        tags:
-          type: object
-          additionalProperties:
-            type: string
-    ThrottleSettings:
-      type: object
-      properties:
-        burstLimit:
-          type: integer
-          description: The API request burst limit per second.
-        rateLimit:
-          type: number
-          description: The API request steady-state rate limit per second.
-    PatchOperation:
-      type: object
-      properties:
-        op:
-          type: string
-          enum:
-          - add
-          - remove
-          - replace
-          - move
-          - copy
-          - test
-          description: The operation type.
-        path:
-          type: string
-          description: The op operation's target, as identified by a JSON Pointer value.
-        value:
-          type: string
-          description: The new target value of the update operation. It is applicable for the add or replace operation.
-        from:
-          type: string
-          description: The copy update operation's source as identified by a JSON Pointer value.
     UsagePlans:
       type: object
       properties:
@@ -286,12 +279,18 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/UsagePlan'
+    PatchOperations:
+      type: object
+      properties:
+        patchOperations:
+          type: array
+          items:
+            $ref: '#/components/schemas/PatchOperation'
   parameters:
-    UsagePlanId:
-      name: usageplan_id
-      in: path
-      required: true
-      description: The identifier of the usage plan.
+    Position:
+      name: position
+      in: query
+      description: The current pagination position in the paged result set. Used for cursor-based pagination.
       schema:
         type: string
     Limit:
@@ -303,21 +302,22 @@ components:
         minimum: 1
         maximum: 500
         default: 25
-    Position:
-      name: position
-      in: query
-      description: The current pagination position in the paged result set. Used for cursor-based pagination.
+    UsagePlanId:
+      name: usageplan_id
+      in: path
+      required: true
+      description: The identifier of the usage plan.
       schema:
         type: string
   responses:
-    Conflict:
-      description: The request conflicts with the current state of the resource.
+    TooManyRequests:
+      description: The request rate has exceeded the allowed limit.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    TooManyRequests:
-      description: The request rate has exceeded the allowed limit.
+    BadRequest:
+      description: The request is invalid or malformed.
       content:
         application/json:
           schema:
@@ -328,8 +328,8 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: The request is invalid or malformed.
+    Conflict:
+      description: The request conflicts with the current state of the resource.
       content:
         application/json:
           schema:

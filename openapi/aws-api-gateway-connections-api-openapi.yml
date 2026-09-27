@@ -101,7 +101,33 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
+  parameters:
+    ConnectionId:
+      name: connectionId
+      in: path
+      required: true
+      description: Identifier of the WebSocket connection.
+      schema:
+        type: string
   schemas:
+    Identity:
+      type: object
+      properties:
+        SourceIp:
+          type: string
+          description: Source IP address of the client.
+          example: example-value
+        UserAgent:
+          type: string
+          description: User agent string from the client.
+          example: example-value
+    Error:
+      type: object
+      properties:
+        Message:
+          type: string
+          description: Human-readable error message.
+          example: example-value
     Connection:
       type: object
       properties:
@@ -117,45 +143,19 @@ components:
           example: '2025-03-15T14:30:00Z'
         Identity:
           $ref: '#/components/schemas/Identity'
-    Error:
-      type: object
-      properties:
-        Message:
-          type: string
-          description: Human-readable error message.
-          example: example-value
-    Identity:
-      type: object
-      properties:
-        SourceIp:
-          type: string
-          description: Source IP address of the client.
-          example: example-value
-        UserAgent:
-          type: string
-          description: User agent string from the client.
-          example: example-value
   responses:
-    Gone:
-      description: The connection is no longer available.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     NotFound:
       description: The specified connection does not exist.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-  parameters:
-    ConnectionId:
-      name: connectionId
-      in: path
-      required: true
-      description: Identifier of the WebSocket connection.
-      schema:
-        type: string
+    Gone:
+      description: The connection is no longer available.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     sigv4:
       type: apiKey

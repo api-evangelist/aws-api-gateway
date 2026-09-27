@@ -151,55 +151,7 @@ paths:
         '429':
           $ref: '#/components/responses/TooManyRequests'
 components:
-  parameters:
-    VpcLinkId:
-      name: vpclink_id
-      in: path
-      required: true
-      description: The identifier of the VPC link.
-      schema:
-        type: string
-    Limit:
-      name: limit
-      in: query
-      description: The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 500
-        default: 25
-    Position:
-      name: position
-      in: query
-      description: The current pagination position in the paged result set. Used for cursor-based pagination.
-      schema:
-        type: string
   schemas:
-    CreateVpcLinkRequest:
-      type: object
-      required:
-      - name
-      - targetArns
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-        targetArns:
-          type: array
-          items:
-            type: string
-        tags:
-          type: object
-          additionalProperties:
-            type: string
-    PatchOperations:
-      type: object
-      properties:
-        patchOperations:
-          type: array
-          items:
-            $ref: '#/components/schemas/PatchOperation'
     VpcLink:
       type: object
       properties:
@@ -226,15 +178,6 @@ components:
           type: object
           additionalProperties:
             type: string
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
-          description: A human-readable error message.
-        code:
-          type: string
-          description: The error code.
     VpcLinks:
       type: object
       properties:
@@ -266,9 +209,66 @@ components:
         from:
           type: string
           description: The copy update operation's source as identified by a JSON Pointer value.
+    CreateVpcLinkRequest:
+      type: object
+      required:
+      - name
+      - targetArns
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        targetArns:
+          type: array
+          items:
+            type: string
+        tags:
+          type: object
+          additionalProperties:
+            type: string
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          description: A human-readable error message.
+        code:
+          type: string
+          description: The error code.
+    PatchOperations:
+      type: object
+      properties:
+        patchOperations:
+          type: array
+          items:
+            $ref: '#/components/schemas/PatchOperation'
+  parameters:
+    Position:
+      name: position
+      in: query
+      description: The current pagination position in the paged result set. Used for cursor-based pagination.
+      schema:
+        type: string
+    Limit:
+      name: limit
+      in: query
+      description: The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 500
+        default: 25
+    VpcLinkId:
+      name: vpclink_id
+      in: path
+      required: true
+      description: The identifier of the VPC link.
+      schema:
+        type: string
   responses:
-    Conflict:
-      description: The request conflicts with the current state of the resource.
+    BadRequest:
+      description: The request is invalid or malformed.
       content:
         application/json:
           schema:
@@ -285,8 +285,8 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: The request is invalid or malformed.
+    Conflict:
+      description: The request conflicts with the current state of the resource.
       content:
         application/json:
           schema:

@@ -87,34 +87,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    Integrations:
-      type: object
-      properties:
-        Items:
-          type: array
-          items:
-            $ref: '#/components/schemas/Integration'
-          example:
-          - example-value
-    Integration:
-      type: object
-      properties:
-        IntegrationId:
-          type: string
-          description: Integration identifier.
-          example: abc123
-        IntegrationType:
-          type: string
-          description: Type of integration (AWS_PROXY, HTTP_PROXY, etc.).
-          example: example-value
-        IntegrationUri:
-          type: string
-          description: Integration target URI.
-          example: https://example.com/resource/123
-        PayloadFormatVersion:
-          type: string
-          description: Payload format version.
-          example: '1.0'
     CreateIntegrationRequest:
       type: object
       required:
@@ -138,6 +110,34 @@ components:
           type: string
           description: Payload format version.
           example: '1.0'
+    Integration:
+      type: object
+      properties:
+        IntegrationId:
+          type: string
+          description: Integration identifier.
+          example: abc123
+        IntegrationType:
+          type: string
+          description: Type of integration (AWS_PROXY, HTTP_PROXY, etc.).
+          example: example-value
+        IntegrationUri:
+          type: string
+          description: Integration target URI.
+          example: https://example.com/resource/123
+        PayloadFormatVersion:
+          type: string
+          description: Payload format version.
+          example: '1.0'
+    Integrations:
+      type: object
+      properties:
+        Items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Integration'
+          example:
+          - example-value
   parameters:
     ApiId:
       name: api_id

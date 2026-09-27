@@ -94,7 +94,7 @@ paths:
     parameters:
     - $ref: '#/components/parameters/ApiId'
     get:
-      operationId: getDeployments
+      operationId: getV2ApisByApiIdDeployments
       summary: Amazon API Gateway List Deployments
       description: Gets a collection of deployments for an API.
       tags:
@@ -116,8 +116,10 @@ paths:
       x-microcks-operation:
         delay: 0
         dispatcher: FALLBACK
+      x-operation-id-source: normalized
+      x-operation-id-original: getDeployments
     post:
-      operationId: createDeployment
+      operationId: postV2ApisByApiIdDeployments
       summary: Amazon API Gateway Create a Deployment
       description: Creates a deployment for an API.
       tags:
@@ -154,6 +156,8 @@ paths:
       x-microcks-operation:
         delay: 0
         dispatcher: FALLBACK
+      x-operation-id-source: normalized
+      x-operation-id-original: createDeployment
     servers:
     - url: https://apigateway.{region}.amazonaws.com
       description: Amazon API Gateway regional endpoint
@@ -163,15 +167,6 @@ paths:
           description: AWS region
 components:
   schemas:
-    Deployments:
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/Deployment'
-          example:
-          - example-value
     Deployment:
       type: object
       properties:
@@ -201,13 +196,13 @@ components:
           type: string
           description: Description of the deployment.
           example: A description of this resource.
-    Deployments_2:
+    Deployments:
       type: object
       properties:
-        Items:
+        items:
           type: array
           items:
-            $ref: '#/components/schemas/Deployment_2'
+            $ref: '#/components/schemas/Deployment'
           example:
           - example-value
     Deployment_2:
@@ -241,6 +236,15 @@ components:
           type: string
           description: Description of the deployment.
           example: A description of this resource.
+    Deployments_2:
+      type: object
+      properties:
+        Items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Deployment_2'
+          example:
+          - example-value
   parameters:
     RestApiId:
       name: restapi_id

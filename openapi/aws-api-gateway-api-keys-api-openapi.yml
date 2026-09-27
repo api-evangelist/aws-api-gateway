@@ -172,56 +172,6 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
 components:
   schemas:
-    PatchOperations:
-      type: object
-      properties:
-        patchOperations:
-          type: array
-          items:
-            $ref: '#/components/schemas/PatchOperation'
-    ApiKey:
-      type: object
-      properties:
-        id:
-          type: string
-          description: The identifier of the API key.
-        value:
-          type: string
-          description: The value of the API key.
-        name:
-          type: string
-          description: The name of the API key.
-        customerId:
-          type: string
-          description: An AWS Marketplace customer identifier.
-        description:
-          type: string
-        enabled:
-          type: boolean
-          description: Whether the API key can be used by callers.
-        createdDate:
-          type: string
-          format: date-time
-        lastUpdatedDate:
-          type: string
-          format: date-time
-        stageKeys:
-          type: array
-          items:
-            type: string
-        tags:
-          type: object
-          additionalProperties:
-            type: string
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
-          description: A human-readable error message.
-        code:
-          type: string
-          description: The error code.
     CreateApiKeyRequest:
       type: object
       properties:
@@ -258,6 +208,47 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ApiKey'
+    ApiKey:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The identifier of the API key.
+        value:
+          type: string
+          description: The value of the API key.
+        name:
+          type: string
+          description: The name of the API key.
+        customerId:
+          type: string
+          description: An AWS Marketplace customer identifier.
+        description:
+          type: string
+        enabled:
+          type: boolean
+          description: Whether the API key can be used by callers.
+        createdDate:
+          type: string
+          format: date-time
+        lastUpdatedDate:
+          type: string
+          format: date-time
+        stageKeys:
+          type: array
+          items:
+            type: string
+        tags:
+          type: object
+          additionalProperties:
+            type: string
+    StageKey:
+      type: object
+      properties:
+        restApiId:
+          type: string
+        stageName:
+          type: string
     PatchOperation:
       type: object
       properties:
@@ -280,16 +271,48 @@ components:
         from:
           type: string
           description: The copy update operation's source as identified by a JSON Pointer value.
-    StageKey:
+    Error:
       type: object
       properties:
-        restApiId:
+        message:
           type: string
-        stageName:
+          description: A human-readable error message.
+        code:
           type: string
+          description: The error code.
+    PatchOperations:
+      type: object
+      properties:
+        patchOperations:
+          type: array
+          items:
+            $ref: '#/components/schemas/PatchOperation'
+  parameters:
+    Position:
+      name: position
+      in: query
+      description: The current pagination position in the paged result set. Used for cursor-based pagination.
+      schema:
+        type: string
+    ApiKeyId:
+      name: api_key
+      in: path
+      required: true
+      description: The identifier of the API key.
+      schema:
+        type: string
+    Limit:
+      name: limit
+      in: query
+      description: The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 500
+        default: 25
   responses:
-    Conflict:
-      description: The request conflicts with the current state of the resource.
+    BadRequest:
+      description: The request is invalid or malformed.
       content:
         application/json:
           schema:
@@ -306,35 +329,12 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: The request is invalid or malformed.
+    Conflict:
+      description: The request conflicts with the current state of the resource.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-  parameters:
-    Limit:
-      name: limit
-      in: query
-      description: The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 500
-        default: 25
-    Position:
-      name: position
-      in: query
-      description: The current pagination position in the paged result set. Used for cursor-based pagination.
-      schema:
-        type: string
-    ApiKeyId:
-      name: api_key
-      in: path
-      required: true
-      description: The identifier of the API key.
-      schema:
-        type: string
   securitySchemes:
     sigv4:
       type: apiKey

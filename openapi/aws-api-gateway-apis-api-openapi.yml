@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  title: Amazon API Gateway V2 (HTTP and WebSocket) APIS API
+  title: Amazon API Gateway V2 (HTTP and WebSocket) APIs API
   description: The API Gateway V2 control plane API is used to create, deploy, and manage HTTP APIs and WebSocket APIs in Amazon API Gateway.
   version: '2018-11-29'
   contact:
@@ -143,6 +143,25 @@ components:
       description: API identifier.
       schema:
         type: string
+  responses:
+    Unauthorized:
+      description: The request was not authenticated.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request was malformed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
     CreateApiRequest:
       type: object
@@ -172,6 +191,22 @@ components:
         Target:
           type: string
           description: Quick-create target Lambda or HTTP endpoint URI.
+          example: example-value
+    Apis:
+      type: object
+      properties:
+        Items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Api'
+          example:
+          - example-value
+    Error:
+      type: object
+      properties:
+        Message:
+          type: string
+          description: Human-readable error message.
           example: example-value
     Api:
       type: object
@@ -204,41 +239,6 @@ components:
           format: date-time
           description: Timestamp when the API was created.
           example: '2025-03-15T14:30:00Z'
-    Error:
-      type: object
-      properties:
-        Message:
-          type: string
-          description: Human-readable error message.
-          example: example-value
-    Apis:
-      type: object
-      properties:
-        Items:
-          type: array
-          items:
-            $ref: '#/components/schemas/Api'
-          example:
-          - example-value
-  responses:
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: The request was not authenticated.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: The request was malformed.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   securitySchemes:
     sigv4:
       type: apiKey

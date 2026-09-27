@@ -99,6 +99,37 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
+  parameters:
+    HttpMethod:
+      name: http_method
+      in: path
+      required: true
+      description: HTTP verb of the Method.
+      schema:
+        type: string
+        enum:
+        - GET
+        - POST
+        - PUT
+        - PATCH
+        - DELETE
+        - HEAD
+        - OPTIONS
+        - ANY
+    RestApiId:
+      name: restapi_id
+      in: path
+      required: true
+      description: Identifier of the RestApi resource.
+      schema:
+        type: string
+    ResourceId:
+      name: resource_id
+      in: path
+      required: true
+      description: Identifier of the Resource.
+      schema:
+        type: string
   schemas:
     Method:
       type: object
@@ -128,37 +159,6 @@ components:
           type: boolean
           description: Whether to require an API key.
           example: true
-  parameters:
-    RestApiId:
-      name: restapi_id
-      in: path
-      required: true
-      description: Identifier of the RestApi resource.
-      schema:
-        type: string
-    HttpMethod:
-      name: http_method
-      in: path
-      required: true
-      description: HTTP verb of the Method.
-      schema:
-        type: string
-        enum:
-        - GET
-        - POST
-        - PUT
-        - PATCH
-        - DELETE
-        - HEAD
-        - OPTIONS
-        - ANY
-    ResourceId:
-      name: resource_id
-      in: path
-      required: true
-      description: Identifier of the Resource.
-      schema:
-        type: string
   securitySchemes:
     sigv4:
       type: apiKey
