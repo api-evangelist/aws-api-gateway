@@ -86,30 +86,15 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
+  parameters:
+    ApiId:
+      name: api_id
+      in: path
+      required: true
+      description: API identifier.
+      schema:
+        type: string
   schemas:
-    CreateIntegrationRequest:
-      type: object
-      required:
-      - IntegrationType
-      properties:
-        IntegrationType:
-          type: string
-          description: Type of integration.
-          enum:
-          - AWS
-          - AWS_PROXY
-          - HTTP
-          - HTTP_PROXY
-          - MOCK
-          example: AWS
-        IntegrationUri:
-          type: string
-          description: Integration target URI.
-          example: https://example.com/resource/123
-        PayloadFormatVersion:
-          type: string
-          description: Payload format version.
-          example: '1.0'
     Integration:
       type: object
       properties:
@@ -138,14 +123,29 @@ components:
             $ref: '#/components/schemas/Integration'
           example:
           - example-value
-  parameters:
-    ApiId:
-      name: api_id
-      in: path
-      required: true
-      description: API identifier.
-      schema:
-        type: string
+    CreateIntegrationRequest:
+      type: object
+      required:
+      - IntegrationType
+      properties:
+        IntegrationType:
+          type: string
+          description: Type of integration.
+          enum:
+          - AWS
+          - AWS_PROXY
+          - HTTP
+          - HTTP_PROXY
+          - MOCK
+          example: AWS
+        IntegrationUri:
+          type: string
+          description: Integration target URI.
+          example: https://example.com/resource/123
+        PayloadFormatVersion:
+          type: string
+          description: Payload format version.
+          example: '1.0'
   securitySchemes:
     sigv4:
       type: apiKey

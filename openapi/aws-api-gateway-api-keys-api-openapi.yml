@@ -171,43 +171,39 @@ paths:
         '429':
           $ref: '#/components/responses/TooManyRequests'
 components:
+  responses:
+    BadRequest:
+      description: The request is invalid or malformed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    TooManyRequests:
+      description: The request rate has exceeded the allowed limit.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The specified resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Conflict:
+      description: The request conflicts with the current state of the resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    CreateApiKeyRequest:
+    PatchOperations:
       type: object
       properties:
-        name:
-          type: string
-        description:
-          type: string
-        enabled:
-          type: boolean
-        generateDistinctId:
-          type: boolean
-        value:
-          type: string
-        stageKeys:
+        patchOperations:
           type: array
           items:
-            $ref: '#/components/schemas/StageKey'
-        customerId:
-          type: string
-        tags:
-          type: object
-          additionalProperties:
-            type: string
-    ApiKeys:
-      type: object
-      properties:
-        position:
-          type: string
-        warnings:
-          type: array
-          items:
-            type: string
-        item:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiKey'
+            $ref: '#/components/schemas/PatchOperation'
     ApiKey:
       type: object
       properties:
@@ -249,6 +245,19 @@ components:
           type: string
         stageName:
           type: string
+    ApiKeys:
+      type: object
+      properties:
+        position:
+          type: string
+        warnings:
+          type: array
+          items:
+            type: string
+        item:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiKey'
     PatchOperation:
       type: object
       properties:
@@ -271,6 +280,29 @@ components:
         from:
           type: string
           description: The copy update operation's source as identified by a JSON Pointer value.
+    CreateApiKeyRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        enabled:
+          type: boolean
+        generateDistinctId:
+          type: boolean
+        value:
+          type: string
+        stageKeys:
+          type: array
+          items:
+            $ref: '#/components/schemas/StageKey'
+        customerId:
+          type: string
+        tags:
+          type: object
+          additionalProperties:
+            type: string
     Error:
       type: object
       properties:
@@ -280,25 +312,18 @@ components:
         code:
           type: string
           description: The error code.
-    PatchOperations:
-      type: object
-      properties:
-        patchOperations:
-          type: array
-          items:
-            $ref: '#/components/schemas/PatchOperation'
   parameters:
-    Position:
-      name: position
-      in: query
-      description: The current pagination position in the paged result set. Used for cursor-based pagination.
-      schema:
-        type: string
     ApiKeyId:
       name: api_key
       in: path
       required: true
       description: The identifier of the API key.
+      schema:
+        type: string
+    Position:
+      name: position
+      in: query
+      description: The current pagination position in the paged result set. Used for cursor-based pagination.
       schema:
         type: string
     Limit:
@@ -310,31 +335,6 @@ components:
         minimum: 1
         maximum: 500
         default: 25
-  responses:
-    BadRequest:
-      description: The request is invalid or malformed.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    TooManyRequests:
-      description: The request rate has exceeded the allowed limit.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The specified resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Conflict:
-      description: The request conflicts with the current state of the resource.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   securitySchemes:
     sigv4:
       type: apiKey

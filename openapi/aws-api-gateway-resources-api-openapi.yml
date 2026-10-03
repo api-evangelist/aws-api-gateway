@@ -47,6 +47,14 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
+  parameters:
+    RestApiId:
+      name: restapi_id
+      in: path
+      required: true
+      description: Identifier of the RestApi resource.
+      schema:
+        type: string
   schemas:
     Resource:
       type: object
@@ -76,14 +84,6 @@ components:
             $ref: '#/components/schemas/Resource'
           example:
           - example-value
-  parameters:
-    RestApiId:
-      name: restapi_id
-      in: path
-      required: true
-      description: Identifier of the RestApi resource.
-      schema:
-        type: string
   securitySchemes:
     sigv4:
       type: apiKey

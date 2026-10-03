@@ -101,15 +101,22 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
-  parameters:
-    ConnectionId:
-      name: connectionId
-      in: path
-      required: true
-      description: Identifier of the WebSocket connection.
-      schema:
-        type: string
   schemas:
+    Connection:
+      type: object
+      properties:
+        ConnectedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the client connected.
+          example: '2025-03-15T14:30:00Z'
+        LastActiveAt:
+          type: string
+          format: date-time
+          description: Timestamp of the most recent activity on the connection.
+          example: '2025-03-15T14:30:00Z'
+        Identity:
+          $ref: '#/components/schemas/Identity'
     Identity:
       type: object
       properties:
@@ -128,21 +135,14 @@ components:
           type: string
           description: Human-readable error message.
           example: example-value
-    Connection:
-      type: object
-      properties:
-        ConnectedAt:
-          type: string
-          format: date-time
-          description: Timestamp when the client connected.
-          example: '2025-03-15T14:30:00Z'
-        LastActiveAt:
-          type: string
-          format: date-time
-          description: Timestamp of the most recent activity on the connection.
-          example: '2025-03-15T14:30:00Z'
-        Identity:
-          $ref: '#/components/schemas/Identity'
+  parameters:
+    ConnectionId:
+      name: connectionId
+      in: path
+      required: true
+      description: Identifier of the WebSocket connection.
+      schema:
+        type: string
   responses:
     NotFound:
       description: The specified connection does not exist.

@@ -167,22 +167,15 @@ paths:
           description: AWS region
 components:
   schemas:
-    Deployment:
+    Deployments:
       type: object
       properties:
-        id:
-          type: string
-          description: Deployment identifier.
-          example: abc123
-        description:
-          type: string
-          description: Description of the deployment.
-          example: A description of this resource.
-        createdDate:
-          type: string
-          format: date-time
-          description: Timestamp when the deployment was created.
-          example: '2025-03-15T14:30:00Z'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Deployment'
+          example:
+          - example-value
     CreateDeploymentRequest:
       type: object
       required:
@@ -196,31 +189,18 @@ components:
           type: string
           description: Description of the deployment.
           example: A description of this resource.
-    Deployments:
+    Deployment:
       type: object
       properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/Deployment'
-          example:
-          - example-value
-    Deployment_2:
-      type: object
-      properties:
-        DeploymentId:
+        id:
           type: string
           description: Deployment identifier.
           example: abc123
-        Description:
+        description:
           type: string
           description: Description of the deployment.
           example: A description of this resource.
-        DeploymentStatus:
-          type: string
-          description: Status of the deployment (PENDING, FAILED, DEPLOYED).
-          example: ACTIVE
-        CreatedDate:
+        createdDate:
           type: string
           format: date-time
           description: Timestamp when the deployment was created.
@@ -245,6 +225,26 @@ components:
             $ref: '#/components/schemas/Deployment_2'
           example:
           - example-value
+    Deployment_2:
+      type: object
+      properties:
+        DeploymentId:
+          type: string
+          description: Deployment identifier.
+          example: abc123
+        Description:
+          type: string
+          description: Description of the deployment.
+          example: A description of this resource.
+        DeploymentStatus:
+          type: string
+          description: Status of the deployment (PENDING, FAILED, DEPLOYED).
+          example: ACTIVE
+        CreatedDate:
+          type: string
+          format: date-time
+          description: Timestamp when the deployment was created.
+          example: '2025-03-15T14:30:00Z'
   parameters:
     RestApiId:
       name: restapi_id

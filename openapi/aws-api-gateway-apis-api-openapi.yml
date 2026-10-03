@@ -135,63 +135,7 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
-  parameters:
-    ApiId:
-      name: api_id
-      in: path
-      required: true
-      description: API identifier.
-      schema:
-        type: string
-  responses:
-    Unauthorized:
-      description: The request was not authenticated.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: The request was malformed.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
-    CreateApiRequest:
-      type: object
-      required:
-      - Name
-      - ProtocolType
-      properties:
-        Name:
-          type: string
-          description: Name of the API.
-          example: my-resource
-        ProtocolType:
-          type: string
-          description: Protocol type for the API.
-          enum:
-          - HTTP
-          - WEBSOCKET
-          example: HTTP
-        RouteSelectionExpression:
-          type: string
-          description: Route selection expression (required for WebSocket APIs).
-          example: example-value
-        Description:
-          type: string
-          description: Description of the API.
-          example: A description of this resource.
-        Target:
-          type: string
-          description: Quick-create target Lambda or HTTP endpoint URI.
-          example: example-value
     Apis:
       type: object
       properties:
@@ -201,13 +145,6 @@ components:
             $ref: '#/components/schemas/Api'
           example:
           - example-value
-    Error:
-      type: object
-      properties:
-        Message:
-          type: string
-          description: Human-readable error message.
-          example: example-value
     Api:
       type: object
       properties:
@@ -239,6 +176,69 @@ components:
           format: date-time
           description: Timestamp when the API was created.
           example: '2025-03-15T14:30:00Z'
+    Error:
+      type: object
+      properties:
+        Message:
+          type: string
+          description: Human-readable error message.
+          example: example-value
+    CreateApiRequest:
+      type: object
+      required:
+      - Name
+      - ProtocolType
+      properties:
+        Name:
+          type: string
+          description: Name of the API.
+          example: my-resource
+        ProtocolType:
+          type: string
+          description: Protocol type for the API.
+          enum:
+          - HTTP
+          - WEBSOCKET
+          example: HTTP
+        RouteSelectionExpression:
+          type: string
+          description: Route selection expression (required for WebSocket APIs).
+          example: example-value
+        Description:
+          type: string
+          description: Description of the API.
+          example: A description of this resource.
+        Target:
+          type: string
+          description: Quick-create target Lambda or HTTP endpoint URI.
+          example: example-value
+  responses:
+    BadRequest:
+      description: The request was malformed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: The request was not authenticated.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    ApiId:
+      name: api_id
+      in: path
+      required: true
+      description: API identifier.
+      schema:
+        type: string
   securitySchemes:
     sigv4:
       type: apiKey

@@ -161,7 +161,51 @@ paths:
     parameters:
     - $ref: '#/components/parameters/RestApiId'
 components:
+  responses:
+    BadRequest:
+      description: The request is invalid or malformed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalError:
+      description: An internal server error occurred.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: The request lacks valid authentication credentials.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    TooManyRequests:
+      description: The request rate has exceeded the allowed limit.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The specified resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Conflict:
+      description: The request conflicts with the current state of the resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
+    PatchOperations:
+      type: object
+      properties:
+        patchOperations:
+          type: array
+          items:
+            $ref: '#/components/schemas/PatchOperation'
     EndpointConfiguration:
       type: object
       properties:
@@ -179,77 +223,6 @@ components:
           items:
             type: string
           description: A list of VPC endpoint IDs of an API against which to create Route53 ALIASes.
-    RestApis:
-      type: object
-      properties:
-        position:
-          type: string
-        item:
-          type: array
-          items:
-            $ref: '#/components/schemas/RestApi'
-    CreateRestApiRequest:
-      type: object
-      required:
-      - name
-      properties:
-        name:
-          type: string
-          description: The name of the REST API.
-        description:
-          type: string
-          description: The description of the REST API.
-        version:
-          type: string
-          description: A version identifier for the API.
-        cloneFrom:
-          type: string
-          description: The ID of the REST API to clone from.
-        binaryMediaTypes:
-          type: array
-          items:
-            type: string
-          description: The list of binary media types to support.
-        minimumCompressionSize:
-          type: integer
-          description: Minimum payload compression size in bytes.
-        apiKeySource:
-          type: string
-          enum:
-          - HEADER
-          - AUTHORIZER
-        endpointConfiguration:
-          $ref: '#/components/schemas/EndpointConfiguration'
-        policy:
-          type: string
-        tags:
-          type: object
-          additionalProperties:
-            type: string
-        disableExecuteApiEndpoint:
-          type: boolean
-    PatchOperation:
-      type: object
-      properties:
-        op:
-          type: string
-          enum:
-          - add
-          - remove
-          - replace
-          - move
-          - copy
-          - test
-          description: The operation type.
-        path:
-          type: string
-          description: The op operation's target, as identified by a JSON Pointer value.
-        value:
-          type: string
-          description: The new target value of the update operation. It is applicable for the add or replace operation.
-        from:
-          type: string
-          description: The copy update operation's source as identified by a JSON Pointer value.
     RestApi:
       type: object
       properties:
@@ -301,6 +274,77 @@ components:
         disableExecuteApiEndpoint:
           type: boolean
           description: Specifies whether clients can invoke your API by using the default execute-api endpoint.
+    RestApis:
+      type: object
+      properties:
+        position:
+          type: string
+        item:
+          type: array
+          items:
+            $ref: '#/components/schemas/RestApi'
+    PatchOperation:
+      type: object
+      properties:
+        op:
+          type: string
+          enum:
+          - add
+          - remove
+          - replace
+          - move
+          - copy
+          - test
+          description: The operation type.
+        path:
+          type: string
+          description: The op operation's target, as identified by a JSON Pointer value.
+        value:
+          type: string
+          description: The new target value of the update operation. It is applicable for the add or replace operation.
+        from:
+          type: string
+          description: The copy update operation's source as identified by a JSON Pointer value.
+    CreateRestApiRequest:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          description: The name of the REST API.
+        description:
+          type: string
+          description: The description of the REST API.
+        version:
+          type: string
+          description: A version identifier for the API.
+        cloneFrom:
+          type: string
+          description: The ID of the REST API to clone from.
+        binaryMediaTypes:
+          type: array
+          items:
+            type: string
+          description: The list of binary media types to support.
+        minimumCompressionSize:
+          type: integer
+          description: Minimum payload compression size in bytes.
+        apiKeySource:
+          type: string
+          enum:
+          - HEADER
+          - AUTHORIZER
+        endpointConfiguration:
+          $ref: '#/components/schemas/EndpointConfiguration'
+        policy:
+          type: string
+        tags:
+          type: object
+          additionalProperties:
+            type: string
+        disableExecuteApiEndpoint:
+          type: boolean
     Error:
       type: object
       properties:
@@ -310,13 +354,6 @@ components:
         code:
           type: string
           description: The error code.
-    PatchOperations:
-      type: object
-      properties:
-        patchOperations:
-          type: array
-          items:
-            $ref: '#/components/schemas/PatchOperation'
   parameters:
     RestApiId:
       name: restapi_id
@@ -340,43 +377,6 @@ components:
         minimum: 1
         maximum: 500
         default: 25
-  responses:
-    Unauthorized:
-      description: The request lacks valid authentication credentials.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: The request is invalid or malformed.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    TooManyRequests:
-      description: The request rate has exceeded the allowed limit.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The specified resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Conflict:
-      description: The request conflicts with the current state of the resource.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    InternalError:
-      description: An internal server error occurred.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   securitySchemes:
     sigv4:
       type: apiKey

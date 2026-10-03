@@ -178,6 +178,13 @@ components:
           type: object
           additionalProperties:
             type: string
+    PatchOperations:
+      type: object
+      properties:
+        patchOperations:
+          type: array
+          items:
+            $ref: '#/components/schemas/PatchOperation'
     VpcLinks:
       type: object
       properties:
@@ -187,6 +194,24 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/VpcLink'
+    CreateVpcLinkRequest:
+      type: object
+      required:
+      - name
+      - targetArns
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        targetArns:
+          type: array
+          items:
+            type: string
+        tags:
+          type: object
+          additionalProperties:
+            type: string
     PatchOperation:
       type: object
       properties:
@@ -209,24 +234,6 @@ components:
         from:
           type: string
           description: The copy update operation's source as identified by a JSON Pointer value.
-    CreateVpcLinkRequest:
-      type: object
-      required:
-      - name
-      - targetArns
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-        targetArns:
-          type: array
-          items:
-            type: string
-        tags:
-          type: object
-          additionalProperties:
-            type: string
     Error:
       type: object
       properties:
@@ -236,14 +243,14 @@ components:
         code:
           type: string
           description: The error code.
-    PatchOperations:
-      type: object
-      properties:
-        patchOperations:
-          type: array
-          items:
-            $ref: '#/components/schemas/PatchOperation'
   parameters:
+    VpcLinkId:
+      name: vpclink_id
+      in: path
+      required: true
+      description: The identifier of the VPC link.
+      schema:
+        type: string
     Position:
       name: position
       in: query
@@ -259,13 +266,6 @@ components:
         minimum: 1
         maximum: 500
         default: 25
-    VpcLinkId:
-      name: vpclink_id
-      in: path
-      required: true
-      description: The identifier of the VPC link.
-      schema:
-        type: string
   responses:
     BadRequest:
       description: The request is invalid or malformed.

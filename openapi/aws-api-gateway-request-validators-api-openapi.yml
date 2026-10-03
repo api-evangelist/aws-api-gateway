@@ -90,70 +90,6 @@ paths:
         '429':
           $ref: '#/components/responses/TooManyRequests'
 components:
-  parameters:
-    RestApiId:
-      name: restapi_id
-      in: path
-      required: true
-      description: The identifier of the REST API.
-      schema:
-        type: string
-    Position:
-      name: position
-      in: query
-      description: The current pagination position in the paged result set. Used for cursor-based pagination.
-      schema:
-        type: string
-    Limit:
-      name: limit
-      in: query
-      description: The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 500
-        default: 25
-  schemas:
-    RequestValidator:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        validateRequestBody:
-          type: boolean
-        validateRequestParameters:
-          type: boolean
-    CreateRequestValidatorRequest:
-      type: object
-      required:
-      - name
-      properties:
-        name:
-          type: string
-        validateRequestBody:
-          type: boolean
-        validateRequestParameters:
-          type: boolean
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
-          description: A human-readable error message.
-        code:
-          type: string
-          description: The error code.
-    RequestValidators:
-      type: object
-      properties:
-        position:
-          type: string
-        item:
-          type: array
-          items:
-            $ref: '#/components/schemas/RequestValidator'
   responses:
     BadRequest:
       description: The request is invalid or malformed.
@@ -173,6 +109,70 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+  schemas:
+    RequestValidators:
+      type: object
+      properties:
+        position:
+          type: string
+        item:
+          type: array
+          items:
+            $ref: '#/components/schemas/RequestValidator'
+    CreateRequestValidatorRequest:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+        validateRequestBody:
+          type: boolean
+        validateRequestParameters:
+          type: boolean
+    RequestValidator:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        validateRequestBody:
+          type: boolean
+        validateRequestParameters:
+          type: boolean
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          description: A human-readable error message.
+        code:
+          type: string
+          description: The error code.
+  parameters:
+    Position:
+      name: position
+      in: query
+      description: The current pagination position in the paged result set. Used for cursor-based pagination.
+      schema:
+        type: string
+    Limit:
+      name: limit
+      in: query
+      description: The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 500
+        default: 25
+    RestApiId:
+      name: restapi_id
+      in: path
+      required: true
+      description: The identifier of the REST API.
+      schema:
+        type: string
   securitySchemes:
     sigv4:
       type: apiKey
