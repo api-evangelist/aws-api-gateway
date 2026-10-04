@@ -1,0 +1,36 @@
+slug: aws-api-gateway
+provider: Amazon API Gateway
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 2
+edges:
+- tag: Usage Plans
+  spec_file: aws-api-gateway-usage-plans-api-openapi.yml
+  capability_id: BC-4270.50
+  capability_id_l1: BC-4270
+  capability_name: API Consumption Governance
+  confidence: 0.8
+  evidence: POST /usageplans CreateUsagePlan — "Create a Usage Plan"; schemas QuotaSettings, ThrottleSettings,
+    ApiStage
+  reason: Usage plans bind API keys to quotas and throttling tiers — exactly quota/rate-limit and consumption-tier
+    governance for API consumers. QuotaSettings and ThrottleSettings schemas make the reading unambiguous.
+- tag: REST APIs
+  spec_file: aws-api-gateway-rest-apis-api-openapi.yml
+  capability_id: BC-4270.10
+  capability_id_l1: BC-4270
+  capability_name: Public API Lifecycle Management
+  confidence: 0.75
+  evidence: POST /restapis CreateRestApi — "Create a REST API"; "create, configure, and manage REST APIs,
+    stages, deployments, authorizers"
+  reason: Lifecycle CRUD over the REST API objects themselves — creation, update and deletion of published
+    APIs. This is Public API Lifecycle Management; the vendor is infrastructure tooling, so no industry-specific
+    capability applies.
