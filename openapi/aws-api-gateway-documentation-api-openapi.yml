@@ -176,8 +176,8 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
 components:
   responses:
-    BadRequest:
-      description: The request is invalid or malformed.
+    NotFound:
+      description: The specified resource was not found.
       content:
         application/json:
           schema:
@@ -188,38 +188,30 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The specified resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     Conflict:
       description: The request conflicts with the current state of the resource.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request is invalid or malformed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    DocumentationVersion:
+    CreateDocumentationVersionRequest:
       type: object
+      required:
+      - documentationVersion
       properties:
-        version:
+        documentationVersion:
           type: string
-        createdDate:
+        stageName:
           type: string
-          format: date-time
         description:
           type: string
-    DocumentationParts:
-      type: object
-      properties:
-        position:
-          type: string
-        item:
-          type: array
-          items:
-            $ref: '#/components/schemas/DocumentationPart'
     DocumentationVersions:
       type: object
       properties:
@@ -265,15 +257,32 @@ components:
               type: string
         properties:
           type: string
-    CreateDocumentationVersionRequest:
+    Error:
       type: object
-      required:
-      - documentationVersion
       properties:
-        documentationVersion:
+        message:
           type: string
-        stageName:
+          description: A human-readable error message.
+        code:
           type: string
+          description: The error code.
+    DocumentationParts:
+      type: object
+      properties:
+        position:
+          type: string
+        item:
+          type: array
+          items:
+            $ref: '#/components/schemas/DocumentationPart'
+    DocumentationVersion:
+      type: object
+      properties:
+        version:
+          type: string
+        createdDate:
+          type: string
+          format: date-time
         description:
           type: string
     DocumentationPart:
@@ -309,22 +318,7 @@ components:
               type: string
         properties:
           type: string
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
-          description: A human-readable error message.
-        code:
-          type: string
-          description: The error code.
   parameters:
-    Position:
-      name: position
-      in: query
-      description: The current pagination position in the paged result set. Used for cursor-based pagination.
-      schema:
-        type: string
     Limit:
       name: limit
       in: query
@@ -339,6 +333,12 @@ components:
       in: path
       required: true
       description: The identifier of the REST API.
+      schema:
+        type: string
+    Position:
+      name: position
+      in: query
+      description: The current pagination position in the paged result set. Used for cursor-based pagination.
       schema:
         type: string
   securitySchemes:

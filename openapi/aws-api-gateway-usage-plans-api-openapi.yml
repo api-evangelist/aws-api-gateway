@@ -157,68 +157,6 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
 components:
   schemas:
-    UsagePlans:
-      type: object
-      properties:
-        position:
-          type: string
-        item:
-          type: array
-          items:
-            $ref: '#/components/schemas/UsagePlan'
-    QuotaSettings:
-      type: object
-      properties:
-        limit:
-          type: integer
-          description: The maximum number of requests per time period.
-        offset:
-          type: integer
-          description: The day that a time period starts.
-        period:
-          type: string
-          enum:
-          - DAY
-          - WEEK
-          - MONTH
-          description: The time period for which the maximum limit applies.
-    PatchOperations:
-      type: object
-      properties:
-        patchOperations:
-          type: array
-          items:
-            $ref: '#/components/schemas/PatchOperation'
-    ThrottleSettings:
-      type: object
-      properties:
-        burstLimit:
-          type: integer
-          description: The API request burst limit per second.
-        rateLimit:
-          type: number
-          description: The API request steady-state rate limit per second.
-    CreateUsagePlanRequest:
-      type: object
-      required:
-      - name
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-        apiStages:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiStage'
-        throttle:
-          $ref: '#/components/schemas/ThrottleSettings'
-        quota:
-          $ref: '#/components/schemas/QuotaSettings'
-        tags:
-          type: object
-          additionalProperties:
-            type: string
     ApiStage:
       type: object
       properties:
@@ -230,6 +168,24 @@ components:
           type: object
           additionalProperties:
             $ref: '#/components/schemas/ThrottleSettings'
+    UsagePlans:
+      type: object
+      properties:
+        position:
+          type: string
+        item:
+          type: array
+          items:
+            $ref: '#/components/schemas/UsagePlan'
+    ThrottleSettings:
+      type: object
+      properties:
+        burstLimit:
+          type: integer
+          description: The API request burst limit per second.
+        rateLimit:
+          type: number
+          description: The API request steady-state rate limit per second.
     UsagePlan:
       type: object
       properties:
@@ -251,6 +207,36 @@ components:
           $ref: '#/components/schemas/QuotaSettings'
         productCode:
           type: string
+        tags:
+          type: object
+          additionalProperties:
+            type: string
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          description: A human-readable error message.
+        code:
+          type: string
+          description: The error code.
+    CreateUsagePlanRequest:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        apiStages:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiStage'
+        throttle:
+          $ref: '#/components/schemas/ThrottleSettings'
+        quota:
+          $ref: '#/components/schemas/QuotaSettings'
         tags:
           type: object
           additionalProperties:
@@ -277,18 +263,32 @@ components:
         from:
           type: string
           description: The copy update operation's source as identified by a JSON Pointer value.
-    Error:
+    QuotaSettings:
       type: object
       properties:
-        message:
+        limit:
+          type: integer
+          description: The maximum number of requests per time period.
+        offset:
+          type: integer
+          description: The day that a time period starts.
+        period:
           type: string
-          description: A human-readable error message.
-        code:
-          type: string
-          description: The error code.
+          enum:
+          - DAY
+          - WEEK
+          - MONTH
+          description: The time period for which the maximum limit applies.
+    PatchOperations:
+      type: object
+      properties:
+        patchOperations:
+          type: array
+          items:
+            $ref: '#/components/schemas/PatchOperation'
   responses:
-    BadRequest:
-      description: The request is invalid or malformed.
+    NotFound:
+      description: The specified resource was not found.
       content:
         application/json:
           schema:
@@ -299,14 +299,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The specified resource was not found.
+    Conflict:
+      description: The request conflicts with the current state of the resource.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Conflict:
-      description: The request conflicts with the current state of the resource.
+    BadRequest:
+      description: The request is invalid or malformed.
       content:
         application/json:
           schema:
@@ -319,12 +319,6 @@ components:
       description: The identifier of the usage plan.
       schema:
         type: string
-    Position:
-      name: position
-      in: query
-      description: The current pagination position in the paged result set. Used for cursor-based pagination.
-      schema:
-        type: string
     Limit:
       name: limit
       in: query
@@ -334,6 +328,12 @@ components:
         minimum: 1
         maximum: 500
         default: 25
+    Position:
+      name: position
+      in: query
+      description: The current pagination position in the paged result set. Used for cursor-based pagination.
+      schema:
+        type: string
   securitySchemes:
     sigv4:
       type: apiKey

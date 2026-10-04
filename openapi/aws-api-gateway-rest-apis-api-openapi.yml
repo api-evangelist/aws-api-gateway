@@ -162,20 +162,8 @@ paths:
     - $ref: '#/components/parameters/RestApiId'
 components:
   responses:
-    BadRequest:
-      description: The request is invalid or malformed.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    InternalError:
-      description: An internal server error occurred.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: The request lacks valid authentication credentials.
+    NotFound:
+      description: The specified resource was not found.
       content:
         application/json:
           schema:
@@ -186,8 +174,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The specified resource was not found.
+    Unauthorized:
+      description: The request lacks valid authentication credentials.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalError:
+      description: An internal server error occurred.
       content:
         application/json:
           schema:
@@ -198,14 +192,67 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request is invalid or malformed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    Limit:
+      name: limit
+      in: query
+      description: The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 500
+        default: 25
+    RestApiId:
+      name: restapi_id
+      in: path
+      required: true
+      description: The identifier of the REST API.
+      schema:
+        type: string
+    Position:
+      name: position
+      in: query
+      description: The current pagination position in the paged result set. Used for cursor-based pagination.
+      schema:
+        type: string
   schemas:
-    PatchOperations:
+    Error:
       type: object
       properties:
-        patchOperations:
-          type: array
-          items:
-            $ref: '#/components/schemas/PatchOperation'
+        message:
+          type: string
+          description: A human-readable error message.
+        code:
+          type: string
+          description: The error code.
+    PatchOperation:
+      type: object
+      properties:
+        op:
+          type: string
+          enum:
+          - add
+          - remove
+          - replace
+          - move
+          - copy
+          - test
+          description: The operation type.
+        path:
+          type: string
+          description: The op operation's target, as identified by a JSON Pointer value.
+        value:
+          type: string
+          description: The new target value of the update operation. It is applicable for the add or replace operation.
+        from:
+          type: string
+          description: The copy update operation's source as identified by a JSON Pointer value.
     EndpointConfiguration:
       type: object
       properties:
@@ -223,6 +270,15 @@ components:
           items:
             type: string
           description: A list of VPC endpoint IDs of an API against which to create Route53 ALIASes.
+    RestApis:
+      type: object
+      properties:
+        position:
+          type: string
+        item:
+          type: array
+          items:
+            $ref: '#/components/schemas/RestApi'
     RestApi:
       type: object
       properties:
@@ -274,37 +330,13 @@ components:
         disableExecuteApiEndpoint:
           type: boolean
           description: Specifies whether clients can invoke your API by using the default execute-api endpoint.
-    RestApis:
+    PatchOperations:
       type: object
       properties:
-        position:
-          type: string
-        item:
+        patchOperations:
           type: array
           items:
-            $ref: '#/components/schemas/RestApi'
-    PatchOperation:
-      type: object
-      properties:
-        op:
-          type: string
-          enum:
-          - add
-          - remove
-          - replace
-          - move
-          - copy
-          - test
-          description: The operation type.
-        path:
-          type: string
-          description: The op operation's target, as identified by a JSON Pointer value.
-        value:
-          type: string
-          description: The new target value of the update operation. It is applicable for the add or replace operation.
-        from:
-          type: string
-          description: The copy update operation's source as identified by a JSON Pointer value.
+            $ref: '#/components/schemas/PatchOperation'
     CreateRestApiRequest:
       type: object
       required:
@@ -345,38 +377,6 @@ components:
             type: string
         disableExecuteApiEndpoint:
           type: boolean
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
-          description: A human-readable error message.
-        code:
-          type: string
-          description: The error code.
-  parameters:
-    RestApiId:
-      name: restapi_id
-      in: path
-      required: true
-      description: The identifier of the REST API.
-      schema:
-        type: string
-    Position:
-      name: position
-      in: query
-      description: The current pagination position in the paged result set. Used for cursor-based pagination.
-      schema:
-        type: string
-    Limit:
-      name: limit
-      in: query
-      description: The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 500
-        default: 25
   securitySchemes:
     sigv4:
       type: apiKey

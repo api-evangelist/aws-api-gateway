@@ -86,24 +86,7 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
-  parameters:
-    ApiId:
-      name: api_id
-      in: path
-      required: true
-      description: API identifier.
-      schema:
-        type: string
   schemas:
-    Routes:
-      type: object
-      properties:
-        Items:
-          type: array
-          items:
-            $ref: '#/components/schemas/Route'
-          example:
-          - example-value
     CreateRouteRequest:
       type: object
       required:
@@ -121,6 +104,15 @@ components:
           type: string
           description: Authorization type for the route.
           example: example-value
+    Routes:
+      type: object
+      properties:
+        Items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Route'
+          example:
+          - example-value
     Route:
       type: object
       properties:
@@ -140,6 +132,14 @@ components:
           type: string
           description: Authorization type for the route.
           example: example-value
+  parameters:
+    ApiId:
+      name: api_id
+      in: path
+      required: true
+      description: API identifier.
+      schema:
+        type: string
   securitySchemes:
     sigv4:
       type: apiKey

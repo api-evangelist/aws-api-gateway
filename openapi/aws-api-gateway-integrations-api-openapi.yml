@@ -86,14 +86,6 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
-  parameters:
-    ApiId:
-      name: api_id
-      in: path
-      required: true
-      description: API identifier.
-      schema:
-        type: string
   schemas:
     Integration:
       type: object
@@ -114,15 +106,6 @@ components:
           type: string
           description: Payload format version.
           example: '1.0'
-    Integrations:
-      type: object
-      properties:
-        Items:
-          type: array
-          items:
-            $ref: '#/components/schemas/Integration'
-          example:
-          - example-value
     CreateIntegrationRequest:
       type: object
       required:
@@ -146,6 +129,23 @@ components:
           type: string
           description: Payload format version.
           example: '1.0'
+    Integrations:
+      type: object
+      properties:
+        Items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Integration'
+          example:
+          - example-value
+  parameters:
+    ApiId:
+      name: api_id
+      in: path
+      required: true
+      description: API identifier.
+      schema:
+        type: string
   securitySchemes:
     sigv4:
       type: apiKey

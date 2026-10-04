@@ -151,7 +151,104 @@ paths:
         '429':
           $ref: '#/components/responses/TooManyRequests'
 components:
+  responses:
+    NotFound:
+      description: The specified resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    TooManyRequests:
+      description: The request rate has exceeded the allowed limit.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Conflict:
+      description: The request conflicts with the current state of the resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request is invalid or malformed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    VpcLinkId:
+      name: vpclink_id
+      in: path
+      required: true
+      description: The identifier of the VPC link.
+      schema:
+        type: string
+    Limit:
+      name: limit
+      in: query
+      description: The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 500
+        default: 25
+    Position:
+      name: position
+      in: query
+      description: The current pagination position in the paged result set. Used for cursor-based pagination.
+      schema:
+        type: string
   schemas:
+    CreateVpcLinkRequest:
+      type: object
+      required:
+      - name
+      - targetArns
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        targetArns:
+          type: array
+          items:
+            type: string
+        tags:
+          type: object
+          additionalProperties:
+            type: string
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          description: A human-readable error message.
+        code:
+          type: string
+          description: The error code.
+    PatchOperation:
+      type: object
+      properties:
+        op:
+          type: string
+          enum:
+          - add
+          - remove
+          - replace
+          - move
+          - copy
+          - test
+          description: The operation type.
+        path:
+          type: string
+          description: The op operation's target, as identified by a JSON Pointer value.
+        value:
+          type: string
+          description: The new target value of the update operation. It is applicable for the add or replace operation.
+        from:
+          type: string
+          description: The copy update operation's source as identified by a JSON Pointer value.
     VpcLink:
       type: object
       properties:
@@ -178,13 +275,6 @@ components:
           type: object
           additionalProperties:
             type: string
-    PatchOperations:
-      type: object
-      properties:
-        patchOperations:
-          type: array
-          items:
-            $ref: '#/components/schemas/PatchOperation'
     VpcLinks:
       type: object
       properties:
@@ -194,103 +284,13 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/VpcLink'
-    CreateVpcLinkRequest:
+    PatchOperations:
       type: object
-      required:
-      - name
-      - targetArns
       properties:
-        name:
-          type: string
-        description:
-          type: string
-        targetArns:
+        patchOperations:
           type: array
           items:
-            type: string
-        tags:
-          type: object
-          additionalProperties:
-            type: string
-    PatchOperation:
-      type: object
-      properties:
-        op:
-          type: string
-          enum:
-          - add
-          - remove
-          - replace
-          - move
-          - copy
-          - test
-          description: The operation type.
-        path:
-          type: string
-          description: The op operation's target, as identified by a JSON Pointer value.
-        value:
-          type: string
-          description: The new target value of the update operation. It is applicable for the add or replace operation.
-        from:
-          type: string
-          description: The copy update operation's source as identified by a JSON Pointer value.
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
-          description: A human-readable error message.
-        code:
-          type: string
-          description: The error code.
-  parameters:
-    VpcLinkId:
-      name: vpclink_id
-      in: path
-      required: true
-      description: The identifier of the VPC link.
-      schema:
-        type: string
-    Position:
-      name: position
-      in: query
-      description: The current pagination position in the paged result set. Used for cursor-based pagination.
-      schema:
-        type: string
-    Limit:
-      name: limit
-      in: query
-      description: The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 500
-        default: 25
-  responses:
-    BadRequest:
-      description: The request is invalid or malformed.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    TooManyRequests:
-      description: The request rate has exceeded the allowed limit.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The specified resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Conflict:
-      description: The request conflicts with the current state of the resource.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+            $ref: '#/components/schemas/PatchOperation'
   securitySchemes:
     sigv4:
       type: apiKey

@@ -91,8 +91,8 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
 components:
   responses:
-    BadRequest:
-      description: The request is invalid or malformed.
+    NotFound:
+      description: The specified resource was not found.
       content:
         application/json:
           schema:
@@ -103,38 +103,18 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The specified resource was not found.
+    BadRequest:
+      description: The request is invalid or malformed.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
   schemas:
-    RequestValidators:
-      type: object
-      properties:
-        position:
-          type: string
-        item:
-          type: array
-          items:
-            $ref: '#/components/schemas/RequestValidator'
     CreateRequestValidatorRequest:
       type: object
       required:
       - name
       properties:
-        name:
-          type: string
-        validateRequestBody:
-          type: boolean
-        validateRequestParameters:
-          type: boolean
-    RequestValidator:
-      type: object
-      properties:
-        id:
-          type: string
         name:
           type: string
         validateRequestBody:
@@ -150,13 +130,27 @@ components:
         code:
           type: string
           description: The error code.
+    RequestValidators:
+      type: object
+      properties:
+        position:
+          type: string
+        item:
+          type: array
+          items:
+            $ref: '#/components/schemas/RequestValidator'
+    RequestValidator:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        validateRequestBody:
+          type: boolean
+        validateRequestParameters:
+          type: boolean
   parameters:
-    Position:
-      name: position
-      in: query
-      description: The current pagination position in the paged result set. Used for cursor-based pagination.
-      schema:
-        type: string
     Limit:
       name: limit
       in: query
@@ -171,6 +165,12 @@ components:
       in: path
       required: true
       description: The identifier of the REST API.
+      schema:
+        type: string
+    Position:
+      name: position
+      in: query
+      description: The current pagination position in the paged result set. Used for cursor-based pagination.
       schema:
         type: string
   securitySchemes:

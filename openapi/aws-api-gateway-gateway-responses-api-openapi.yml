@@ -115,37 +115,6 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
 components:
   schemas:
-    PutGatewayResponseRequest:
-      type: object
-      properties:
-        statusCode:
-          type: string
-        responseParameters:
-          type: object
-          additionalProperties:
-            type: string
-        responseTemplates:
-          type: object
-          additionalProperties:
-            type: string
-    GatewayResponses:
-      type: object
-      properties:
-        position:
-          type: string
-        item:
-          type: array
-          items:
-            $ref: '#/components/schemas/GatewayResponse'
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
-          description: A human-readable error message.
-        code:
-          type: string
-          description: The error code.
     GatewayResponse:
       type: object
       properties:
@@ -163,9 +132,40 @@ components:
             type: string
         defaultResponse:
           type: boolean
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          description: A human-readable error message.
+        code:
+          type: string
+          description: The error code.
+    GatewayResponses:
+      type: object
+      properties:
+        position:
+          type: string
+        item:
+          type: array
+          items:
+            $ref: '#/components/schemas/GatewayResponse'
+    PutGatewayResponseRequest:
+      type: object
+      properties:
+        statusCode:
+          type: string
+        responseParameters:
+          type: object
+          additionalProperties:
+            type: string
+        responseTemplates:
+          type: object
+          additionalProperties:
+            type: string
   responses:
-    BadRequest:
-      description: The request is invalid or malformed.
+    NotFound:
+      description: The specified resource was not found.
       content:
         application/json:
           schema:
@@ -176,13 +176,22 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The specified resource was not found.
+    BadRequest:
+      description: The request is invalid or malformed.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
   parameters:
+    Limit:
+      name: limit
+      in: query
+      description: The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 500
+        default: 25
     ResponseType:
       name: response_type
       in: path
@@ -212,26 +221,17 @@ components:
         - UNAUTHORIZED
         - UNSUPPORTED_MEDIA_TYPE
         - WAF_FILTERED
-    Position:
-      name: position
-      in: query
-      description: The current pagination position in the paged result set. Used for cursor-based pagination.
-      schema:
-        type: string
-    Limit:
-      name: limit
-      in: query
-      description: The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 500
-        default: 25
     RestApiId:
       name: restapi_id
       in: path
       required: true
       description: The identifier of the REST API.
+      schema:
+        type: string
+    Position:
+      name: position
+      in: query
+      description: The current pagination position in the paged result set. Used for cursor-based pagination.
       schema:
         type: string
   securitySchemes:

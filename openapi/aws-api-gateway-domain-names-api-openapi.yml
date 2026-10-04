@@ -152,8 +152,8 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
 components:
   responses:
-    BadRequest:
-      description: The request is invalid or malformed.
+    NotFound:
+      description: The specified resource was not found.
       content:
         application/json:
           schema:
@@ -164,122 +164,42 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The specified resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     Conflict:
       description: The request conflicts with the current state of the resource.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request is invalid or malformed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    DomainNameParam:
+      name: domain_name
+      in: path
+      required: true
+      description: The custom domain name.
+      schema:
+        type: string
+    Limit:
+      name: limit
+      in: query
+      description: The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 500
+        default: 25
+    Position:
+      name: position
+      in: query
+      description: The current pagination position in the paged result set. Used for cursor-based pagination.
+      schema:
+        type: string
   schemas:
-    PatchOperations:
-      type: object
-      properties:
-        patchOperations:
-          type: array
-          items:
-            $ref: '#/components/schemas/PatchOperation'
-    DomainNames:
-      type: object
-      properties:
-        position:
-          type: string
-        item:
-          type: array
-          items:
-            $ref: '#/components/schemas/DomainName'
-    EndpointConfiguration:
-      type: object
-      properties:
-        types:
-          type: array
-          items:
-            type: string
-            enum:
-            - REGIONAL
-            - EDGE
-            - PRIVATE
-          description: A list of endpoint types of an API or its custom domain name.
-        vpcEndpointIds:
-          type: array
-          items:
-            type: string
-          description: A list of VPC endpoint IDs of an API against which to create Route53 ALIASes.
-    CreateDomainNameRequest:
-      type: object
-      required:
-      - domainName
-      properties:
-        domainName:
-          type: string
-        certificateName:
-          type: string
-        certificateBody:
-          type: string
-        certificatePrivateKey:
-          type: string
-        certificateChain:
-          type: string
-        certificateArn:
-          type: string
-        regionalCertificateName:
-          type: string
-        regionalCertificateArn:
-          type: string
-        endpointConfiguration:
-          $ref: '#/components/schemas/EndpointConfiguration'
-        tags:
-          type: object
-          additionalProperties:
-            type: string
-        securityPolicy:
-          type: string
-          enum:
-          - TLS_1_0
-          - TLS_1_2
-        mutualTlsAuthentication:
-          type: object
-          properties:
-            truststoreUri:
-              type: string
-            truststoreVersion:
-              type: string
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
-          description: A human-readable error message.
-        code:
-          type: string
-          description: The error code.
-    PatchOperation:
-      type: object
-      properties:
-        op:
-          type: string
-          enum:
-          - add
-          - remove
-          - replace
-          - move
-          - copy
-          - test
-          description: The operation type.
-        path:
-          type: string
-          description: The op operation's target, as identified by a JSON Pointer value.
-        value:
-          type: string
-          description: The new target value of the update operation. It is applicable for the add or replace operation.
-        from:
-          type: string
-          description: The copy update operation's source as identified by a JSON Pointer value.
     DomainName:
       type: object
       properties:
@@ -336,29 +256,109 @@ components:
               type: array
               items:
                 type: string
-  parameters:
-    Position:
-      name: position
-      in: query
-      description: The current pagination position in the paged result set. Used for cursor-based pagination.
-      schema:
-        type: string
-    Limit:
-      name: limit
-      in: query
-      description: The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 500
-        default: 25
-    DomainNameParam:
-      name: domain_name
-      in: path
-      required: true
-      description: The custom domain name.
-      schema:
-        type: string
+    DomainNames:
+      type: object
+      properties:
+        position:
+          type: string
+        item:
+          type: array
+          items:
+            $ref: '#/components/schemas/DomainName'
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          description: A human-readable error message.
+        code:
+          type: string
+          description: The error code.
+    PatchOperation:
+      type: object
+      properties:
+        op:
+          type: string
+          enum:
+          - add
+          - remove
+          - replace
+          - move
+          - copy
+          - test
+          description: The operation type.
+        path:
+          type: string
+          description: The op operation's target, as identified by a JSON Pointer value.
+        value:
+          type: string
+          description: The new target value of the update operation. It is applicable for the add or replace operation.
+        from:
+          type: string
+          description: The copy update operation's source as identified by a JSON Pointer value.
+    EndpointConfiguration:
+      type: object
+      properties:
+        types:
+          type: array
+          items:
+            type: string
+            enum:
+            - REGIONAL
+            - EDGE
+            - PRIVATE
+          description: A list of endpoint types of an API or its custom domain name.
+        vpcEndpointIds:
+          type: array
+          items:
+            type: string
+          description: A list of VPC endpoint IDs of an API against which to create Route53 ALIASes.
+    PatchOperations:
+      type: object
+      properties:
+        patchOperations:
+          type: array
+          items:
+            $ref: '#/components/schemas/PatchOperation'
+    CreateDomainNameRequest:
+      type: object
+      required:
+      - domainName
+      properties:
+        domainName:
+          type: string
+        certificateName:
+          type: string
+        certificateBody:
+          type: string
+        certificatePrivateKey:
+          type: string
+        certificateChain:
+          type: string
+        certificateArn:
+          type: string
+        regionalCertificateName:
+          type: string
+        regionalCertificateArn:
+          type: string
+        endpointConfiguration:
+          $ref: '#/components/schemas/EndpointConfiguration'
+        tags:
+          type: object
+          additionalProperties:
+            type: string
+        securityPolicy:
+          type: string
+          enum:
+          - TLS_1_0
+          - TLS_1_2
+        mutualTlsAuthentication:
+          type: object
+          properties:
+            truststoreUri:
+              type: string
+            truststoreVersion:
+              type: string
   securitySchemes:
     sigv4:
       type: apiKey

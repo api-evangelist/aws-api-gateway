@@ -169,8 +169,8 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
 components:
   responses:
-    BadRequest:
-      description: The request is invalid or malformed.
+    NotFound:
+      description: The specified resource was not found.
       content:
         application/json:
           schema:
@@ -181,44 +181,67 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The specified resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     Conflict:
       description: The request conflicts with the current state of the resource.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request is invalid or malformed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    Limit:
+      name: limit
+      in: query
+      description: The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 500
+        default: 25
+    RestApiId:
+      name: restapi_id
+      in: path
+      required: true
+      description: The identifier of the REST API.
+      schema:
+        type: string
+    Position:
+      name: position
+      in: query
+      description: The current pagination position in the paged result set. Used for cursor-based pagination.
+      schema:
+        type: string
+    ModelName:
+      name: model_name
+      in: path
+      required: true
+      description: The name of the model.
+      schema:
+        type: string
   schemas:
-    PatchOperations:
+    Models:
       type: object
       properties:
-        patchOperations:
+        position:
+          type: string
+        item:
           type: array
           items:
-            $ref: '#/components/schemas/PatchOperation'
-    Model:
+            $ref: '#/components/schemas/Model'
+    Error:
       type: object
       properties:
-        id:
+        message:
           type: string
-          description: The identifier of the model.
-        name:
+          description: A human-readable error message.
+        code:
           type: string
-          description: The name of the model.
-        description:
-          type: string
-          description: The description of the model.
-        schema:
-          type: string
-          description: The schema for the model. For application/json models, this should be JSON schema draft 4 model.
-        contentType:
-          type: string
-          description: The content type for the model.
+          description: The error code.
     CreateModelRequest:
       type: object
       required:
@@ -233,15 +256,6 @@ components:
           type: string
         contentType:
           type: string
-    Models:
-      type: object
-      properties:
-        position:
-          type: string
-        item:
-          type: array
-          items:
-            $ref: '#/components/schemas/Model'
     PatchOperation:
       type: object
       properties:
@@ -264,45 +278,31 @@ components:
         from:
           type: string
           description: The copy update operation's source as identified by a JSON Pointer value.
-    Error:
+    Model:
       type: object
       properties:
-        message:
+        id:
           type: string
-          description: A human-readable error message.
-        code:
+          description: The identifier of the model.
+        name:
           type: string
-          description: The error code.
-  parameters:
-    ModelName:
-      name: model_name
-      in: path
-      required: true
-      description: The name of the model.
-      schema:
-        type: string
-    Position:
-      name: position
-      in: query
-      description: The current pagination position in the paged result set. Used for cursor-based pagination.
-      schema:
-        type: string
-    Limit:
-      name: limit
-      in: query
-      description: The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 500
-        default: 25
-    RestApiId:
-      name: restapi_id
-      in: path
-      required: true
-      description: The identifier of the REST API.
-      schema:
-        type: string
+          description: The name of the model.
+        description:
+          type: string
+          description: The description of the model.
+        schema:
+          type: string
+          description: The schema for the model. For application/json models, this should be JSON schema draft 4 model.
+        contentType:
+          type: string
+          description: The content type for the model.
+    PatchOperations:
+      type: object
+      properties:
+        patchOperations:
+          type: array
+          items:
+            $ref: '#/components/schemas/PatchOperation'
   securitySchemes:
     sigv4:
       type: apiKey

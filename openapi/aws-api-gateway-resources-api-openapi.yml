@@ -47,15 +47,16 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
-  parameters:
-    RestApiId:
-      name: restapi_id
-      in: path
-      required: true
-      description: Identifier of the RestApi resource.
-      schema:
-        type: string
   schemas:
+    Resources:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Resource'
+          example:
+          - example-value
     Resource:
       type: object
       properties:
@@ -75,15 +76,14 @@ components:
           type: string
           description: Full path of the resource.
           example: example-value
-    Resources:
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/Resource'
-          example:
-          - example-value
+  parameters:
+    RestApiId:
+      name: restapi_id
+      in: path
+      required: true
+      description: Identifier of the RestApi resource.
+      schema:
+        type: string
   securitySchemes:
     sigv4:
       type: apiKey

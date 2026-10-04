@@ -93,8 +93,8 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
 components:
   responses:
-    BadRequest:
-      description: The request is invalid or malformed.
+    NotFound:
+      description: The specified resource was not found.
       content:
         application/json:
           schema:
@@ -105,28 +105,42 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The specified resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     Conflict:
       description: The request conflicts with the current state of the resource.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request is invalid or malformed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    DomainNameParam:
+      name: domain_name
+      in: path
+      required: true
+      description: The custom domain name.
+      schema:
+        type: string
+    Limit:
+      name: limit
+      in: query
+      description: The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 500
+        default: 25
+    Position:
+      name: position
+      in: query
+      description: The current pagination position in the paged result set. Used for cursor-based pagination.
+      schema:
+        type: string
   schemas:
-    BasePathMapping:
-      type: object
-      properties:
-        basePath:
-          type: string
-        restApiId:
-          type: string
-        stage:
-          type: string
     Error:
       type: object
       properties:
@@ -156,29 +170,15 @@ components:
           type: string
         stage:
           type: string
-  parameters:
-    Position:
-      name: position
-      in: query
-      description: The current pagination position in the paged result set. Used for cursor-based pagination.
-      schema:
-        type: string
-    Limit:
-      name: limit
-      in: query
-      description: The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 500
-        default: 25
-    DomainNameParam:
-      name: domain_name
-      in: path
-      required: true
-      description: The custom domain name.
-      schema:
-        type: string
+    BasePathMapping:
+      type: object
+      properties:
+        basePath:
+          type: string
+        restApiId:
+          type: string
+        stage:
+          type: string
   securitySchemes:
     sigv4:
       type: apiKey
