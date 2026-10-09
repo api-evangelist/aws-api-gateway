@@ -159,7 +159,7 @@ workflows:
       usagePlanId: $response.body#/id
   - stepId: deploy
     description: Create a deployment to publish the API to the named stage.
-    operationId: createDeployment
+    operationId: postV2ApisByApiIdDeployments
     parameters:
     - name: restapi_id
       in: path

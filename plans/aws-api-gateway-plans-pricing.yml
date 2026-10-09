@@ -247,3 +247,72 @@ plans:
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - free
+  - metered
+  - subscription
+  units:
+  - compute
+  - data
+  - message
+  - request
+  plans:
+  - name: REST API
+    access: other
+    model: metered
+    model_how: stated
+    units:
+    - compute
+    - data
+    - request
+    periods:
+    - per-use
+  - name: HTTP API
+    access: other
+    model: metered
+    model_how: stated
+    units:
+    - data
+    - request
+    periods:
+    - month
+    - per-use
+  - name: WebSocket API
+    access: other
+    model: metered
+    model_how: stated
+    units:
+    - compute
+    - message
+    periods:
+    - per-use
+  - name: Private REST API
+    access: other
+    model: metered
+    model_how: stated
+    units:
+    - compute
+    - request
+    periods:
+    - per-use
+  - name: API Gateway Portals (Developer Portal)
+    access: other
+    model: subscription
+    model_how: stated
+    units:
+    - other
+    periods:
+    - month
+  - name: AWS Free Tier (12 months)
+    access: freemium
+    model: free
+    model_how: derived
+    units:
+    - compute
+    - message
+    - request
+    periods:
+    - month

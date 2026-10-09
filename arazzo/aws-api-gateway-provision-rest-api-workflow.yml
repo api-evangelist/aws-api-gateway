@@ -121,7 +121,7 @@ workflows:
     description: >-
       Create a deployment that snapshots the current configuration and publishes
       it to the named stage.
-    operationId: createDeployment
+    operationId: postV2ApisByApiIdDeployments
     parameters:
     - name: restapi_id
       in: path
@@ -139,7 +139,7 @@ workflows:
     description: >-
       List the stages for the REST API to confirm the deployment created the
       requested stage.
-    operationId: getStages
+    operationId: getV2ApisByApiIdStages
     parameters:
     - name: restapi_id
       in: path

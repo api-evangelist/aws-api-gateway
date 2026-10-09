@@ -52,7 +52,7 @@ workflows:
       restApiName: $response.body#/name
   - stepId: listDeployments
     description: List existing deployments to capture deployment history.
-    operationId: getDeployments
+    operationId: getV2ApisByApiIdDeployments
     parameters:
     - name: restapi_id
       in: path
@@ -63,7 +63,7 @@ workflows:
       deployments: $response.body#/items
   - stepId: redeploy
     description: Create a new deployment to publish the latest configuration to the stage.
-    operationId: createDeployment
+    operationId: postV2ApisByApiIdDeployments
     parameters:
     - name: restapi_id
       in: path
