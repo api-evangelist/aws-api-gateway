@@ -171,9 +171,32 @@ paths:
         '429':
           $ref: '#/components/responses/TooManyRequests'
 components:
+  parameters:
+    Limit:
+      name: limit
+      in: query
+      description: The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 500
+        default: 25
+    Position:
+      name: position
+      in: query
+      description: The current pagination position in the paged result set. Used for cursor-based pagination.
+      schema:
+        type: string
+    ApiKeyId:
+      name: api_key
+      in: path
+      required: true
+      description: The identifier of the API key.
+      schema:
+        type: string
   responses:
-    NotFound:
-      description: The specified resource was not found.
+    Conflict:
+      description: The request conflicts with the current state of the resource.
       content:
         application/json:
           schema:
@@ -184,8 +207,8 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Conflict:
-      description: The request conflicts with the current state of the resource.
+    NotFound:
+      description: The specified resource was not found.
       content:
         application/json:
           schema:
@@ -197,6 +220,45 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
   schemas:
+    CreateApiKeyRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        enabled:
+          type: boolean
+        generateDistinctId:
+          type: boolean
+        value:
+          type: string
+        stageKeys:
+          type: array
+          items:
+            $ref: '#/components/schemas/StageKey'
+        customerId:
+          type: string
+        tags:
+          type: object
+          additionalProperties:
+            type: string
+    StageKey:
+      type: object
+      properties:
+        restApiId:
+          type: string
+        stageName:
+          type: string
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          description: A human-readable error message.
+        code:
+          type: string
+          description: The error code.
     ApiKeys:
       type: object
       properties:
@@ -244,22 +306,13 @@ components:
           type: object
           additionalProperties:
             type: string
-    StageKey:
+    PatchOperations:
       type: object
       properties:
-        restApiId:
-          type: string
-        stageName:
-          type: string
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
-          description: A human-readable error message.
-        code:
-          type: string
-          description: The error code.
+        patchOperations:
+          type: array
+          items:
+            $ref: '#/components/schemas/PatchOperation'
     PatchOperation:
       type: object
       properties:
@@ -282,59 +335,6 @@ components:
         from:
           type: string
           description: The copy update operation's source as identified by a JSON Pointer value.
-    PatchOperations:
-      type: object
-      properties:
-        patchOperations:
-          type: array
-          items:
-            $ref: '#/components/schemas/PatchOperation'
-    CreateApiKeyRequest:
-      type: object
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-        enabled:
-          type: boolean
-        generateDistinctId:
-          type: boolean
-        value:
-          type: string
-        stageKeys:
-          type: array
-          items:
-            $ref: '#/components/schemas/StageKey'
-        customerId:
-          type: string
-        tags:
-          type: object
-          additionalProperties:
-            type: string
-  parameters:
-    Limit:
-      name: limit
-      in: query
-      description: The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 500
-        default: 25
-    ApiKeyId:
-      name: api_key
-      in: path
-      required: true
-      description: The identifier of the API key.
-      schema:
-        type: string
-    Position:
-      name: position
-      in: query
-      description: The current pagination position in the paged result set. Used for cursor-based pagination.
-      schema:
-        type: string
   securitySchemes:
     sigv4:
       type: apiKey

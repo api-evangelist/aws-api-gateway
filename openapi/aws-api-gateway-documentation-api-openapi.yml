@@ -175,31 +175,6 @@ paths:
         '429':
           $ref: '#/components/responses/TooManyRequests'
 components:
-  responses:
-    NotFound:
-      description: The specified resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    TooManyRequests:
-      description: The request rate has exceeded the allowed limit.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Conflict:
-      description: The request conflicts with the current state of the resource.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: The request is invalid or malformed.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
     CreateDocumentationVersionRequest:
       type: object
@@ -221,6 +196,67 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/DocumentationVersion'
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          description: A human-readable error message.
+        code:
+          type: string
+          description: The error code.
+    DocumentationParts:
+      type: object
+      properties:
+        position:
+          type: string
+        item:
+          type: array
+          items:
+            $ref: '#/components/schemas/DocumentationPart'
+    DocumentationPart:
+      type: object
+      properties:
+        id:
+          type: string
+        location:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+              - API
+              - AUTHORIZER
+              - MODEL
+              - RESOURCE
+              - METHOD
+              - PATH_PARAMETER
+              - QUERY_PARAMETER
+              - REQUEST_HEADER
+              - REQUEST_BODY
+              - RESPONSE
+              - RESPONSE_HEADER
+              - RESPONSE_BODY
+            path:
+              type: string
+            method:
+              type: string
+            statusCode:
+              type: string
+            name:
+              type: string
+        properties:
+          type: string
+    DocumentationVersion:
+      type: object
+      properties:
+        version:
+          type: string
+        createdDate:
+          type: string
+          format: date-time
+        description:
+          type: string
     CreateDocumentationPartRequest:
       type: object
       required:
@@ -257,67 +293,6 @@ components:
               type: string
         properties:
           type: string
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
-          description: A human-readable error message.
-        code:
-          type: string
-          description: The error code.
-    DocumentationParts:
-      type: object
-      properties:
-        position:
-          type: string
-        item:
-          type: array
-          items:
-            $ref: '#/components/schemas/DocumentationPart'
-    DocumentationVersion:
-      type: object
-      properties:
-        version:
-          type: string
-        createdDate:
-          type: string
-          format: date-time
-        description:
-          type: string
-    DocumentationPart:
-      type: object
-      properties:
-        id:
-          type: string
-        location:
-          type: object
-          properties:
-            type:
-              type: string
-              enum:
-              - API
-              - AUTHORIZER
-              - MODEL
-              - RESOURCE
-              - METHOD
-              - PATH_PARAMETER
-              - QUERY_PARAMETER
-              - REQUEST_HEADER
-              - REQUEST_BODY
-              - RESPONSE
-              - RESPONSE_HEADER
-              - RESPONSE_BODY
-            path:
-              type: string
-            method:
-              type: string
-            statusCode:
-              type: string
-            name:
-              type: string
-        properties:
-          type: string
   parameters:
     Limit:
       name: limit
@@ -328,6 +303,12 @@ components:
         minimum: 1
         maximum: 500
         default: 25
+    Position:
+      name: position
+      in: query
+      description: The current pagination position in the paged result set. Used for cursor-based pagination.
+      schema:
+        type: string
     RestApiId:
       name: restapi_id
       in: path
@@ -335,12 +316,31 @@ components:
       description: The identifier of the REST API.
       schema:
         type: string
-    Position:
-      name: position
-      in: query
-      description: The current pagination position in the paged result set. Used for cursor-based pagination.
-      schema:
-        type: string
+  responses:
+    Conflict:
+      description: The request conflicts with the current state of the resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    TooManyRequests:
+      description: The request rate has exceeded the allowed limit.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The specified resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request is invalid or malformed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     sigv4:
       type: apiKey

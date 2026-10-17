@@ -157,17 +157,6 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
 components:
   schemas:
-    ApiStage:
-      type: object
-      properties:
-        apiId:
-          type: string
-        stage:
-          type: string
-        throttle:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/ThrottleSettings'
     UsagePlans:
       type: object
       properties:
@@ -186,6 +175,70 @@ components:
         rateLimit:
           type: number
           description: The API request steady-state rate limit per second.
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          description: A human-readable error message.
+        code:
+          type: string
+          description: The error code.
+    QuotaSettings:
+      type: object
+      properties:
+        limit:
+          type: integer
+          description: The maximum number of requests per time period.
+        offset:
+          type: integer
+          description: The day that a time period starts.
+        period:
+          type: string
+          enum:
+          - DAY
+          - WEEK
+          - MONTH
+          description: The time period for which the maximum limit applies.
+    ApiStage:
+      type: object
+      properties:
+        apiId:
+          type: string
+        stage:
+          type: string
+        throttle:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ThrottleSettings'
+    CreateUsagePlanRequest:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        apiStages:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiStage'
+        throttle:
+          $ref: '#/components/schemas/ThrottleSettings'
+        quota:
+          $ref: '#/components/schemas/QuotaSettings'
+        tags:
+          type: object
+          additionalProperties:
+            type: string
+    PatchOperations:
+      type: object
+      properties:
+        patchOperations:
+          type: array
+          items:
+            $ref: '#/components/schemas/PatchOperation'
     UsagePlan:
       type: object
       properties:
@@ -207,36 +260,6 @@ components:
           $ref: '#/components/schemas/QuotaSettings'
         productCode:
           type: string
-        tags:
-          type: object
-          additionalProperties:
-            type: string
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
-          description: A human-readable error message.
-        code:
-          type: string
-          description: The error code.
-    CreateUsagePlanRequest:
-      type: object
-      required:
-      - name
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-        apiStages:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiStage'
-        throttle:
-          $ref: '#/components/schemas/ThrottleSettings'
-        quota:
-          $ref: '#/components/schemas/QuotaSettings'
         tags:
           type: object
           additionalProperties:
@@ -263,62 +286,7 @@ components:
         from:
           type: string
           description: The copy update operation's source as identified by a JSON Pointer value.
-    QuotaSettings:
-      type: object
-      properties:
-        limit:
-          type: integer
-          description: The maximum number of requests per time period.
-        offset:
-          type: integer
-          description: The day that a time period starts.
-        period:
-          type: string
-          enum:
-          - DAY
-          - WEEK
-          - MONTH
-          description: The time period for which the maximum limit applies.
-    PatchOperations:
-      type: object
-      properties:
-        patchOperations:
-          type: array
-          items:
-            $ref: '#/components/schemas/PatchOperation'
-  responses:
-    NotFound:
-      description: The specified resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    TooManyRequests:
-      description: The request rate has exceeded the allowed limit.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Conflict:
-      description: The request conflicts with the current state of the resource.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: The request is invalid or malformed.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   parameters:
-    UsagePlanId:
-      name: usageplan_id
-      in: path
-      required: true
-      description: The identifier of the usage plan.
-      schema:
-        type: string
     Limit:
       name: limit
       in: query
@@ -334,6 +302,38 @@ components:
       description: The current pagination position in the paged result set. Used for cursor-based pagination.
       schema:
         type: string
+    UsagePlanId:
+      name: usageplan_id
+      in: path
+      required: true
+      description: The identifier of the usage plan.
+      schema:
+        type: string
+  responses:
+    Conflict:
+      description: The request conflicts with the current state of the resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    TooManyRequests:
+      description: The request rate has exceeded the allowed limit.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The specified resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request is invalid or malformed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     sigv4:
       type: apiKey

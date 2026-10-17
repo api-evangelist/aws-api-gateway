@@ -151,39 +151,7 @@ paths:
         '429':
           $ref: '#/components/responses/TooManyRequests'
 components:
-  responses:
-    NotFound:
-      description: The specified resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    TooManyRequests:
-      description: The request rate has exceeded the allowed limit.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Conflict:
-      description: The request conflicts with the current state of the resource.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: The request is invalid or malformed.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   parameters:
-    VpcLinkId:
-      name: vpclink_id
-      in: path
-      required: true
-      description: The identifier of the VPC link.
-      schema:
-        type: string
     Limit:
       name: limit
       in: query
@@ -199,7 +167,57 @@ components:
       description: The current pagination position in the paged result set. Used for cursor-based pagination.
       schema:
         type: string
+    VpcLinkId:
+      name: vpclink_id
+      in: path
+      required: true
+      description: The identifier of the VPC link.
+      schema:
+        type: string
+  responses:
+    Conflict:
+      description: The request conflicts with the current state of the resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    TooManyRequests:
+      description: The request rate has exceeded the allowed limit.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The specified resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request is invalid or malformed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          description: A human-readable error message.
+        code:
+          type: string
+          description: The error code.
+    VpcLinks:
+      type: object
+      properties:
+        position:
+          type: string
+        item:
+          type: array
+          items:
+            $ref: '#/components/schemas/VpcLink'
     CreateVpcLinkRequest:
       type: object
       required:
@@ -218,15 +236,13 @@ components:
           type: object
           additionalProperties:
             type: string
-    Error:
+    PatchOperations:
       type: object
       properties:
-        message:
-          type: string
-          description: A human-readable error message.
-        code:
-          type: string
-          description: The error code.
+        patchOperations:
+          type: array
+          items:
+            $ref: '#/components/schemas/PatchOperation'
     PatchOperation:
       type: object
       properties:
@@ -275,22 +291,6 @@ components:
           type: object
           additionalProperties:
             type: string
-    VpcLinks:
-      type: object
-      properties:
-        position:
-          type: string
-        item:
-          type: array
-          items:
-            $ref: '#/components/schemas/VpcLink'
-    PatchOperations:
-      type: object
-      properties:
-        patchOperations:
-          type: array
-          items:
-            $ref: '#/components/schemas/PatchOperation'
   securitySchemes:
     sigv4:
       type: apiKey

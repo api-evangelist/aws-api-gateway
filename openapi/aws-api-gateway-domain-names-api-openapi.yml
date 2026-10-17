@@ -151,39 +151,7 @@ paths:
         '429':
           $ref: '#/components/responses/TooManyRequests'
 components:
-  responses:
-    NotFound:
-      description: The specified resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    TooManyRequests:
-      description: The request rate has exceeded the allowed limit.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Conflict:
-      description: The request conflicts with the current state of the resource.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: The request is invalid or malformed.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   parameters:
-    DomainNameParam:
-      name: domain_name
-      in: path
-      required: true
-      description: The custom domain name.
-      schema:
-        type: string
     Limit:
       name: limit
       in: query
@@ -199,6 +167,38 @@ components:
       description: The current pagination position in the paged result set. Used for cursor-based pagination.
       schema:
         type: string
+    DomainNameParam:
+      name: domain_name
+      in: path
+      required: true
+      description: The custom domain name.
+      schema:
+        type: string
+  responses:
+    Conflict:
+      description: The request conflicts with the current state of the resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    TooManyRequests:
+      description: The request rate has exceeded the allowed limit.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The specified resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request is invalid or malformed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
     DomainName:
       type: object
@@ -256,15 +256,6 @@ components:
               type: array
               items:
                 type: string
-    DomainNames:
-      type: object
-      properties:
-        position:
-          type: string
-        item:
-          type: array
-          items:
-            $ref: '#/components/schemas/DomainName'
     Error:
       type: object
       properties:
@@ -274,6 +265,22 @@ components:
         code:
           type: string
           description: The error code.
+    DomainNames:
+      type: object
+      properties:
+        position:
+          type: string
+        item:
+          type: array
+          items:
+            $ref: '#/components/schemas/DomainName'
+    PatchOperations:
+      type: object
+      properties:
+        patchOperations:
+          type: array
+          items:
+            $ref: '#/components/schemas/PatchOperation'
     PatchOperation:
       type: object
       properties:
@@ -296,30 +303,6 @@ components:
         from:
           type: string
           description: The copy update operation's source as identified by a JSON Pointer value.
-    EndpointConfiguration:
-      type: object
-      properties:
-        types:
-          type: array
-          items:
-            type: string
-            enum:
-            - REGIONAL
-            - EDGE
-            - PRIVATE
-          description: A list of endpoint types of an API or its custom domain name.
-        vpcEndpointIds:
-          type: array
-          items:
-            type: string
-          description: A list of VPC endpoint IDs of an API against which to create Route53 ALIASes.
-    PatchOperations:
-      type: object
-      properties:
-        patchOperations:
-          type: array
-          items:
-            $ref: '#/components/schemas/PatchOperation'
     CreateDomainNameRequest:
       type: object
       required:
@@ -359,6 +342,23 @@ components:
               type: string
             truststoreVersion:
               type: string
+    EndpointConfiguration:
+      type: object
+      properties:
+        types:
+          type: array
+          items:
+            type: string
+            enum:
+            - REGIONAL
+            - EDGE
+            - PRIVATE
+          description: A list of endpoint types of an API or its custom domain name.
+        vpcEndpointIds:
+          type: array
+          items:
+            type: string
+          description: A list of VPC endpoint IDs of an API against which to create Route53 ALIASes.
   securitySchemes:
     sigv4:
       type: apiKey

@@ -166,6 +166,21 @@ paths:
           default: us-east-1
           description: AWS region
 components:
+  parameters:
+    RestApiId:
+      name: restapi_id
+      in: path
+      required: true
+      description: Identifier of the RestApi resource.
+      schema:
+        type: string
+    ApiId:
+      name: api_id
+      in: path
+      required: true
+      description: API identifier.
+      schema:
+        type: string
   schemas:
     Deployment:
       type: object
@@ -183,6 +198,15 @@ components:
           format: date-time
           description: Timestamp when the deployment was created.
           example: '2025-03-15T14:30:00Z'
+    Deployments:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Deployment'
+          example:
+          - example-value
     CreateDeploymentRequest:
       type: object
       required:
@@ -196,15 +220,6 @@ components:
           type: string
           description: Description of the deployment.
           example: A description of this resource.
-    Deployments:
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/Deployment'
-          example:
-          - example-value
     Deployment_2:
       type: object
       properties:
@@ -245,21 +260,6 @@ components:
           type: string
           description: Description of the deployment.
           example: A description of this resource.
-  parameters:
-    RestApiId:
-      name: restapi_id
-      in: path
-      required: true
-      description: Identifier of the RestApi resource.
-      schema:
-        type: string
-    ApiId:
-      name: api_id
-      in: path
-      required: true
-      description: API identifier.
-      schema:
-        type: string
   securitySchemes:
     sigv4:
       type: apiKey

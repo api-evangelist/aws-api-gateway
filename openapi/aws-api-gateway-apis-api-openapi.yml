@@ -136,14 +136,14 @@ paths:
         dispatcher: FALLBACK
 components:
   responses:
-    NotFound:
-      description: The requested resource was not found.
+    Unauthorized:
+      description: The request was not authenticated.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: The request was not authenticated.
+    NotFound:
+      description: The requested resource was not found.
       content:
         application/json:
           schema:
@@ -154,7 +154,31 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+  parameters:
+    ApiId:
+      name: api_id
+      in: path
+      required: true
+      description: API identifier.
+      schema:
+        type: string
   schemas:
+    Error:
+      type: object
+      properties:
+        Message:
+          type: string
+          description: Human-readable error message.
+          example: example-value
+    Apis:
+      type: object
+      properties:
+        Items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Api'
+          example:
+          - example-value
     Api:
       type: object
       properties:
@@ -186,22 +210,6 @@ components:
           format: date-time
           description: Timestamp when the API was created.
           example: '2025-03-15T14:30:00Z'
-    Error:
-      type: object
-      properties:
-        Message:
-          type: string
-          description: Human-readable error message.
-          example: example-value
-    Apis:
-      type: object
-      properties:
-        Items:
-          type: array
-          items:
-            $ref: '#/components/schemas/Api'
-          example:
-          - example-value
     CreateApiRequest:
       type: object
       required:
@@ -231,14 +239,6 @@ components:
           type: string
           description: Quick-create target Lambda or HTTP endpoint URI.
           example: example-value
-  parameters:
-    ApiId:
-      name: api_id
-      in: path
-      required: true
-      description: API identifier.
-      schema:
-        type: string
   securitySchemes:
     sigv4:
       type: apiKey
